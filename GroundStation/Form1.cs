@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows.Forms;
 using System.IO.Ports;
+using System.Text;
 
 namespace GroundStation
 {
@@ -9,6 +10,7 @@ namespace GroundStation
     {
         string[] LastPorts = { };
         const string version = "V0.01";
+        int TxCount = 0, RxCount = 0;
 
         public Form1()
         {
@@ -21,7 +23,7 @@ namespace GroundStation
             label4.Text = "Ground Station " + version;
         }
         #region 串口开闭相关函数
-        //开闭串口按钮
+        /*开闭串口按钮*/
         private void btnOpen_Click(object sender, EventArgs e)
         {
             if (serialPort1.IsOpen)
@@ -49,7 +51,7 @@ namespace GroundStation
                 label4.Text = "串口打开失败!";  //已选端口被占用
             }
         }
-        //定时每秒检测端口状况
+        /*定时每秒检测端口状况*/
         private void timer1_Tick(object sender, EventArgs e)
         {
             string[] ports = SerialPort.GetPortNames();
@@ -80,7 +82,7 @@ namespace GroundStation
                 cbxPort.Text = ports[0];  //默认选择第一个可用端口
             }
         }
-        //关闭串口后需要完成的一系列操作
+        /*关闭串口后需要完成的一系列操作*/
         private void my_SerialPort_Close()
         {
             btnOpen.Image = Properties.Resources.ledoff;
@@ -92,55 +94,56 @@ namespace GroundStation
         #endregion
 
         #region 串口收发相关函数
-        //发送按钮1
+        /*发送按钮*/
         private void btnSend1_Click(object sender, EventArgs e)
         {
             if (serialPort1.IsOpen)
-                my_SerialPort_Send(textBox1,rbtnSend1CHR);
+                my_SerialPort_Send(textBox1, rbtnSend1CHR);
         }
         private void btnSend2_Click(object sender, EventArgs e)
         {
             if (serialPort1.IsOpen)
                 my_SerialPort_Send(textBox2, rbtnSend2CHR);
         }
-        //定时1ms处理串口接收缓冲RxStr
+        /*定时1ms处理串口接收缓冲RxStr*/
         private void timer3_Tick(object sender, EventArgs e)
         {
             if (serialPort1.IsOpen == false)
                 return;
             if (serialPort1.BytesToRead == 0)
                 return;
-            string str = "";
-            if (rbtnRcvCHR.Checked)
+            if (rbtnRcvCHR.Checked)  //字符串方式读
             {
-                do
-                {
-                    str += (char)serialPort1.ReadChar();
-                } while (serialPort1.BytesToRead > 0);
+                string str = serialPort1.ReadExisting();
                 tbxRx.AppendText(str);
             }
-            else
+            else  //16进制方式读
             {
+                string str = "";
                 do
                 {
                     byte temp = (byte)serialPort1.ReadByte();
                     if (temp <= 0x0F)
-                        str = "0" + Convert.ToString(temp, 16).ToUpper() + " ";
+                        str += "0" + Convert.ToString(temp, 16).ToUpper() + " ";
                     else
-                        str = Convert.ToString(temp, 16).ToUpper() + " ";
-                    tbxRx.AppendText(str);
+                        str += Convert.ToString(temp, 16).ToUpper() + " ";
+                    RxCount++;
                 } while (serialPort1.BytesToRead > 0);
+                tbxRx.AppendText(str);
+                labelRxCnt.Text = $"Rx:{RxCount}";
             }
         }
-        //串口发送数据
-        private void my_SerialPort_Send(TextBox box,RadioButton btnChr)
+        /*串口发送数据*/
+        private void my_SerialPort_Send(TextBox box, RadioButton btnChr)
         {
             string text = box.Text;
             if (text == "")
                 return;
-            if (btnChr.Checked)
+            TxCount += text.Length;
+            labelTxCnt.Text = $"Tx:{TxCount}";
+            if (btnChr.Checked)  //字符串方式发送
                 serialPort1.Write(text);
-            else
+            else  //16进制方式发送
             {
                 string HexText = text.Replace(" ", "");
                 int BufferSize = HexText.Length / 2;
@@ -157,17 +160,17 @@ namespace GroundStation
         #endregion
 
         #region 定时发送相关函数
-        //定时发送复选框
+        /*定时发送复选框*/
         private void textBox4_TextChanged(object sender, EventArgs e)
         {
             checkBox1.Checked = false;
         }
-        //定时发送
+        /*定时发送*/
         private void timer2_Tick(object sender, EventArgs e)
         {
             my_SerialPort_Send(textBox1, rbtnSend1CHR);
         }
-        //发送间隔设置文本框
+        /*发送间隔设置文本框*/
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox1.Checked)
@@ -179,5 +182,18 @@ namespace GroundStation
                 timer2.Enabled = false;
         }
         #endregion
+
+        private void btnClearBuf_Click(object sender, EventArgs e)
+        {
+            tbxRx.Text = "";
+        }
+
+        private void btnCnt_Click(object sender, EventArgs e)
+        {
+            TxCount = 0;
+            RxCount = 0;
+            labelTxCnt.Text = "Tx:0";
+            labelRxCnt.Text = "Rx:0";
+        }
     }
 }

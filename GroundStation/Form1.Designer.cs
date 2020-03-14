@@ -61,6 +61,10 @@
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.label4 = new System.Windows.Forms.Label();
             this.timer3 = new System.Windows.Forms.Timer(this.components);
+            this.labelTxCnt = new System.Windows.Forms.Label();
+            this.labelRxCnt = new System.Windows.Forms.Label();
+            this.btnClearBuf = new System.Windows.Forms.Button();
+            this.btnCnt = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -130,6 +134,7 @@
             this.tbxRx.Location = new System.Drawing.Point(6, 6);
             this.tbxRx.Multiline = true;
             this.tbxRx.Name = "tbxRx";
+            this.tbxRx.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tbxRx.Size = new System.Drawing.Size(615, 576);
             this.tbxRx.TabIndex = 7;
             // 
@@ -360,14 +365,56 @@
             // 
             // timer3
             // 
-            this.timer3.Interval = 1;
+            this.timer3.Interval = 10;
             this.timer3.Tick += new System.EventHandler(this.timer3_Tick);
+            // 
+            // labelTxCnt
+            // 
+            this.labelTxCnt.AutoSize = true;
+            this.labelTxCnt.Location = new System.Drawing.Point(598, 669);
+            this.labelTxCnt.Name = "labelTxCnt";
+            this.labelTxCnt.Size = new System.Drawing.Size(39, 15);
+            this.labelTxCnt.TabIndex = 14;
+            this.labelTxCnt.Text = "Tx:0";
+            // 
+            // labelRxCnt
+            // 
+            this.labelRxCnt.AutoSize = true;
+            this.labelRxCnt.Location = new System.Drawing.Point(598, 694);
+            this.labelRxCnt.Name = "labelRxCnt";
+            this.labelRxCnt.Size = new System.Drawing.Size(39, 15);
+            this.labelRxCnt.TabIndex = 14;
+            this.labelRxCnt.Text = "Rx:0";
+            // 
+            // btnClearBuf
+            // 
+            this.btnClearBuf.Location = new System.Drawing.Point(370, 669);
+            this.btnClearBuf.Name = "btnClearBuf";
+            this.btnClearBuf.Size = new System.Drawing.Size(115, 40);
+            this.btnClearBuf.TabIndex = 15;
+            this.btnClearBuf.Text = "清除缓存";
+            this.btnClearBuf.UseVisualStyleBackColor = true;
+            this.btnClearBuf.Click += new System.EventHandler(this.btnClearBuf_Click);
+            // 
+            // btnCnt
+            // 
+            this.btnCnt.Location = new System.Drawing.Point(491, 669);
+            this.btnCnt.Name = "btnCnt";
+            this.btnCnt.Size = new System.Drawing.Size(101, 40);
+            this.btnCnt.TabIndex = 15;
+            this.btnCnt.Text = "重新计数";
+            this.btnCnt.UseVisualStyleBackColor = true;
+            this.btnCnt.Click += new System.EventHandler(this.btnCnt_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1262, 721);
+            this.Controls.Add(this.btnCnt);
+            this.Controls.Add(this.btnClearBuf);
+            this.Controls.Add(this.labelRxCnt);
+            this.Controls.Add(this.labelTxCnt);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.btnOpen);
@@ -426,6 +473,10 @@
         private System.Windows.Forms.RadioButton rbtnRcvCHR;
         private System.Windows.Forms.RadioButton rbtnRcvHEX;
         private System.Windows.Forms.Timer timer3;
+        private System.Windows.Forms.Label labelTxCnt;
+        private System.Windows.Forms.Label labelRxCnt;
+        private System.Windows.Forms.Button btnClearBuf;
+        private System.Windows.Forms.Button btnCnt;
     }
 }
 
