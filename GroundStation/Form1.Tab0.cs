@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
+/**************文件说明**********************
+标签0:基本收发
+********************************************/
 
 namespace GroundStation
 {

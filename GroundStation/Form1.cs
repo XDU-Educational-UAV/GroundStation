@@ -46,7 +46,6 @@ namespace GroundStation
                 comboBox2.Enabled = false;
                 label4.Text = "Ground Station " + version;
                 tmrPortRcv.Enabled = true;
-                tmrCtrl.Enabled = true;
             }
             catch (Exception)
             {
@@ -87,11 +86,13 @@ namespace GroundStation
         /*关闭串口后需要完成的一系列操作*/
         private void my_SerialPort_Close()
         {
-            btnOpen.Image = Properties.Resources.ledoff;
-            btnOpen.Text = "打开连接";
             cbxPort.Enabled = true;
             comboBox2.Enabled = true;
+            btnOpen.Image = Properties.Resources.ledoff;
+            btnOpen.Text = "打开连接";
             tmrPortRcv.Enabled = false;
+            btnCtrl.Image = Properties.Resources.ledoff;
+            btnCtrl.Text = "打开控制链路";
             tmrCtrl.Enabled = false;
         }
         /*定时10ms处理串口接收缓冲RxStr*/

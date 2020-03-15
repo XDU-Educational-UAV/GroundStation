@@ -74,6 +74,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Form1.Tab0.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Tab1.cs">
@@ -110,8 +111,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="GroundStation.ico" />
-    <Content Include="Resources\ledoff.jpg" />
-    <Content Include="Resources\ledon.jpg" />
+    <None Include="Resources\ledon.png" />
+    <None Include="Resources\ledoff.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
