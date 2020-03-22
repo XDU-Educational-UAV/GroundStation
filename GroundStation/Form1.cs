@@ -11,7 +11,7 @@ namespace GroundStation
     public partial class Form1 : Form
     {
         string[] LastPorts = { };
-        const string version = "V0.02";
+        const string version = "V0.03";
         long TxCount = 0, RxCount = 0;
 
         public Form1()
@@ -91,9 +91,11 @@ namespace GroundStation
             btnOpen.Image = Properties.Resources.ledoff;
             btnOpen.Text = "打开连接";
             tmrPortRcv.Enabled = false;
+            //tab1
             btnCtrl.Image = Properties.Resources.ledoff;
-            btnCtrl.Text = "打开控制链路";
+            btnCtrl.Text = "建立控制链路";
             tmrCtrl.Enabled = false;
+            btnLock.Text = "解锁";
         }
         /*定时10ms处理串口接收缓冲RxStr*/
         private void tmrPortRcv_Tick(object sender, EventArgs e)
@@ -105,6 +107,7 @@ namespace GroundStation
             switch (tabControl1.SelectedIndex)  //根据选中的标签判断接收到的数据用于何处
             {
                 case 0: Tab0_Text_Receive(); break;
+                case 1: Tab1_Text_Receive(); break;
                 default: break;
             }
         }

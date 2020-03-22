@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.Collections.Generic;
 /**************文件说明**********************
 标签1:飞行控制
 ********************************************/
@@ -9,57 +8,184 @@ namespace GroundStation
 {
     partial class Form1
     {
-        List<short> CtrlChannel = new List<short> { 0, 0, 0, 0 };
-        byte[] CtrlByte = new byte[12];
-        byte KeyState = 0;
+        byte[] CtrlByte = new byte[12];  //发送给下位机的有效数据
+        byte[] RcvByte = new byte[12];  //来自下位机的有效数据
+        byte ErrCnt = 0;
+        byte KeyState = 0, GlobalStat = 0;
+        //GlobalStat状态定义
+        //BIT4:已解锁
+        //BIT0:按下解锁按钮
+        /***********************
+        对从串口收到的数据进行预处理并将有效数据保存至RcvByte
+        **********************/
+        private void Tab1_Text_Receive()
+        {
+            byte RxData, RxState = 0, sum = 0, i = 0, FcnWord = 0, LenWord = 0;
+            byte RcvFrame = 0;
+            do
+            {
+                RxData = (byte)serialPort1.ReadByte();
+                switch (RxState)
+                {
+                    case 0:
+                        if (RxData == '>')
+                        {
+                            sum = RxData;
+                            RxState = 1;
+                        }
+                        break;
+                    case 1:
+                        sum += RxData;
+                        FcnWord = RxData;
+                        RxState = 2;
+                        break;
+                    case 2:
+                        if (RxState <= 12)
+                        {
+                            sum += RxData;
+                            LenWord = RxData;
+                            RxState = 3;
+                        }
+                        else
+                        {
+                            sum = 0;
+                            RxState = 0;
+                        }
+                        break;
+                    case 3:  //临时保存待用数据
+                        sum += RxData;
+                        RcvByte[i++] = RxData;
+                        if (i >= LenWord)
+                            RxState = 4;
+                        break;
+                    case 4:  //匹配校验和
+                        RxState = 0;
+                        i = 0;
+                        if (sum == RxData)
+                            RcvFrame = 1;
+                        else
+                            lblCtrl.Text = "失控";
+                        break;
+                    default: break;
+                }
+                RxCount++;
+                if (RcvFrame == 1)  //收到了正确的数据帧
+                {
+                    Data_Receive_Precess(FcnWord);
+                    lblCtrl.Text = "控制中";
+                    ErrCnt = 0;
+                    RcvFrame = 0;
+                }
+            } while (serialPort1.BytesToRead > 0);
+            labelRxCnt.Text = $"Rx:{RxCount}";
+        }
+        /***********************
+        根据功能字进一步处理
+        **********************/
+        private void Data_Receive_Precess(byte fcn)
+        {
+            switch (fcn)
+            {
+                case 0x01:
+                    if ((RcvByte[0] & 0x01) == 0x01)
+                        GlobalStat |= 0x10;
+                    else
+                        GlobalStat &= 0xEF;
+                    int voltage1 = (RcvByte[1] * 2) / 100;
+                    int voltage2 = (RcvByte[1] * 2) % 100;
+                    lblVoltage.Text = voltage1.ToString() + "." + voltage2.ToString() + "V";
+                    break;
+                case 0x04:
+                    short accx = (short)((RcvByte[0] << 8) | RcvByte[1]);
+                    short accy = (short)((RcvByte[2] << 8) | RcvByte[3]);
+                    short accz = (short)((RcvByte[4] << 8) | RcvByte[5]);
+                    short gyrox = (short)((RcvByte[6] << 8) | RcvByte[7]);
+                    short gyroy = (short)((RcvByte[8] << 8) | RcvByte[9]);
+                    short gyroz = (short)((RcvByte[10] << 8) | RcvByte[11]);
+                    lblAccx.Text = accx.ToString();
+                    lblAccy.Text = accy.ToString();
+                    lblAccz.Text = accz.ToString();
+                    lblGyrox.Text = gyrox.ToString();
+                    lblGyroy.Text = gyroy.ToString();
+                    lblGyroz.Text = gyroz.ToString();
+                    break;
+                case 0x08:
+                    int RCroll = ((RcvByte[0] << 8) | RcvByte[1]) / 10;
+                    int RCpitch = ((RcvByte[2] << 8) | RcvByte[3]) / 10;
+                    int RCthr = ((RcvByte[4] << 8) | RcvByte[5]) / 10;
+                    int RCyaw = ((RcvByte[6] << 8) | RcvByte[7]) / 10;
+                    hScrollRol.Value = 100 - RCroll;
+                    vScrollPit.Value = 100 - RCpitch;
+                    vScrollThr.Value = 100 - RCthr;
+                    hScrollYaw.Value = 100 - RCyaw;
+                    break;
+                default: break;
+            }
+        }
+        /***********************
+        100ms定时发送任务
+        **********************/
         private void tmrCtrl_Tick(object sender, EventArgs e)
         {
-            CtrlChannel[0] = (short)((100 - hScrollRol.Value) * 10);
-            CtrlChannel[1] = (short)((100 - vScrollPit.Value) * 10);
-            CtrlChannel[2] = (short)((100 - vScrollThr.Value) * 10);
-            CtrlChannel[3] = (short)((100 - hScrollYaw.Value) * 10);
-            CtrlByte[0] = 0x3C;
-            CtrlByte[1] = 0x02;
-            CtrlByte[2] = 0x08;
-            CtrlByte[3] = (byte)(CtrlChannel[0] / 256);
-            CtrlByte[4] = (byte)(CtrlChannel[0] % 256);
-            CtrlByte[5] = (byte)(CtrlChannel[1] / 256);
-            CtrlByte[6] = (byte)(CtrlChannel[1] % 256);
-            CtrlByte[7] = (byte)(CtrlChannel[2] / 256);
-            CtrlByte[8] = (byte)(CtrlChannel[2] % 256);
-            CtrlByte[9] = (byte)(CtrlChannel[3] / 256);
-            CtrlByte[10] = (byte)(CtrlChannel[3] % 256);
-            for (int i = 0; i < 11; i++)
+            int[] CtrlChannel = new int[4];  //4个控制通道
+            ErrCnt++;
+            if (ErrCnt >= 20)
+                lblCtrl.Text = "失控";
+            if ((GlobalStat & 0x10) == 0x10)
             {
-                CtrlByte[11] += CtrlByte[i];
+                btnLock.Text = "锁定";
+                lblLock.Text = "解锁";
             }
-            serialPort1.Write(CtrlByte, 0, 12);
-            CtrlByte[11] = 0;
-            TxCount += 12;
-            if (((KeyState & 0x01) == 0x01) && (hScrollRol.Value > 0))
-                hScrollRol.Value--;
-            if (((KeyState & 0x02) == 0x02) && (hScrollRol.Value < 100))
-                hScrollRol.Value++;
-            if (((KeyState & 0x04) == 0x04) && (vScrollPit.Value > 0))
-                vScrollPit.Value--;
-            if (((KeyState & 0x08) == 0x08) && (vScrollPit.Value < 100))
-                vScrollPit.Value++;
-            if (((KeyState & 0x10) == 0x10) && (vScrollThr.Value > 0))
-                vScrollThr.Value--;
-            if (((KeyState & 0x20) == 0x20) && (vScrollThr.Value < 100))
-                vScrollThr.Value++;
-            if (((KeyState & 0x40) == 0x40) && (hScrollYaw.Value > 0))
-                hScrollYaw.Value--;
-            if (((KeyState & 0x80) == 0x80) && (hScrollYaw.Value < 100))
-                hScrollYaw.Value++;
+            else
+            {
+                btnLock.Text = "解锁";
+                lblLock.Text = "锁定";
+            }
+            CtrlChannel[0] = (short)(100 - hScrollRol.Value);
+            CtrlChannel[1] = (short)(100 - vScrollPit.Value);
+            CtrlChannel[2] = (short)(100 - vScrollThr.Value);
+            CtrlChannel[3] = (short)(100 - hScrollYaw.Value);
+            if (((KeyState & 0x01) == 0x01) && (CtrlChannel[0] < 100))
+                CtrlChannel[0]++;
+            if (((KeyState & 0x02) == 0x02) && (CtrlChannel[0] > 0))
+                CtrlChannel[0]--;
+            if (((KeyState & 0x04) == 0x04) && (CtrlChannel[1] < 100))
+                CtrlChannel[1]++;
+            if (((KeyState & 0x08) == 0x08) && (CtrlChannel[1] > 0))
+                CtrlChannel[1]--;
+            if (((KeyState & 0x10) == 0x10) && (CtrlChannel[2] < 100))
+                CtrlChannel[2]++;
+            if (((KeyState & 0x20) == 0x20) && (CtrlChannel[2] > 0))
+                CtrlChannel[2]--;
+            if (((KeyState & 0x40) == 0x40) && (CtrlChannel[3] < 100))
+                CtrlChannel[3]++;
+            if (((KeyState & 0x80) == 0x80) && (CtrlChannel[3] > 0))
+                CtrlChannel[3]--;
+            CtrlChannel[0] *= 10;
+            CtrlChannel[1] *= 10;
+            CtrlChannel[2] *= 10;
+            CtrlChannel[3] *= 10;
+            if ((GlobalStat & 0x01) == 0x01)
+            {
+                XDAA_Send_Cmd(0x48);
+                serialPort1.Write(CtrlByte, 0, 6);
+                GlobalStat &= 0xFE;
+            }
+            else
+            {
+                XDAA_Send_RCdata(CtrlChannel);
+                serialPort1.Write(CtrlByte, 0, 12);
+            }
         }
+        //
         private void btnCtrl_Click(object sender, EventArgs e)
         {
             if (tmrCtrl.Enabled)
             {
                 btnCtrl.Image = Properties.Resources.ledoff;
-                btnCtrl.Text = "打开控制链路";
+                btnCtrl.Text = "建立控制链路";
                 tmrCtrl.Enabled = false;
+                btnLock.Text = "解锁";
             }
             else if (serialPort1.IsOpen)
             {
@@ -68,7 +194,54 @@ namespace GroundStation
                 tmrCtrl.Enabled = true;
             }
         }
-        private void Form1_KeyUp(object sender, KeyEventArgs e)
+        //此按钮只发送锁定/解锁命令,按钮名称的更改在定时任务中
+        private void btnLock_Click(object sender, EventArgs e)
+        {
+            if (!tmrCtrl.Enabled)
+                return;
+                GlobalStat |= 0x01;
+        }
+        /***********************
+        发送解锁帧
+        **********************/
+        private void XDAA_Send_Cmd(byte password)
+        {
+            byte sum = 0x3F;
+            byte state;
+            if ((GlobalStat & 0x10) == 0x10)  //解锁状态下发送锁定命令
+                state = 0;
+            else
+                state = 0x01;
+            CtrlByte[0] = 0x3C;
+            CtrlByte[1] = 0x01;
+            CtrlByte[2] = 0x02;
+            CtrlByte[3] = state;
+            CtrlByte[4] = password;
+            sum += state;
+            sum += password;
+            CtrlByte[5] = sum;
+            TxCount += 6;
+        }
+        private void XDAA_Send_RCdata(int[] rc)
+        {
+            byte sum = 0;
+            CtrlByte[0] = 0x3C;
+            CtrlByte[1] = 0x08;
+            CtrlByte[2] = 0x08;
+            CtrlByte[3] = (byte)(rc[0] / 256);
+            CtrlByte[4] = (byte)(rc[0] % 256);
+            CtrlByte[5] = (byte)(rc[1] / 256);
+            CtrlByte[6] = (byte)(rc[1] % 256);
+            CtrlByte[7] = (byte)(rc[2] / 256);
+            CtrlByte[8] = (byte)(rc[2] % 256);
+            CtrlByte[9] = (byte)(rc[3] / 256);
+            CtrlByte[10] = (byte)(rc[3] % 256);
+            for (int i = 0; i < 11; i++)
+                sum += CtrlByte[i];
+            CtrlByte[11] = sum;
+            TxCount += 12;
+        }
+        private void tabControl1_KeyUp(object sender, KeyEventArgs e)
         {
             Keys CtrlKey = e.KeyCode;
             if (CtrlKey == Keys.J)
@@ -88,7 +261,7 @@ namespace GroundStation
             if (CtrlKey == Keys.D)
                 KeyState &= 0x7F;
         }
-        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        private void tabControl1_KeyDown(object sender, KeyEventArgs e)
         {
             Keys CtrlKey = e.KeyCode;
             if (CtrlKey == Keys.J)

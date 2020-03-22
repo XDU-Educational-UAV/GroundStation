@@ -62,6 +62,11 @@
             this.rbtnSend3CHR = new System.Windows.Forms.RadioButton();
             this.rbtnSend3HEX = new System.Windows.Forms.RadioButton();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.lblVoltage = new System.Windows.Forms.Label();
+            this.btnLock = new System.Windows.Forms.Button();
+            this.lblCtrl = new System.Windows.Forms.Label();
+            this.lblLock = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.btnCtrl = new System.Windows.Forms.Button();
             this.lblGyroz = new System.Windows.Forms.Label();
             this.lblGyroy = new System.Windows.Forms.Label();
@@ -72,7 +77,7 @@
             this.lblYaw = new System.Windows.Forms.Label();
             this.lblPitch = new System.Windows.Forms.Label();
             this.lblRoll = new System.Windows.Forms.Label();
-            this.lblPosition = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.vScrollPit = new System.Windows.Forms.VScrollBar();
             this.vScrollThr = new System.Windows.Forms.VScrollBar();
             this.hScrollRol = new System.Windows.Forms.HScrollBar();
@@ -301,6 +306,8 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1238, 651);
             this.tabControl1.TabIndex = 12;
+            this.tabControl1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tabControl1_KeyDown);
+            this.tabControl1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tabControl1_KeyUp);
             // 
             // tabPage1
             // 
@@ -407,6 +414,11 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.lblVoltage);
+            this.tabPage2.Controls.Add(this.btnLock);
+            this.tabPage2.Controls.Add(this.lblCtrl);
+            this.tabPage2.Controls.Add(this.lblLock);
+            this.tabPage2.Controls.Add(this.label6);
             this.tabPage2.Controls.Add(this.btnCtrl);
             this.tabPage2.Controls.Add(this.lblGyroz);
             this.tabPage2.Controls.Add(this.lblGyroy);
@@ -417,7 +429,7 @@
             this.tabPage2.Controls.Add(this.lblYaw);
             this.tabPage2.Controls.Add(this.lblPitch);
             this.tabPage2.Controls.Add(this.lblRoll);
-            this.tabPage2.Controls.Add(this.lblPosition);
+            this.tabPage2.Controls.Add(this.label5);
             this.tabPage2.Controls.Add(this.vScrollPit);
             this.tabPage2.Controls.Add(this.vScrollThr);
             this.tabPage2.Controls.Add(this.hScrollRol);
@@ -430,6 +442,59 @@
             this.tabPage2.Text = "飞行控制";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // lblVoltage
+            // 
+            this.lblVoltage.AutoSize = true;
+            this.lblVoltage.Font = new System.Drawing.Font("宋体", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblVoltage.ForeColor = System.Drawing.Color.Red;
+            this.lblVoltage.Location = new System.Drawing.Point(150, 112);
+            this.lblVoltage.Name = "lblVoltage";
+            this.lblVoltage.Size = new System.Drawing.Size(34, 24);
+            this.lblVoltage.TabIndex = 17;
+            this.lblVoltage.Text = "0V";
+            // 
+            // btnLock
+            // 
+            this.btnLock.Location = new System.Drawing.Point(763, 507);
+            this.btnLock.Name = "btnLock";
+            this.btnLock.Size = new System.Drawing.Size(75, 43);
+            this.btnLock.TabIndex = 16;
+            this.btnLock.Text = "解锁";
+            this.btnLock.UseVisualStyleBackColor = true;
+            this.btnLock.Click += new System.EventHandler(this.btnLock_Click);
+            // 
+            // lblCtrl
+            // 
+            this.lblCtrl.AutoSize = true;
+            this.lblCtrl.Font = new System.Drawing.Font("楷体", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblCtrl.ForeColor = System.Drawing.Color.Red;
+            this.lblCtrl.Location = new System.Drawing.Point(150, 55);
+            this.lblCtrl.Name = "lblCtrl";
+            this.lblCtrl.Size = new System.Drawing.Size(58, 24);
+            this.lblCtrl.TabIndex = 15;
+            this.lblCtrl.Text = "失控";
+            // 
+            // lblLock
+            // 
+            this.lblLock.AutoSize = true;
+            this.lblLock.Font = new System.Drawing.Font("楷体", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblLock.ForeColor = System.Drawing.Color.Red;
+            this.lblLock.Location = new System.Drawing.Point(8, 55);
+            this.lblLock.Name = "lblLock";
+            this.lblLock.Size = new System.Drawing.Size(58, 24);
+            this.lblLock.TabIndex = 14;
+            this.lblLock.Text = "锁定";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("宋体", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label6.Location = new System.Drawing.Point(6, 3);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(152, 28);
+            this.label6.TabIndex = 13;
+            this.label6.Text = "飞行状态：";
+            // 
             // btnCtrl
             // 
             this.btnCtrl.Image = global::GroundStation.Properties.Resources.ledoff;
@@ -438,7 +503,7 @@
             this.btnCtrl.Name = "btnCtrl";
             this.btnCtrl.Size = new System.Drawing.Size(179, 43);
             this.btnCtrl.TabIndex = 12;
-            this.btnCtrl.Text = "打开控制链路";
+            this.btnCtrl.Text = "建立控制链路";
             this.btnCtrl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnCtrl.UseVisualStyleBackColor = true;
             this.btnCtrl.Click += new System.EventHandler(this.btnCtrl_Click);
@@ -446,102 +511,101 @@
             // lblGyroz
             // 
             this.lblGyroz.AutoSize = true;
-            this.lblGyroz.Font = new System.Drawing.Font("宋体", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblGyroz.Location = new System.Drawing.Point(662, 450);
+            this.lblGyroz.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblGyroz.Location = new System.Drawing.Point(73, 332);
             this.lblGyroz.Name = "lblGyroz";
-            this.lblGyroz.Size = new System.Drawing.Size(22, 24);
+            this.lblGyroz.Size = new System.Drawing.Size(15, 15);
             this.lblGyroz.TabIndex = 9;
             this.lblGyroz.Text = "0";
             // 
             // lblGyroy
             // 
             this.lblGyroy.AutoSize = true;
-            this.lblGyroy.Font = new System.Drawing.Font("宋体", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblGyroy.Location = new System.Drawing.Point(662, 403);
+            this.lblGyroy.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblGyroy.Location = new System.Drawing.Point(73, 317);
             this.lblGyroy.Name = "lblGyroy";
-            this.lblGyroy.Size = new System.Drawing.Size(22, 24);
+            this.lblGyroy.Size = new System.Drawing.Size(15, 15);
             this.lblGyroy.TabIndex = 10;
             this.lblGyroy.Text = "0";
             // 
             // lblGyrox
             // 
             this.lblGyrox.AutoSize = true;
-            this.lblGyrox.Font = new System.Drawing.Font("宋体", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblGyrox.Location = new System.Drawing.Point(662, 352);
+            this.lblGyrox.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblGyrox.Location = new System.Drawing.Point(73, 302);
             this.lblGyrox.Name = "lblGyrox";
-            this.lblGyrox.Size = new System.Drawing.Size(22, 24);
+            this.lblGyrox.Size = new System.Drawing.Size(15, 15);
             this.lblGyrox.TabIndex = 11;
             this.lblGyrox.Text = "0";
             // 
             // lblAccz
             // 
             this.lblAccz.AutoSize = true;
-            this.lblAccz.Font = new System.Drawing.Font("宋体", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblAccz.Location = new System.Drawing.Point(662, 282);
+            this.lblAccz.Font = new System.Drawing.Font("宋体", 9F);
+            this.lblAccz.Location = new System.Drawing.Point(73, 271);
             this.lblAccz.Name = "lblAccz";
-            this.lblAccz.Size = new System.Drawing.Size(22, 24);
+            this.lblAccz.Size = new System.Drawing.Size(15, 15);
             this.lblAccz.TabIndex = 6;
             this.lblAccz.Text = "0";
             // 
             // lblAccy
             // 
             this.lblAccy.AutoSize = true;
-            this.lblAccy.Font = new System.Drawing.Font("宋体", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblAccy.Location = new System.Drawing.Point(662, 235);
+            this.lblAccy.Location = new System.Drawing.Point(73, 256);
             this.lblAccy.Name = "lblAccy";
-            this.lblAccy.Size = new System.Drawing.Size(22, 24);
+            this.lblAccy.Size = new System.Drawing.Size(15, 15);
             this.lblAccy.TabIndex = 7;
             this.lblAccy.Text = "0";
             // 
             // lblAccx
             // 
             this.lblAccx.AutoSize = true;
-            this.lblAccx.Font = new System.Drawing.Font("宋体", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblAccx.Location = new System.Drawing.Point(662, 184);
+            this.lblAccx.Font = new System.Drawing.Font("宋体", 9F);
+            this.lblAccx.Location = new System.Drawing.Point(73, 241);
             this.lblAccx.Name = "lblAccx";
-            this.lblAccx.Size = new System.Drawing.Size(22, 24);
+            this.lblAccx.Size = new System.Drawing.Size(15, 15);
             this.lblAccx.TabIndex = 8;
             this.lblAccx.Text = "0";
             // 
             // lblYaw
             // 
             this.lblYaw.AutoSize = true;
-            this.lblYaw.Font = new System.Drawing.Font("宋体", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblYaw.Location = new System.Drawing.Point(662, 113);
+            this.lblYaw.Font = new System.Drawing.Font("宋体", 9F);
+            this.lblYaw.Location = new System.Drawing.Point(73, 211);
             this.lblYaw.Name = "lblYaw";
-            this.lblYaw.Size = new System.Drawing.Size(22, 24);
+            this.lblYaw.Size = new System.Drawing.Size(15, 15);
             this.lblYaw.TabIndex = 5;
             this.lblYaw.Text = "0";
             // 
             // lblPitch
             // 
             this.lblPitch.AutoSize = true;
-            this.lblPitch.Font = new System.Drawing.Font("宋体", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblPitch.Location = new System.Drawing.Point(662, 66);
+            this.lblPitch.Font = new System.Drawing.Font("宋体", 9F);
+            this.lblPitch.Location = new System.Drawing.Point(73, 196);
             this.lblPitch.Name = "lblPitch";
-            this.lblPitch.Size = new System.Drawing.Size(22, 24);
+            this.lblPitch.Size = new System.Drawing.Size(15, 15);
             this.lblPitch.TabIndex = 5;
             this.lblPitch.Text = "0";
             // 
             // lblRoll
             // 
             this.lblRoll.AutoSize = true;
-            this.lblRoll.Font = new System.Drawing.Font("宋体", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblRoll.Location = new System.Drawing.Point(662, 15);
+            this.lblRoll.Font = new System.Drawing.Font("宋体", 9F);
+            this.lblRoll.Location = new System.Drawing.Point(73, 181);
             this.lblRoll.Name = "lblRoll";
-            this.lblRoll.Size = new System.Drawing.Size(22, 24);
+            this.lblRoll.Size = new System.Drawing.Size(15, 15);
             this.lblRoll.TabIndex = 5;
             this.lblRoll.Text = "0";
             // 
-            // lblPosition
+            // label5
             // 
-            this.lblPosition.AutoSize = true;
-            this.lblPosition.Font = new System.Drawing.Font("楷体", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblPosition.Location = new System.Drawing.Point(501, 15);
-            this.lblPosition.Name = "lblPosition";
-            this.lblPosition.Size = new System.Drawing.Size(70, 456);
-            this.lblPosition.TabIndex = 4;
-            this.lblPosition.Text = "Roll\r\n\r\nPitch\r\n\r\nYaw\r\n\r\n\r\naccx\r\n\r\naccy\r\n\r\naccz\r\n\r\n\r\ngyrox\r\n\r\ngyroy\r\n\r\ngyroz";
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("宋体", 9F);
+            this.label5.Location = new System.Drawing.Point(8, 181);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(47, 165);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "Roll\r\nPitch\r\nYaw\r\n\r\naccx\r\naccy\r\naccz\r\n\r\ngyrox\r\ngyroy\r\ngyroz";
             // 
             // vScrollPit
             // 
@@ -669,8 +733,6 @@
             this.Name = "Form1";
             this.Text = "地面站";
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp);
             this.panelTx1.ResumeLayout(false);
             this.panelTx1.PerformLayout();
             this.panelTx2.ResumeLayout(false);
@@ -745,8 +807,13 @@
         private System.Windows.Forms.Label lblYaw;
         private System.Windows.Forms.Label lblPitch;
         private System.Windows.Forms.Label lblRoll;
-        private System.Windows.Forms.Label lblPosition;
+        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnCtrl;
+        private System.Windows.Forms.Label lblLock;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lblCtrl;
+        private System.Windows.Forms.Button btnLock;
+        private System.Windows.Forms.Label lblVoltage;
     }
 }
 

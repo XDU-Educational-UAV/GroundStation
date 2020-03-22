@@ -12,17 +12,17 @@ namespace GroundStation
         private void btnSend1_Click(object sender, EventArgs e)
         {
             if (serialPort1.IsOpen)
-                my_SerialPort_Send(tbxTx1, rbtnSend1CHR);
+                Tab0_Text_Send(tbxTx1, rbtnSend1CHR);
         }
         private void btnSend2_Click(object sender, EventArgs e)
         {
             if (serialPort1.IsOpen)
-                my_SerialPort_Send(tbxTx2, rbtnSend2CHR);
+                Tab0_Text_Send(tbxTx2, rbtnSend2CHR);
         }
         private void btnSend3_Click(object sender, EventArgs e)
         {
             if (serialPort1.IsOpen)
-                my_SerialPort_Send(tbxTx3, rbtnSend3CHR);
+                Tab0_Text_Send(tbxTx3, rbtnSend3CHR);
         }
         private void Tab0_Text_Receive()
         {
@@ -35,9 +35,10 @@ namespace GroundStation
             else  //16进制方式读
             {
                 string str = "";
+                byte temp;
                 do
                 {
-                    byte temp = (byte)serialPort1.ReadByte();  //使用string方式读的ASCII值是7位的,所有超过0x3F的值都以0x3F显示
+                    temp = (byte)serialPort1.ReadByte();  //使用string方式读的ASCII值是7位的,所有超过0x3F的值都以0x3F显示
                     if (temp <= 0x0F)
                         str += "0" + Convert.ToString(temp, 16).ToUpper() + " ";
                     else
@@ -49,7 +50,7 @@ namespace GroundStation
             }
         }
         /*串口发送数据*/
-        private void my_SerialPort_Send(TextBox box, RadioButton btnChr)
+        private void Tab0_Text_Send(TextBox box, RadioButton btnChr)
         {
             string text = box.Text;
             if (text == "")
@@ -83,7 +84,7 @@ namespace GroundStation
         /*定时发送*/
         private void tmrSendUser_Tick(object sender, EventArgs e)
         {
-            my_SerialPort_Send(tbxTx1, rbtnSend1CHR);
+            Tab0_Text_Send(tbxTx1, rbtnSend1CHR);
         }
         /*发送间隔设置文本框*/
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
