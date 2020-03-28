@@ -7,10 +7,13 @@ namespace GroundStation
 {
     partial class Form1
     {
+        byte req = 0;
         /*写入roll控制器参数*/
         private void btnWriteRol_Click(object sender, EventArgs e)
         {
             if (serialPort1.IsOpen == false) return;
+            if (cbxRolDisp.Checked) return;
+            if (cbxPitDisp.Checked) return;
             GlobalStat &= 0xFD;
             try
             {
@@ -28,13 +31,17 @@ namespace GroundStation
         {
             if (serialPort1.IsOpen == false) return;
             GlobalStat |= 0x02;
-            XDAA_Send_Req(0x01);
+            req |= 0x01;
+            XDAA_Send_Req();
             serialPort1.Write(CtrlByte, 0, 5);
+            req &= 0xFE;
         }
         /*写入pitch控制器参数*/
         private void btnWritePit_Click(object sender, EventArgs e)
         {
             if (serialPort1.IsOpen == false) return;
+            if (cbxRolDisp.Checked) return;
+            if (cbxPitDisp.Checked) return;
             GlobalStat &= 0xFD;
             try
             {
@@ -52,8 +59,27 @@ namespace GroundStation
         {
             if (serialPort1.IsOpen == false) return;
             GlobalStat |= 0x02;
-            XDAA_Send_Req(0x02);
+            req |= 0x04;
+            XDAA_Send_Req();
             serialPort1.Write(CtrlByte, 0, 5);
+            req &= 0xFB;
+
+        }
+        /*状态参数显示*/
+        private void Status_Display()
+        {
+            if (serialPort1.IsOpen == false) return;
+            if (cbxRolDisp.Checked)
+                req |= 0x02;
+            if (cbxPitDisp.Checked)
+                req |= 0x08;
+            if (req != 0)
+            {
+                XDAA_Send_Req();
+                serialPort1.Write(CtrlByte, 0, 5);
+            }
+            req = 0;
+            labelTxCnt.Text = $"Tx:{TxCount}";
         }
     }
 }

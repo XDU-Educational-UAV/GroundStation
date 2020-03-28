@@ -90,7 +90,11 @@
             this.hScrollYaw = new System.Windows.Forms.HScrollBar();
             this.btnCtrl = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.cbxPitDisp = new System.Windows.Forms.CheckBox();
+            this.cbxRolDisp = new System.Windows.Forms.CheckBox();
             this.label11 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.btnReadPit = new System.Windows.Forms.Button();
             this.btnReadRol = new System.Windows.Forms.Button();
@@ -104,8 +108,14 @@
             this.lblPitParam3 = new System.Windows.Forms.Label();
             this.tbxRolParam1 = new System.Windows.Forms.TextBox();
             this.lblPitParam2 = new System.Windows.Forms.Label();
+            this.lblPitAe = new System.Windows.Forms.Label();
+            this.lblRolAe = new System.Windows.Forms.Label();
+            this.lblPitGe = new System.Windows.Forms.Label();
             this.lblRolParam3 = new System.Windows.Forms.Label();
+            this.lblRolGe = new System.Windows.Forms.Label();
+            this.lblPitG = new System.Windows.Forms.Label();
             this.lblPitParam1 = new System.Windows.Forms.Label();
+            this.lblRolG = new System.Windows.Forms.Label();
             this.lblRolParam2 = new System.Windows.Forms.Label();
             this.lblRolParam1 = new System.Windows.Forms.Label();
             this.tmrSendUser = new System.Windows.Forms.Timer(this.components);
@@ -768,7 +778,11 @@
             // tabPage3
             // 
             this.tabPage3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.tabPage3.Controls.Add(this.cbxPitDisp);
+            this.tabPage3.Controls.Add(this.cbxRolDisp);
             this.tabPage3.Controls.Add(this.label11);
+            this.tabPage3.Controls.Add(this.label9);
+            this.tabPage3.Controls.Add(this.label8);
             this.tabPage3.Controls.Add(this.label7);
             this.tabPage3.Controls.Add(this.btnReadPit);
             this.tabPage3.Controls.Add(this.btnReadRol);
@@ -782,8 +796,14 @@
             this.tabPage3.Controls.Add(this.lblPitParam3);
             this.tabPage3.Controls.Add(this.tbxRolParam1);
             this.tabPage3.Controls.Add(this.lblPitParam2);
+            this.tabPage3.Controls.Add(this.lblPitAe);
+            this.tabPage3.Controls.Add(this.lblRolAe);
+            this.tabPage3.Controls.Add(this.lblPitGe);
             this.tabPage3.Controls.Add(this.lblRolParam3);
+            this.tabPage3.Controls.Add(this.lblRolGe);
+            this.tabPage3.Controls.Add(this.lblPitG);
             this.tabPage3.Controls.Add(this.lblPitParam1);
+            this.tabPage3.Controls.Add(this.lblRolG);
             this.tabPage3.Controls.Add(this.lblRolParam2);
             this.tabPage3.Controls.Add(this.lblRolParam1);
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
@@ -793,6 +813,26 @@
             this.tabPage3.Text = "参数设置";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // cbxPitDisp
+            // 
+            this.cbxPitDisp.AutoSize = true;
+            this.cbxPitDisp.Location = new System.Drawing.Point(585, 210);
+            this.cbxPitDisp.Name = "cbxPitDisp";
+            this.cbxPitDisp.Size = new System.Drawing.Size(59, 19);
+            this.cbxPitDisp.TabIndex = 10;
+            this.cbxPitDisp.Text = "显示";
+            this.cbxPitDisp.UseVisualStyleBackColor = true;
+            // 
+            // cbxRolDisp
+            // 
+            this.cbxRolDisp.AutoSize = true;
+            this.cbxRolDisp.Location = new System.Drawing.Point(585, 45);
+            this.cbxRolDisp.Name = "cbxRolDisp";
+            this.cbxRolDisp.Size = new System.Drawing.Size(59, 19);
+            this.cbxRolDisp.TabIndex = 10;
+            this.cbxRolDisp.Text = "显示";
+            this.cbxRolDisp.UseVisualStyleBackColor = true;
+            // 
             // label11
             // 
             this.label11.AutoSize = true;
@@ -801,6 +841,24 @@
             this.label11.Size = new System.Drawing.Size(87, 75);
             this.label11.TabIndex = 3;
             this.label11.Text = "PitchKpOut\r\n\r\nPitchKpIn\r\n\r\nPitchKdIn";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(582, 232);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(55, 75);
+            this.label9.TabIndex = 3;
+            this.label9.Text = "gyro\r\n\r\ngEst\r\n\r\nAccEst";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(582, 69);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(55, 75);
+            this.label8.TabIndex = 3;
+            this.label8.Text = "gyro\r\n\r\ngEst\r\n\r\nAccEst";
             // 
             // label7
             // 
@@ -911,6 +969,33 @@
             this.lblPitParam2.TabIndex = 0;
             this.lblPitParam2.Text = "0";
             // 
+            // lblPitAe
+            // 
+            this.lblPitAe.AutoSize = true;
+            this.lblPitAe.Location = new System.Drawing.Point(658, 294);
+            this.lblPitAe.Name = "lblPitAe";
+            this.lblPitAe.Size = new System.Drawing.Size(15, 15);
+            this.lblPitAe.TabIndex = 0;
+            this.lblPitAe.Text = "0";
+            // 
+            // lblRolAe
+            // 
+            this.lblRolAe.AutoSize = true;
+            this.lblRolAe.Location = new System.Drawing.Point(658, 129);
+            this.lblRolAe.Name = "lblRolAe";
+            this.lblRolAe.Size = new System.Drawing.Size(15, 15);
+            this.lblRolAe.TabIndex = 0;
+            this.lblRolAe.Text = "0";
+            // 
+            // lblPitGe
+            // 
+            this.lblPitGe.AutoSize = true;
+            this.lblPitGe.Location = new System.Drawing.Point(658, 263);
+            this.lblPitGe.Name = "lblPitGe";
+            this.lblPitGe.Size = new System.Drawing.Size(15, 15);
+            this.lblPitGe.TabIndex = 0;
+            this.lblPitGe.Text = "0";
+            // 
             // lblRolParam3
             // 
             this.lblRolParam3.AutoSize = true;
@@ -920,6 +1005,24 @@
             this.lblRolParam3.TabIndex = 0;
             this.lblRolParam3.Text = "0";
             // 
+            // lblRolGe
+            // 
+            this.lblRolGe.AutoSize = true;
+            this.lblRolGe.Location = new System.Drawing.Point(658, 102);
+            this.lblRolGe.Name = "lblRolGe";
+            this.lblRolGe.Size = new System.Drawing.Size(15, 15);
+            this.lblRolGe.TabIndex = 0;
+            this.lblRolGe.Text = "0";
+            // 
+            // lblPitG
+            // 
+            this.lblPitG.AutoSize = true;
+            this.lblPitG.Location = new System.Drawing.Point(658, 232);
+            this.lblPitG.Name = "lblPitG";
+            this.lblPitG.Size = new System.Drawing.Size(15, 15);
+            this.lblPitG.TabIndex = 0;
+            this.lblPitG.Text = "0";
+            // 
             // lblPitParam1
             // 
             this.lblPitParam1.AutoSize = true;
@@ -928,6 +1031,15 @@
             this.lblPitParam1.Size = new System.Drawing.Size(15, 15);
             this.lblPitParam1.TabIndex = 0;
             this.lblPitParam1.Text = "0";
+            // 
+            // lblRolG
+            // 
+            this.lblRolG.AutoSize = true;
+            this.lblRolG.Location = new System.Drawing.Point(658, 72);
+            this.lblRolG.Name = "lblRolG";
+            this.lblRolG.Size = new System.Drawing.Size(15, 15);
+            this.lblRolG.TabIndex = 0;
+            this.lblRolG.Text = "0";
             // 
             // lblRolParam2
             // 
@@ -1153,6 +1265,16 @@
         private System.Windows.Forms.Label lblPitParam1;
         private System.Windows.Forms.Button btnReadPit;
         private System.Windows.Forms.Button btnWritePit;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label lblPitAe;
+        private System.Windows.Forms.Label lblRolAe;
+        private System.Windows.Forms.Label lblPitGe;
+        private System.Windows.Forms.Label lblRolGe;
+        private System.Windows.Forms.Label lblPitG;
+        private System.Windows.Forms.Label lblRolG;
+        private System.Windows.Forms.CheckBox cbxPitDisp;
+        private System.Windows.Forms.CheckBox cbxRolDisp;
+        private System.Windows.Forms.Label label9;
     }
 }
 

@@ -128,7 +128,7 @@ namespace GroundStation
             CtrlByte[9] = sum;
             TxCount += 10;
         }
-        private void XDAA_Send_Req(byte req)
+        private void XDAA_Send_Req()
         {
             byte sum = 0xDD;
             CtrlByte[0] = 0x3C;

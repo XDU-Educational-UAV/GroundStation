@@ -30,6 +30,9 @@ namespace GroundStation
                 lblCtrl.ForeColor = Color.Black;
             }
             ErrCnt = 0;
+            double[] ddata = new double[3];
+            //int[] idata = new int[4];
+            short[] sdata = new short[6];
             switch (fcn)
             {
                 case 0x01:
@@ -51,26 +54,29 @@ namespace GroundStation
                     lblVoltage.Text = voltage.ToString("#0.00");
                     break;
                 case 0x02:  //注意RxTemp为有符号16位整型
-                    double rol = ((RxTemp[0] << 8) | RxTemp[1]);
-                    double pit = ((RxTemp[2] << 8) | RxTemp[3]);
-                    double yaw = ((RxTemp[4] << 8) | RxTemp[5]);
-                    lblRoll.Text = rol.ToString("#0.00");
-                    lblPitch.Text = pit.ToString("#0.00");
-                    lblYaw.Text = yaw.ToString("#0.00");
+                    sdata[0] = (short)((RxTemp[0] << 8) | RxTemp[1]);
+                    sdata[1] = (short)((RxTemp[2] << 8) | RxTemp[3]);
+                    sdata[2] = (short)((RxTemp[4] << 8) | RxTemp[5]);
+                    ddata[0]=sdata[0]/100.0;
+                    ddata[1]=sdata[1]/100.0;
+                    ddata[2] = sdata[2] / 100.0;
+                    lblRoll.Text = ddata[0].ToString("#0.00");
+                    lblPitch.Text = ddata[1].ToString("#0.00");
+                    lblYaw.Text = ddata[2].ToString("#0.00");
                     break;
                 case 0x04:
-                    short accx = (short)((RxTemp[0] << 8) | RxTemp[1]);
-                    short accy = (short)((RxTemp[2] << 8) | RxTemp[3]);
-                    short accz = (short)((RxTemp[4] << 8) | RxTemp[5]);
-                    short gyrox = (short)((RxTemp[6] << 8) | RxTemp[7]);
-                    short gyroy = (short)((RxTemp[8] << 8) | RxTemp[9]);
-                    short gyroz = (short)((RxTemp[10] << 8) | RxTemp[11]);
-                    lblAccx.Text = accx.ToString();
-                    lblAccy.Text = accy.ToString();
-                    lblAccz.Text = accz.ToString();
-                    lblGyrox.Text = gyrox.ToString();
-                    lblGyroy.Text = gyroy.ToString();
-                    lblGyroz.Text = gyroz.ToString();
+                    sdata[0]= (short)((RxTemp[0] << 8) | RxTemp[1]);
+                    sdata[1]= (short)((RxTemp[2] << 8) | RxTemp[3]);
+                    sdata[2]= (short)((RxTemp[4] << 8) | RxTemp[5]);
+                    sdata[3] = (short)((RxTemp[6] << 8) | RxTemp[7]);
+                    sdata[4] = (short)((RxTemp[8] << 8) | RxTemp[9]);
+                    sdata[5] = (short)((RxTemp[10] << 8) | RxTemp[11]);
+                    lblAccx.Text = sdata[0].ToString();
+                    lblAccy.Text = sdata[1].ToString();
+                    lblAccz.Text = sdata[2].ToString();
+                    lblGyrox.Text = sdata[3].ToString();
+                    lblGyroy.Text = sdata[4].ToString();
+                    lblGyroz.Text = sdata[5].ToString();
                     break;
                 case 0x08:
                     int RCrol = ((RxTemp[0] << 8) | RxTemp[1]) / 10;
@@ -87,14 +93,14 @@ namespace GroundStation
                     lblRCyaw.Text = RCyaw.ToString();
                     break;
                 case 0x10:
-                    short motor1 = (short)((RxTemp[0] << 8) | RxTemp[1]);
-                    short motor2 = (short)((RxTemp[2] << 8) | RxTemp[3]);
-                    short motor3 = (short)((RxTemp[4] << 8) | RxTemp[5]);
-                    short motor4 = (short)((RxTemp[6] << 8) | RxTemp[7]);
-                    lblM1.Text = motor1.ToString();
-                    lblM2.Text = motor2.ToString();
-                    lblM3.Text = motor3.ToString();
-                    lblM4.Text = motor4.ToString();
+                    sdata[0] = (short)((RxTemp[0] << 8) | RxTemp[1]);
+                    sdata[1] = (short)((RxTemp[2] << 8) | RxTemp[3]);
+                    sdata[2] = (short)((RxTemp[4] << 8) | RxTemp[5]);
+                    sdata[3] = (short)((RxTemp[6] << 8) | RxTemp[7]);
+                    lblM1.Text = sdata[0].ToString();
+                    lblM2.Text = sdata[1].ToString();
+                    lblM3.Text = sdata[2].ToString();
+                    lblM4.Text = sdata[3].ToString();
                     break;
                 case 0xA1:
                     RolParam[0] = (RxTemp[0] << 8) | RxTemp[1];
@@ -108,12 +114,12 @@ namespace GroundStation
                     }
                     else
                     {
-                        double r1 = RolParam[0] / 1000.0;
-                        double r2 = RolParam[1] / 1000.0;
-                        double r3 = RolParam[2] / 1000.0;
-                        lblRolParam1.Text = r1.ToString("#0.00");
-                        lblRolParam2.Text = r2.ToString("#0.00");
-                        lblRolParam3.Text = r3.ToString("#0.00");
+                        ddata[0] = RolParam[0] / 1000.0;
+                        ddata[1] = RolParam[1] / 1000.0;
+                        ddata[2] = RolParam[2] / 1000.0;
+                        lblRolParam1.Text = ddata[0].ToString("#0.00");
+                        lblRolParam2.Text = ddata[1].ToString("#0.00");
+                        lblRolParam3.Text = ddata[2].ToString("#0.00");
                     }
                     break;
                 case 0xA3:
@@ -128,13 +134,35 @@ namespace GroundStation
                     }
                     else
                     {
-                        double p1 = PitParam[0] / 1000.0;
-                        double p2 = PitParam[1] / 1000.0;
-                        double p3 = PitParam[2] / 1000.0;
-                        lblPitParam1.Text = p1.ToString("#0.00");
-                        lblPitParam2.Text = p2.ToString("#0.00");
-                        lblPitParam3.Text = p3.ToString("#0.00");
+                        ddata[0] = PitParam[0] / 1000.0;
+                        ddata[1] = PitParam[1] / 1000.0;
+                        ddata[2] = PitParam[2] / 1000.0;
+                        lblPitParam1.Text = ddata[0].ToString("#0.00");
+                        lblPitParam2.Text = ddata[1].ToString("#0.00");
+                        lblPitParam3.Text = ddata[2].ToString("#0.00");
                     }
+                    break;
+                case 0xA2:
+                    sdata[0] = (short)((RxTemp[0] << 8) | RxTemp[1]);
+                    sdata[1] = (short)((RxTemp[2] << 8) | RxTemp[3]);
+                    sdata[2] = (short)((RxTemp[4] << 8) | RxTemp[5]);
+                    ddata[0] = sdata[0] / 100.0;
+                    ddata[1] = sdata[1] / 100.0;
+                    ddata[2] = sdata[2] / 100.0;
+                    lblRolG.Text = ddata[0].ToString("#0.00");
+                    lblRolGe.Text = ddata[1].ToString("#0.00");
+                    lblRolAe.Text = ddata[2].ToString("#0.00");
+                    break;
+                case 0xA4:
+                    sdata[0] = (short)((RxTemp[0] << 8) | RxTemp[1]);
+                    sdata[1] = (short)((RxTemp[2] << 8) | RxTemp[3]);
+                    sdata[2] = (short)((RxTemp[4] << 8) | RxTemp[5]);
+                    ddata[0] = sdata[0] / 100.0;
+                    ddata[1] = sdata[1] / 100.0;
+                    ddata[2] = sdata[2] / 100.0;
+                    lblPitG.Text = ddata[0].ToString("#0.00");
+                    lblPitGe.Text = ddata[1].ToString("#0.00");
+                    lblPitAe.Text = ddata[2].ToString("#0.00");
                     break;
                 default: break;
             }
@@ -145,6 +173,9 @@ namespace GroundStation
         private void tmrCtrl_Tick(object sender, EventArgs e)
         {
             if (serialPort1.IsOpen == false) return;
+            if (tabControl1.SelectedIndex == 2)
+                Status_Display();
+            if (tabControl1.SelectedIndex != 1) return;
             Key_Change();  //按键检测
             if ((GlobalStat & 0x80) != 0x80)
                 return;  //没有与下位机建立通信

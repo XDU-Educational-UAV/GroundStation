@@ -37,9 +37,9 @@ SUMµÈÓÚ´Ó¸ÃÊý¾ÝÖ¡µÚÒ»×Ö½Ú¿ªÊ¼£¬Ò²¾ÍÊÇÖ¡Í·¿ªÊ¼£¬ÖÁ¸ÃÖ¡Êý¾ÝµÄ×îºóÒ»×Ö½ÚËùÓÐ×Ö½ÚµÄº
 |Ò£¿Ø   |3E  |08    |08  |s16¡Á4|SUM |Ò£¿ØÆ÷4¸öÍ¨µÀµÄ¿ØÖÆÐÅºÅ|
 |ÓÍÃÅ   |3E  |10    |08  |s16¡Á4|SUM |·Ö±ðÎª4¸öµç»úµÄÓÍÃÅ´óÐ¡|
 |ROL²ÎÊý|3E  |A1    |06  |s16¡Á3|SUM |ROLÍ¨µÀ¿ØÖÆÆ÷²ÎÊý¡Á1000|
-|ROL×´Ì¬|3E  |A2    |06  |s16¡Á3|SUM |ROLÍ¨µÀ×´Ì¬²ÎÊý¡Á1000|
+|ROL×´Ì¬|3E  |A2    |06  |s16¡Á3|SUM |ROLÍ¨µÀ×´Ì¬²ÎÊý¡Á100|
 |PIT²ÎÊý|3E  |A3    |06  |s16¡Á3|SUM |PITÍ¨µÀ¿ØÖÆÆ÷²ÎÊý¡Á1000|
-|PIT×´Ì¬|3E  |A4    |06  |s16¡Á3|SUM |PITÍ¨µÀ×´Ì¬²ÎÊý¡Á1000|
+|PIT×´Ì¬|3E  |A4    |06  |s16¡Á3|SUM |PITÍ¨µÀ×´Ì¬²ÎÊý¡Á100|
 
 stat:BIT7Òì³£ BIT0½âËø
 
@@ -51,11 +51,14 @@ stat:BIT7Òì³£ BIT0½âËø
 |-      |-   |-     |-   |-    |-   |-|
 |×´Ì¬   |3C  |01    |02  |u8¡Á2 |SUM |Ö¸Áî(stat),¿ØÖÆÃÜÂë|
 |Ò£¿Ø   |3C  |08    |08  |s16¡Á4|SUM |Ò£¿ØÆ÷4¸öÍ¨µÀµÄ¿ØÖÆÐÅºÅ|
-|¶Á²ÎÊý |3C  |A0    |01  |u8¡Á1 |SUM |ÇëÇó¶ÁÈ¡¿ØÖÆÆ÷²ÎÊý|
+|¶Á²ÎÊý |3C  |A0    |01  |u8¡Á1 |SUM |ÇëÇó¶ÁÈ¡²ÎÊý(req)|
 |ROL²ÎÊý|3C  |A1    |06  |s16¡Á3|SUM |Ð´ÈëROLÍ¨µÀ¿ØÖÆÆ÷²ÎÊý¡Á1000|
 |PIT²ÎÊý|3C  |A3    |06  |s16¡Á3|SUM |Ð´ÈëPITÍ¨µÀ¿ØÖÆÆ÷²ÎÊý¡Á1000|
 
-stat:BIT0½âËø
+|-   |BIT7|BIT6|BIT5|BIT4|BIT3 |BIT2 |BIT1 |BIT0 |
+|-   |-   |-   |-   |-   |-    |-    |-    |-    |
+|stat|-   |-   |-   |-   |-    |-    |-    |½âËø |
+|req |-   |-   |-   |-   |P×´²Î|P¿Ø²Î|R×´²Î|R¿Ø²Î|
 
 Ê¾Àý: 3C 01 02 01 48 88 ±íÊ¾ÇëÇó½âËø,·É»ú½âËøÃÜÂë0x48
 
