@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 /**************文件说明**********************
-标签0:基本收发
+基本收发
 ********************************************/
 
 namespace GroundStation
@@ -24,7 +24,7 @@ namespace GroundStation
             if (serialPort1.IsOpen)
                 Tab0_Text_Send(tbxTx3, rbtnSend3CHR);
         }
-        private void Tab0_Text_Receive()
+        private void Base_Text_Receive()
         {
             if (rbtnRcvCHR.Checked)  //字符串方式读
             {

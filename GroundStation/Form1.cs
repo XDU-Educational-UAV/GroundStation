@@ -12,7 +12,7 @@ namespace GroundStation
     public partial class Form1 : Form
     {
         string[] LastPorts = { };
-        const string version = "V0.04";
+        const string version = "V0.05";
         long TxCount = 0, RxCount = 0;
 
         public Form1()
@@ -21,7 +21,7 @@ namespace GroundStation
         }
         private void Form1_Load(object sender, EventArgs e)
         {
-            comboBox2.Text = "115200";
+            comboBox2.Text = "38400";
             label4.Text = "Ground Station " + version;
             tabControl1.SelectedIndex = 1;
         }
@@ -95,23 +95,20 @@ namespace GroundStation
             //tab1
             btnCtrl.Image = Properties.Resources.ledoff;
             btnCtrl.Text = "建立控制链路";
-            tmrCtrl.Enabled = false;
-            btnLock.Text = "解锁";
             lblCtrl.Text = "失控";
             lblCtrl.ForeColor = Color.Red;
+            GlobalStat &= 0x7F;
         }
         /*定时10ms处理串口接收缓冲RxStr*/
         private void tmrPortRcv_Tick(object sender, EventArgs e)
         {
-            if (serialPort1.IsOpen == false)
-                return;
+            if (serialPort1.IsOpen == false) return;
             if (serialPort1.BytesToRead == 0)
                 return;
             switch (tabControl1.SelectedIndex)  //根据选中的标签判断接收到的数据用于何处
             {
-                case 0: Tab0_Text_Receive(); break;
-                case 1: Tab1_Text_Receive(); break;
-                default: break;
+                case 0: Base_Text_Receive(); break;
+                default: Protocol_Text_Receive(); break;
             }
         }
         private void btnClearBuf_Click(object sender, EventArgs e)

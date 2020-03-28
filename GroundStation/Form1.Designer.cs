@@ -49,7 +49,6 @@
             this.panelTx2 = new System.Windows.Forms.Panel();
             this.rbtnSend2CHR = new System.Windows.Forms.RadioButton();
             this.rbtnSend2HEX = new System.Windows.Forms.RadioButton();
-            this.btnOpen = new System.Windows.Forms.Button();
             this.tmrPortChk = new System.Windows.Forms.Timer(this.components);
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -67,7 +66,10 @@
             this.lblCtrl = new System.Windows.Forms.Label();
             this.lblLock = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.btnCtrl = new System.Windows.Forms.Button();
+            this.lblM4 = new System.Windows.Forms.Label();
+            this.lblM3 = new System.Windows.Forms.Label();
+            this.lblM2 = new System.Windows.Forms.Label();
+            this.lblM1 = new System.Windows.Forms.Label();
             this.lblRCyaw = new System.Windows.Forms.Label();
             this.lblRCthr = new System.Windows.Forms.Label();
             this.lblRCpit = new System.Windows.Forms.Label();
@@ -86,7 +88,26 @@
             this.vScrollThr = new System.Windows.Forms.VScrollBar();
             this.hScrollRol = new System.Windows.Forms.HScrollBar();
             this.hScrollYaw = new System.Windows.Forms.HScrollBar();
+            this.btnCtrl = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.btnReadPit = new System.Windows.Forms.Button();
+            this.btnReadRol = new System.Windows.Forms.Button();
+            this.btnWritePit = new System.Windows.Forms.Button();
+            this.btnWriteRol = new System.Windows.Forms.Button();
+            this.tbxPitParam2 = new System.Windows.Forms.TextBox();
+            this.tbxPitParam3 = new System.Windows.Forms.TextBox();
+            this.tbxRolParam2 = new System.Windows.Forms.TextBox();
+            this.tbxPitParam1 = new System.Windows.Forms.TextBox();
+            this.tbxRolParam3 = new System.Windows.Forms.TextBox();
+            this.lblPitParam3 = new System.Windows.Forms.Label();
+            this.tbxRolParam1 = new System.Windows.Forms.TextBox();
+            this.lblPitParam2 = new System.Windows.Forms.Label();
+            this.lblRolParam3 = new System.Windows.Forms.Label();
+            this.lblPitParam1 = new System.Windows.Forms.Label();
+            this.lblRolParam2 = new System.Windows.Forms.Label();
+            this.lblRolParam1 = new System.Windows.Forms.Label();
             this.tmrSendUser = new System.Windows.Forms.Timer(this.components);
             this.label4 = new System.Windows.Forms.Label();
             this.tmrPortRcv = new System.Windows.Forms.Timer(this.components);
@@ -95,10 +116,7 @@
             this.btnClearBuf = new System.Windows.Forms.Button();
             this.btnReCnt = new System.Windows.Forms.Button();
             this.tmrCtrl = new System.Windows.Forms.Timer(this.components);
-            this.lblM1 = new System.Windows.Forms.Label();
-            this.lblM3 = new System.Windows.Forms.Label();
-            this.lblM4 = new System.Windows.Forms.Label();
-            this.lblM2 = new System.Windows.Forms.Label();
+            this.btnOpen = new System.Windows.Forms.Button();
             this.panelTx1.SuspendLayout();
             this.panelTx2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -106,7 +124,12 @@
             this.panelRx.SuspendLayout();
             this.panelTx3.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // serialPort1
+            // 
+            this.serialPort1.BaudRate = 38400;
             // 
             // cbxPort
             // 
@@ -123,7 +146,7 @@
             this.label1.Location = new System.Drawing.Point(1086, 682);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(37, 15);
-            this.label1.TabIndex = 1;
+            this.label1.TabIndex = 3;
             this.label1.Text = "端口";
             // 
             // comboBox2
@@ -138,7 +161,7 @@
             this.comboBox2.Location = new System.Drawing.Point(959, 679);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(121, 23);
-            this.comboBox2.TabIndex = 2;
+            this.comboBox2.TabIndex = 1;
             // 
             // label2
             // 
@@ -285,19 +308,6 @@
             this.rbtnSend2HEX.Text = "HEX";
             this.rbtnSend2HEX.UseVisualStyleBackColor = true;
             // 
-            // btnOpen
-            // 
-            this.btnOpen.Image = global::GroundStation.Properties.Resources.ledoff;
-            this.btnOpen.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnOpen.Location = new System.Drawing.Point(755, 669);
-            this.btnOpen.Name = "btnOpen";
-            this.btnOpen.Size = new System.Drawing.Size(140, 40);
-            this.btnOpen.TabIndex = 4;
-            this.btnOpen.Text = "打开连接";
-            this.btnOpen.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnOpen.UseVisualStyleBackColor = true;
-            this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
-            // 
             // tmrPortChk
             // 
             this.tmrPortChk.Enabled = true;
@@ -313,9 +323,7 @@
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1238, 651);
-            this.tabControl1.TabIndex = 12;
-            this.tabControl1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tabControl1_KeyDown);
-            this.tabControl1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tabControl1_KeyUp);
+            this.tabControl1.TabIndex = 1;
             // 
             // tabPage1
             // 
@@ -427,7 +435,6 @@
             this.tabPage2.Controls.Add(this.lblCtrl);
             this.tabPage2.Controls.Add(this.lblLock);
             this.tabPage2.Controls.Add(this.label6);
-            this.tabPage2.Controls.Add(this.btnCtrl);
             this.tabPage2.Controls.Add(this.lblM4);
             this.tabPage2.Controls.Add(this.lblM3);
             this.tabPage2.Controls.Add(this.lblM2);
@@ -450,6 +457,7 @@
             this.tabPage2.Controls.Add(this.vScrollThr);
             this.tabPage2.Controls.Add(this.hScrollRol);
             this.tabPage2.Controls.Add(this.hScrollYaw);
+            this.tabPage2.Controls.Add(this.btnCtrl);
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -511,18 +519,49 @@
             this.label6.TabIndex = 13;
             this.label6.Text = "飞行状态：";
             // 
-            // btnCtrl
+            // lblM4
             // 
-            this.btnCtrl.Image = global::GroundStation.Properties.Resources.ledoff;
-            this.btnCtrl.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCtrl.Location = new System.Drawing.Point(505, 507);
-            this.btnCtrl.Name = "btnCtrl";
-            this.btnCtrl.Size = new System.Drawing.Size(179, 43);
-            this.btnCtrl.TabIndex = 12;
-            this.btnCtrl.Text = "建立控制链路";
-            this.btnCtrl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnCtrl.UseVisualStyleBackColor = true;
-            this.btnCtrl.Click += new System.EventHandler(this.btnCtrl_Click);
+            this.lblM4.AutoSize = true;
+            this.lblM4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblM4.Location = new System.Drawing.Point(73, 480);
+            this.lblM4.Name = "lblM4";
+            this.lblM4.Size = new System.Drawing.Size(15, 15);
+            this.lblM4.TabIndex = 9;
+            this.lblM4.Text = "0";
+            this.lblM4.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // lblM3
+            // 
+            this.lblM3.AutoSize = true;
+            this.lblM3.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblM3.Location = new System.Drawing.Point(73, 466);
+            this.lblM3.Name = "lblM3";
+            this.lblM3.Size = new System.Drawing.Size(15, 15);
+            this.lblM3.TabIndex = 9;
+            this.lblM3.Text = "0";
+            this.lblM3.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // lblM2
+            // 
+            this.lblM2.AutoSize = true;
+            this.lblM2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblM2.Location = new System.Drawing.Point(73, 451);
+            this.lblM2.Name = "lblM2";
+            this.lblM2.Size = new System.Drawing.Size(15, 15);
+            this.lblM2.TabIndex = 9;
+            this.lblM2.Text = "0";
+            this.lblM2.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // lblM1
+            // 
+            this.lblM1.AutoSize = true;
+            this.lblM1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblM1.Location = new System.Drawing.Point(73, 436);
+            this.lblM1.Name = "lblM1";
+            this.lblM1.Size = new System.Drawing.Size(15, 15);
+            this.lblM1.TabIndex = 9;
+            this.lblM1.Text = "0";
+            this.lblM1.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // lblRCyaw
             // 
@@ -713,14 +752,200 @@
             this.hScrollYaw.TabIndex = 2;
             this.hScrollYaw.Value = 50;
             // 
+            // btnCtrl
+            // 
+            this.btnCtrl.Image = global::GroundStation.Properties.Resources.ledoff;
+            this.btnCtrl.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnCtrl.Location = new System.Drawing.Point(505, 507);
+            this.btnCtrl.Name = "btnCtrl";
+            this.btnCtrl.Size = new System.Drawing.Size(179, 43);
+            this.btnCtrl.TabIndex = 12;
+            this.btnCtrl.Text = "建立控制链路";
+            this.btnCtrl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnCtrl.UseVisualStyleBackColor = true;
+            this.btnCtrl.Click += new System.EventHandler(this.btnCtrl_Click);
+            // 
             // tabPage3
             // 
+            this.tabPage3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.tabPage3.Controls.Add(this.label11);
+            this.tabPage3.Controls.Add(this.label7);
+            this.tabPage3.Controls.Add(this.btnReadPit);
+            this.tabPage3.Controls.Add(this.btnReadRol);
+            this.tabPage3.Controls.Add(this.btnWritePit);
+            this.tabPage3.Controls.Add(this.btnWriteRol);
+            this.tabPage3.Controls.Add(this.tbxPitParam2);
+            this.tabPage3.Controls.Add(this.tbxPitParam3);
+            this.tabPage3.Controls.Add(this.tbxRolParam2);
+            this.tabPage3.Controls.Add(this.tbxPitParam1);
+            this.tabPage3.Controls.Add(this.tbxRolParam3);
+            this.tabPage3.Controls.Add(this.lblPitParam3);
+            this.tabPage3.Controls.Add(this.tbxRolParam1);
+            this.tabPage3.Controls.Add(this.lblPitParam2);
+            this.tabPage3.Controls.Add(this.lblRolParam3);
+            this.tabPage3.Controls.Add(this.lblPitParam1);
+            this.tabPage3.Controls.Add(this.lblRolParam2);
+            this.tabPage3.Controls.Add(this.lblRolParam1);
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Size = new System.Drawing.Size(1230, 622);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "参数设置";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(4, 232);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(87, 75);
+            this.label11.TabIndex = 3;
+            this.label11.Text = "PitchKpOut\r\n\r\nPitchKpIn\r\n\r\nPitchKdIn";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(4, 69);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(79, 75);
+            this.label7.TabIndex = 3;
+            this.label7.Text = "RollKpOut\r\n\r\nRollKpIn\r\n\r\nRollKdIn";
+            // 
+            // btnReadPit
+            // 
+            this.btnReadPit.Location = new System.Drawing.Point(346, 274);
+            this.btnReadPit.Name = "btnReadPit";
+            this.btnReadPit.Size = new System.Drawing.Size(123, 41);
+            this.btnReadPit.TabIndex = 9;
+            this.btnReadPit.Text = "读取参数";
+            this.btnReadPit.UseVisualStyleBackColor = true;
+            this.btnReadPit.Click += new System.EventHandler(this.btnReadPit_Click);
+            // 
+            // btnReadRol
+            // 
+            this.btnReadRol.Location = new System.Drawing.Point(346, 111);
+            this.btnReadRol.Name = "btnReadRol";
+            this.btnReadRol.Size = new System.Drawing.Size(123, 41);
+            this.btnReadRol.TabIndex = 7;
+            this.btnReadRol.Text = "读取参数";
+            this.btnReadRol.UseVisualStyleBackColor = true;
+            this.btnReadRol.Click += new System.EventHandler(this.btnReadRol_Click);
+            // 
+            // btnWritePit
+            // 
+            this.btnWritePit.Location = new System.Drawing.Point(346, 227);
+            this.btnWritePit.Name = "btnWritePit";
+            this.btnWritePit.Size = new System.Drawing.Size(123, 41);
+            this.btnWritePit.TabIndex = 8;
+            this.btnWritePit.Text = "写入参数";
+            this.btnWritePit.UseVisualStyleBackColor = true;
+            this.btnWritePit.Click += new System.EventHandler(this.btnWritePit_Click);
+            // 
+            // btnWriteRol
+            // 
+            this.btnWriteRol.Location = new System.Drawing.Point(346, 64);
+            this.btnWriteRol.Name = "btnWriteRol";
+            this.btnWriteRol.Size = new System.Drawing.Size(123, 41);
+            this.btnWriteRol.TabIndex = 6;
+            this.btnWriteRol.Text = "写入参数";
+            this.btnWriteRol.UseVisualStyleBackColor = true;
+            this.btnWriteRol.Click += new System.EventHandler(this.btnWriteRol_Click);
+            // 
+            // tbxPitParam2
+            // 
+            this.tbxPitParam2.Location = new System.Drawing.Point(109, 258);
+            this.tbxPitParam2.Name = "tbxPitParam2";
+            this.tbxPitParam2.Size = new System.Drawing.Size(100, 25);
+            this.tbxPitParam2.TabIndex = 4;
+            // 
+            // tbxPitParam3
+            // 
+            this.tbxPitParam3.Location = new System.Drawing.Point(109, 289);
+            this.tbxPitParam3.Name = "tbxPitParam3";
+            this.tbxPitParam3.Size = new System.Drawing.Size(100, 25);
+            this.tbxPitParam3.TabIndex = 5;
+            // 
+            // tbxRolParam2
+            // 
+            this.tbxRolParam2.Location = new System.Drawing.Point(109, 95);
+            this.tbxRolParam2.Name = "tbxRolParam2";
+            this.tbxRolParam2.Size = new System.Drawing.Size(100, 25);
+            this.tbxRolParam2.TabIndex = 1;
+            // 
+            // tbxPitParam1
+            // 
+            this.tbxPitParam1.Location = new System.Drawing.Point(109, 227);
+            this.tbxPitParam1.Name = "tbxPitParam1";
+            this.tbxPitParam1.Size = new System.Drawing.Size(100, 25);
+            this.tbxPitParam1.TabIndex = 3;
+            // 
+            // tbxRolParam3
+            // 
+            this.tbxRolParam3.Location = new System.Drawing.Point(109, 126);
+            this.tbxRolParam3.Name = "tbxRolParam3";
+            this.tbxRolParam3.Size = new System.Drawing.Size(100, 25);
+            this.tbxRolParam3.TabIndex = 2;
+            // 
+            // lblPitParam3
+            // 
+            this.lblPitParam3.AutoSize = true;
+            this.lblPitParam3.Location = new System.Drawing.Point(215, 292);
+            this.lblPitParam3.Name = "lblPitParam3";
+            this.lblPitParam3.Size = new System.Drawing.Size(15, 15);
+            this.lblPitParam3.TabIndex = 0;
+            this.lblPitParam3.Text = "0";
+            // 
+            // tbxRolParam1
+            // 
+            this.tbxRolParam1.Location = new System.Drawing.Point(109, 64);
+            this.tbxRolParam1.Name = "tbxRolParam1";
+            this.tbxRolParam1.Size = new System.Drawing.Size(100, 25);
+            this.tbxRolParam1.TabIndex = 0;
+            // 
+            // lblPitParam2
+            // 
+            this.lblPitParam2.AutoSize = true;
+            this.lblPitParam2.Location = new System.Drawing.Point(215, 261);
+            this.lblPitParam2.Name = "lblPitParam2";
+            this.lblPitParam2.Size = new System.Drawing.Size(15, 15);
+            this.lblPitParam2.TabIndex = 0;
+            this.lblPitParam2.Text = "0";
+            // 
+            // lblRolParam3
+            // 
+            this.lblRolParam3.AutoSize = true;
+            this.lblRolParam3.Location = new System.Drawing.Point(215, 129);
+            this.lblRolParam3.Name = "lblRolParam3";
+            this.lblRolParam3.Size = new System.Drawing.Size(15, 15);
+            this.lblRolParam3.TabIndex = 0;
+            this.lblRolParam3.Text = "0";
+            // 
+            // lblPitParam1
+            // 
+            this.lblPitParam1.AutoSize = true;
+            this.lblPitParam1.Location = new System.Drawing.Point(215, 230);
+            this.lblPitParam1.Name = "lblPitParam1";
+            this.lblPitParam1.Size = new System.Drawing.Size(15, 15);
+            this.lblPitParam1.TabIndex = 0;
+            this.lblPitParam1.Text = "0";
+            // 
+            // lblRolParam2
+            // 
+            this.lblRolParam2.AutoSize = true;
+            this.lblRolParam2.Location = new System.Drawing.Point(215, 98);
+            this.lblRolParam2.Name = "lblRolParam2";
+            this.lblRolParam2.Size = new System.Drawing.Size(15, 15);
+            this.lblRolParam2.TabIndex = 0;
+            this.lblRolParam2.Text = "0";
+            // 
+            // lblRolParam1
+            // 
+            this.lblRolParam1.AutoSize = true;
+            this.lblRolParam1.Location = new System.Drawing.Point(215, 67);
+            this.lblRolParam1.Name = "lblRolParam1";
+            this.lblRolParam1.Size = new System.Drawing.Size(15, 15);
+            this.lblRolParam1.TabIndex = 0;
+            this.lblRolParam1.Text = "0";
             // 
             // tmrSendUser
             // 
@@ -763,7 +988,7 @@
             this.btnClearBuf.Location = new System.Drawing.Point(370, 669);
             this.btnClearBuf.Name = "btnClearBuf";
             this.btnClearBuf.Size = new System.Drawing.Size(115, 40);
-            this.btnClearBuf.TabIndex = 15;
+            this.btnClearBuf.TabIndex = 3;
             this.btnClearBuf.Text = "清除缓存";
             this.btnClearBuf.UseVisualStyleBackColor = true;
             this.btnClearBuf.Click += new System.EventHandler(this.btnClearBuf_Click);
@@ -773,58 +998,28 @@
             this.btnReCnt.Location = new System.Drawing.Point(491, 669);
             this.btnReCnt.Name = "btnReCnt";
             this.btnReCnt.Size = new System.Drawing.Size(101, 40);
-            this.btnReCnt.TabIndex = 15;
+            this.btnReCnt.TabIndex = 4;
             this.btnReCnt.Text = "重新计数";
             this.btnReCnt.UseVisualStyleBackColor = true;
             this.btnReCnt.Click += new System.EventHandler(this.btnReCnt_Click);
             // 
             // tmrCtrl
             // 
+            this.tmrCtrl.Enabled = true;
             this.tmrCtrl.Tick += new System.EventHandler(this.tmrCtrl_Tick);
             // 
-            // lblM1
+            // btnOpen
             // 
-            this.lblM1.AutoSize = true;
-            this.lblM1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblM1.Location = new System.Drawing.Point(73, 436);
-            this.lblM1.Name = "lblM1";
-            this.lblM1.Size = new System.Drawing.Size(15, 15);
-            this.lblM1.TabIndex = 9;
-            this.lblM1.Text = "0";
-            this.lblM1.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // lblM3
-            // 
-            this.lblM3.AutoSize = true;
-            this.lblM3.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblM3.Location = new System.Drawing.Point(73, 466);
-            this.lblM3.Name = "lblM3";
-            this.lblM3.Size = new System.Drawing.Size(15, 15);
-            this.lblM3.TabIndex = 9;
-            this.lblM3.Text = "0";
-            this.lblM3.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // lblM4
-            // 
-            this.lblM4.AutoSize = true;
-            this.lblM4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblM4.Location = new System.Drawing.Point(73, 480);
-            this.lblM4.Name = "lblM4";
-            this.lblM4.Size = new System.Drawing.Size(15, 15);
-            this.lblM4.TabIndex = 9;
-            this.lblM4.Text = "0";
-            this.lblM4.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // lblM2
-            // 
-            this.lblM2.AutoSize = true;
-            this.lblM2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblM2.Location = new System.Drawing.Point(73, 451);
-            this.lblM2.Name = "lblM2";
-            this.lblM2.Size = new System.Drawing.Size(15, 15);
-            this.lblM2.TabIndex = 9;
-            this.lblM2.Text = "0";
-            this.lblM2.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.btnOpen.Image = global::GroundStation.Properties.Resources.ledoff;
+            this.btnOpen.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnOpen.Location = new System.Drawing.Point(755, 669);
+            this.btnOpen.Name = "btnOpen";
+            this.btnOpen.Size = new System.Drawing.Size(140, 40);
+            this.btnOpen.TabIndex = 2;
+            this.btnOpen.Text = "打开连接";
+            this.btnOpen.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnOpen.UseVisualStyleBackColor = true;
+            this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
             // 
             // Form1
             // 
@@ -847,6 +1042,8 @@
             this.Name = "Form1";
             this.Text = "地面站";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp);
             this.panelTx1.ResumeLayout(false);
             this.panelTx1.PerformLayout();
             this.panelTx2.ResumeLayout(false);
@@ -860,6 +1057,8 @@
             this.panelTx3.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -936,6 +1135,24 @@
         private System.Windows.Forms.Label lblM3;
         private System.Windows.Forms.Label lblM2;
         private System.Windows.Forms.Label lblM1;
+        private System.Windows.Forms.TextBox tbxRolParam1;
+        private System.Windows.Forms.Label lblRolParam1;
+        private System.Windows.Forms.Button btnReadRol;
+        private System.Windows.Forms.Button btnWriteRol;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox tbxRolParam2;
+        private System.Windows.Forms.TextBox tbxRolParam3;
+        private System.Windows.Forms.Label lblRolParam3;
+        private System.Windows.Forms.Label lblRolParam2;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox tbxPitParam2;
+        private System.Windows.Forms.TextBox tbxPitParam3;
+        private System.Windows.Forms.TextBox tbxPitParam1;
+        private System.Windows.Forms.Label lblPitParam3;
+        private System.Windows.Forms.Label lblPitParam2;
+        private System.Windows.Forms.Label lblPitParam1;
+        private System.Windows.Forms.Button btnReadPit;
+        private System.Windows.Forms.Button btnWritePit;
     }
 }
 
