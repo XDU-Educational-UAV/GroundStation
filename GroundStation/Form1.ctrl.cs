@@ -8,21 +8,17 @@ namespace GroundStation
 {
     partial class Form1
     {
-        byte[] CtrlByte = new byte[12];  //发送给下位机的有效数据
-        byte ErrCnt = 0;
-        byte GlobalStat = 0;
+        private byte ErrCnt = 0, GlobalStat = 0;
         //GlobalStat状态定义
         //BIT7:建立控制链路
         //BIT6:已解锁
         //BIT1:控制器参数保存至文本框
         //BIT0:发送请求解锁或锁定命令
-        int[] RolParam = new int[3];
-        int[] PitParam = new int[3];
 
         /***********************
         根据功能字进一步处理
         **********************/
-        private void Data_Receive_Precess(byte fcn)
+        private void Data_Receive_Precess()
         {
             if ((GlobalStat & 0x80) == 0x80)
             {
@@ -30,10 +26,11 @@ namespace GroundStation
                 lblCtrl.ForeColor = Color.Black;
             }
             ErrCnt = 0;
-            double[] ddata = new double[3];
-            //int[] idata = new int[4];
+            byte[] RxTemp = ptcl.DataReceived;
+            double[] ddata = new double[4];
+            int[] idata = new int[4];
             short[] sdata = new short[6];
-            switch (fcn)
+            switch (ptcl.FcnWord)
             {
                 case 0x01:
                     if ((RxTemp[0] & 0x01) == 0x01)
@@ -57,17 +54,17 @@ namespace GroundStation
                     sdata[0] = (short)((RxTemp[0] << 8) | RxTemp[1]);
                     sdata[1] = (short)((RxTemp[2] << 8) | RxTemp[3]);
                     sdata[2] = (short)((RxTemp[4] << 8) | RxTemp[5]);
-                    ddata[0]=sdata[0]/100.0;
-                    ddata[1]=sdata[1]/100.0;
+                    ddata[0] = sdata[0] / 100.0;
+                    ddata[1] = sdata[1] / 100.0;
                     ddata[2] = sdata[2] / 100.0;
                     lblRoll.Text = ddata[0].ToString("#0.00");
                     lblPitch.Text = ddata[1].ToString("#0.00");
                     lblYaw.Text = ddata[2].ToString("#0.00");
                     break;
                 case 0x04:
-                    sdata[0]= (short)((RxTemp[0] << 8) | RxTemp[1]);
-                    sdata[1]= (short)((RxTemp[2] << 8) | RxTemp[3]);
-                    sdata[2]= (short)((RxTemp[4] << 8) | RxTemp[5]);
+                    sdata[0] = (short)((RxTemp[0] << 8) | RxTemp[1]);
+                    sdata[1] = (short)((RxTemp[2] << 8) | RxTemp[3]);
+                    sdata[2] = (short)((RxTemp[4] << 8) | RxTemp[5]);
                     sdata[3] = (short)((RxTemp[6] << 8) | RxTemp[7]);
                     sdata[4] = (short)((RxTemp[8] << 8) | RxTemp[9]);
                     sdata[5] = (short)((RxTemp[10] << 8) | RxTemp[11]);
@@ -79,79 +76,86 @@ namespace GroundStation
                     lblGyroz.Text = sdata[5].ToString();
                     break;
                 case 0x08:
-                    int RCrol = ((RxTemp[0] << 8) | RxTemp[1]) / 10;
-                    int RCpit = ((RxTemp[2] << 8) | RxTemp[3]) / 10;
-                    int RCthr = ((RxTemp[4] << 8) | RxTemp[5]) / 10;
-                    int RCyaw = ((RxTemp[6] << 8) | RxTemp[7]) / 10;
-                    hScrollRol.Value = 100 - RCrol;
-                    vScrollPit.Value = 100 - RCpit;
-                    vScrollThr.Value = 100 - RCthr;
-                    hScrollYaw.Value = 100 - RCyaw;
-                    lblRCrol.Text = RCrol.ToString();
-                    lblRCpit.Text = RCpit.ToString();
-                    lblRCthr.Text = RCthr.ToString();
-                    lblRCyaw.Text = RCyaw.ToString();
+                    idata[0] = ((RxTemp[0] << 8) | RxTemp[1]) / 10;
+                    idata[1] = ((RxTemp[2] << 8) | RxTemp[3]) / 10;
+                    idata[2] = ((RxTemp[4] << 8) | RxTemp[5]) / 10;
+                    idata[3] = ((RxTemp[6] << 8) | RxTemp[7]) / 10;
+                    lblRCrol.Text = idata[0].ToString();
+                    lblRCpit.Text = idata[1].ToString();
+                    lblRCthr.Text = idata[2].ToString();
+                    lblRCyaw.Text = idata[3].ToString();
                     break;
                 case 0x10:
-                    sdata[0] = (short)((RxTemp[0] << 8) | RxTemp[1]);
-                    sdata[1] = (short)((RxTemp[2] << 8) | RxTemp[3]);
-                    sdata[2] = (short)((RxTemp[4] << 8) | RxTemp[5]);
-                    sdata[3] = (short)((RxTemp[6] << 8) | RxTemp[7]);
-                    lblM1.Text = sdata[0].ToString();
-                    lblM2.Text = sdata[1].ToString();
-                    lblM3.Text = sdata[2].ToString();
-                    lblM4.Text = sdata[3].ToString();
+                    idata[0] = (RxTemp[0] << 8) | RxTemp[1];
+                    idata[1] = (RxTemp[2] << 8) | RxTemp[3];
+                    idata[2] = (RxTemp[4] << 8) | RxTemp[5];
+                    idata[3] = (RxTemp[6] << 8) | RxTemp[7];
+                    lblM1.Text = idata[0].ToString();
+                    lblM2.Text = idata[1].ToString();
+                    lblM3.Text = idata[2].ToString();
+                    lblM4.Text = idata[3].ToString();
                     break;
                 case 0xA1:
-                    RolParam[0] = (RxTemp[0] << 8) | RxTemp[1];
-                    RolParam[1] = (RxTemp[2] << 8) | RxTemp[3];
-                    RolParam[2] = (RxTemp[4] << 8) | RxTemp[5];
+                    idata[0] = (RxTemp[0] << 8) | RxTemp[1];
+                    idata[1] = (RxTemp[2] << 8) | RxTemp[3];
+                    idata[2] = (RxTemp[4] << 8) | RxTemp[5];
+                    idata[3] = (RxTemp[6] << 8) | RxTemp[7];
                     if ((GlobalStat & 0x02) == 0x02)
                     {
-                        tbxRolParam1.Text = RolParam[0].ToString();
-                        tbxRolParam2.Text = RolParam[1].ToString();
-                        tbxRolParam3.Text = RolParam[2].ToString();
+                        tbxRolParam1.Text = idata[0].ToString();
+                        tbxRolParam2.Text = idata[1].ToString();
+                        tbxRolParam3.Text = idata[2].ToString();
+                        tbxRolParam4.Text = idata[3].ToString();
                     }
                     else
                     {
-                        ddata[0] = RolParam[0] / 1000.0;
-                        ddata[1] = RolParam[1] / 1000.0;
-                        ddata[2] = RolParam[2] / 1000.0;
+                        ddata[0] = idata[0] / 1000.0;
+                        ddata[1] = idata[1] / 1000.0;
+                        ddata[2] = idata[2] / 1000.0;
+                        ddata[3] = idata[3] / 1000.0;
                         lblRolParam1.Text = ddata[0].ToString("#0.00");
                         lblRolParam2.Text = ddata[1].ToString("#0.00");
                         lblRolParam3.Text = ddata[2].ToString("#0.00");
+                        lblRolParam4.Text = ddata[3].ToString("#0.00");
                     }
                     break;
                 case 0xA3:
-                    PitParam[0] = (RxTemp[0] << 8) | RxTemp[1];
-                    PitParam[1] = (RxTemp[2] << 8) | RxTemp[3];
-                    PitParam[2] = (RxTemp[4] << 8) | RxTemp[5];
+                    idata[0] = (RxTemp[0] << 8) | RxTemp[1];
+                    idata[1] = (RxTemp[2] << 8) | RxTemp[3];
+                    idata[2] = (RxTemp[4] << 8) | RxTemp[5];
+                    idata[3] = (RxTemp[6] << 8) | RxTemp[7];
                     if ((GlobalStat & 0x02) == 0x02)
                     {
-                        tbxPitParam1.Text = PitParam[0].ToString();
-                        tbxPitParam2.Text = PitParam[1].ToString();
-                        tbxPitParam3.Text = PitParam[2].ToString();
+                        tbxPitParam1.Text = idata[0].ToString();
+                        tbxPitParam2.Text = idata[1].ToString();
+                        tbxPitParam3.Text = idata[2].ToString();
+                        tbxPitParam4.Text = idata[3].ToString();
                     }
                     else
                     {
-                        ddata[0] = PitParam[0] / 1000.0;
-                        ddata[1] = PitParam[1] / 1000.0;
-                        ddata[2] = PitParam[2] / 1000.0;
+                        ddata[0] = idata[0] / 1000.0;
+                        ddata[1] = idata[1] / 1000.0;
+                        ddata[3] = idata[3] / 1000.0;
+                        ddata[2] = idata[2] / 1000.0;
                         lblPitParam1.Text = ddata[0].ToString("#0.00");
                         lblPitParam2.Text = ddata[1].ToString("#0.00");
                         lblPitParam3.Text = ddata[2].ToString("#0.00");
+                        lblPitParam4.Text = ddata[3].ToString("#0.00");
                     }
                     break;
                 case 0xA2:
                     sdata[0] = (short)((RxTemp[0] << 8) | RxTemp[1]);
                     sdata[1] = (short)((RxTemp[2] << 8) | RxTemp[3]);
                     sdata[2] = (short)((RxTemp[4] << 8) | RxTemp[5]);
+                    sdata[3] = (short)((RxTemp[6] << 8) | RxTemp[7]);
                     ddata[0] = sdata[0] / 100.0;
                     ddata[1] = sdata[1] / 100.0;
                     ddata[2] = sdata[2] / 100.0;
-                    lblRolG.Text = ddata[0].ToString("#0.00");
-                    lblRolGe.Text = ddata[1].ToString("#0.00");
-                    lblRolAe.Text = ddata[2].ToString("#0.00");
+                    ddata[3] = sdata[3] / 100.0;
+                    lblRolSt1.Text = ddata[0].ToString("#0.00");
+                    lblRolSt2.Text = ddata[1].ToString("#0.00");
+                    lblRolSt3.Text = ddata[2].ToString("#0.00");
+                    lblRolSt4.Text = ddata[3].ToString("#0.00");
                     break;
                 case 0xA4:
                     sdata[0] = (short)((RxTemp[0] << 8) | RxTemp[1]);
@@ -160,9 +164,9 @@ namespace GroundStation
                     ddata[0] = sdata[0] / 100.0;
                     ddata[1] = sdata[1] / 100.0;
                     ddata[2] = sdata[2] / 100.0;
-                    lblPitG.Text = ddata[0].ToString("#0.00");
-                    lblPitGe.Text = ddata[1].ToString("#0.00");
-                    lblPitAe.Text = ddata[2].ToString("#0.00");
+                    lblPitSt1.Text = ddata[0].ToString("#0.00");
+                    lblPitSt2.Text = ddata[1].ToString("#0.00");
+                    lblPitSt3.Text = ddata[2].ToString("#0.00");
                     break;
                 default: break;
             }
@@ -180,6 +184,7 @@ namespace GroundStation
             if ((GlobalStat & 0x80) != 0x80)
                 return;  //没有与下位机建立通信
             ErrCnt++;
+            byte DataAdd = 0, password = 0x48;
             if (ErrCnt >= 20)
             {
                 lblCtrl.Text = "失控";
@@ -187,15 +192,25 @@ namespace GroundStation
             }
             if ((GlobalStat & 0x01) == 0x01)
             {
-                XDAA_Send_Cmd(0x48);
-                serialPort1.Write(CtrlByte, 0, 6);
+                if ((GlobalStat & 0x040) == 0x40)
+                    DataAdd = ptcl.Send_Cmd(password, 0);
+                else
+                    DataAdd = ptcl.Send_Cmd(password, 0x01);
+                serialPort1.Write(ptcl.DataToSend, 0, DataAdd);
                 GlobalStat &= 0xFE;
+                TxCount += DataAdd;
             }
             else
             {
-                XDAA_Send_RCdata();
-                serialPort1.Write(CtrlByte, 0, 12);
+                int[] RCdata = new int[4];
+                RCdata[0] = 10*(100 - hScrollRol.Value);
+                RCdata[1] = 10*(100 - vScrollPit.Value);
+                RCdata[2] = 10*(100 - vScrollThr.Value);
+                RCdata[3] = 10*(100 - hScrollYaw.Value);
+                DataAdd = ptcl.Send_S16_Data(RCdata, 4, 0x08);
+                serialPort1.Write(ptcl.DataToSend, 0, DataAdd);
                 GlobalStat &= 0xFD;
+                TxCount += DataAdd;
             }
             labelTxCnt.Text = $"Tx:{TxCount}";
         }

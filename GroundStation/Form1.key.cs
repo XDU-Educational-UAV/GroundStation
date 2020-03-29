@@ -7,7 +7,7 @@ namespace GroundStation
 {
     partial class Form1
     {
-        byte KeyState = 0;
+        private byte KeyState = 0;
         /***********************
         根据控制按键状态做出相应的更改
         **********************/

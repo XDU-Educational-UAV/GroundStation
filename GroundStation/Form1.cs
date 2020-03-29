@@ -12,16 +12,16 @@ namespace GroundStation
     public partial class Form1 : Form
     {
         string[] LastPorts = { };
-        const string version = "V0.05";
+        const string version = "V0.06";
         long TxCount = 0, RxCount = 0;
-
+        Protocol ptcl = new Protocol();
         public Form1()
         {
             InitializeComponent();
         }
         private void Form1_Load(object sender, EventArgs e)
         {
-            comboBox2.Text = "38400";
+            comboBox2.Text = "115200";
             label4.Text = "Ground Station " + version;
             tabControl1.SelectedIndex = 1;
         }
@@ -103,18 +103,33 @@ namespace GroundStation
         private void tmrPortRcv_Tick(object sender, EventArgs e)
         {
             if (serialPort1.IsOpen == false) return;
-            if (serialPort1.BytesToRead == 0)
-                return;
-            switch (tabControl1.SelectedIndex)  //根据选中的标签判断接收到的数据用于何处
+            if (serialPort1.BytesToRead == 0) return;
+            if (tabControl1.SelectedIndex == 0)
             {
-                case 0: Base_Text_Receive(); break;
-                default: Protocol_Text_Receive(); break;
+                Base_Text_Receive();
+                return;
             }
+            byte success, DataAdd = 0;
+            do  //可能会一次发送大量数据
+            {
+                success = ptcl.Text_Receive((byte)serialPort1.ReadByte());
+                DataAdd++;
+                if (success == 0)
+                    Data_Receive_Precess();
+                if (success == 2)
+                {
+                    lblCtrl.Text = "失控";
+                    lblCtrl.ForeColor = Color.Red;
+                }
+            } while (serialPort1.BytesToRead > 0);
+            RxCount += DataAdd;
+            labelRxCnt.Text = $"Rx:{RxCount}";            
         }
         private void btnClearBuf_Click(object sender, EventArgs e)
         {
             tbxRx.Text = "";
         }
+
         private void btnReCnt_Click(object sender, EventArgs e)
         {
             TxCount = 0;

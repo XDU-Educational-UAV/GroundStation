@@ -92,30 +92,31 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.cbxPitDisp = new System.Windows.Forms.CheckBox();
             this.cbxRolDisp = new System.Windows.Forms.CheckBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.btnReadPit = new System.Windows.Forms.Button();
             this.btnReadRol = new System.Windows.Forms.Button();
             this.btnWritePit = new System.Windows.Forms.Button();
             this.btnWriteRol = new System.Windows.Forms.Button();
             this.tbxPitParam2 = new System.Windows.Forms.TextBox();
+            this.tbxPitParam4 = new System.Windows.Forms.TextBox();
             this.tbxPitParam3 = new System.Windows.Forms.TextBox();
             this.tbxRolParam2 = new System.Windows.Forms.TextBox();
             this.tbxPitParam1 = new System.Windows.Forms.TextBox();
+            this.tbxRolParam4 = new System.Windows.Forms.TextBox();
             this.tbxRolParam3 = new System.Windows.Forms.TextBox();
+            this.lblPitParam4 = new System.Windows.Forms.Label();
             this.lblPitParam3 = new System.Windows.Forms.Label();
             this.tbxRolParam1 = new System.Windows.Forms.TextBox();
             this.lblPitParam2 = new System.Windows.Forms.Label();
-            this.lblPitAe = new System.Windows.Forms.Label();
-            this.lblRolAe = new System.Windows.Forms.Label();
-            this.lblPitGe = new System.Windows.Forms.Label();
+            this.lblPitSt3 = new System.Windows.Forms.Label();
+            this.lblRolSt4 = new System.Windows.Forms.Label();
+            this.lblRolSt3 = new System.Windows.Forms.Label();
+            this.lblPitSt2 = new System.Windows.Forms.Label();
+            this.lblRolParam4 = new System.Windows.Forms.Label();
             this.lblRolParam3 = new System.Windows.Forms.Label();
-            this.lblRolGe = new System.Windows.Forms.Label();
-            this.lblPitG = new System.Windows.Forms.Label();
+            this.lblRolSt2 = new System.Windows.Forms.Label();
+            this.lblPitSt1 = new System.Windows.Forms.Label();
             this.lblPitParam1 = new System.Windows.Forms.Label();
-            this.lblRolG = new System.Windows.Forms.Label();
+            this.lblRolSt1 = new System.Windows.Forms.Label();
             this.lblRolParam2 = new System.Windows.Forms.Label();
             this.lblRolParam1 = new System.Windows.Forms.Label();
             this.tmrSendUser = new System.Windows.Forms.Timer(this.components);
@@ -127,6 +128,15 @@
             this.btnReCnt = new System.Windows.Forms.Button();
             this.tmrCtrl = new System.Windows.Forms.Timer(this.components);
             this.btnOpen = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.panelTx1.SuspendLayout();
             this.panelTx2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -778,32 +788,42 @@
             // tabPage3
             // 
             this.tabPage3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.tabPage3.Controls.Add(this.label7);
+            this.tabPage3.Controls.Add(this.textBox8);
+            this.tabPage3.Controls.Add(this.textBox4);
+            this.tabPage3.Controls.Add(this.textBox7);
+            this.tabPage3.Controls.Add(this.textBox2);
+            this.tabPage3.Controls.Add(this.textBox6);
+            this.tabPage3.Controls.Add(this.textBox3);
+            this.tabPage3.Controls.Add(this.textBox5);
+            this.tabPage3.Controls.Add(this.textBox1);
             this.tabPage3.Controls.Add(this.cbxPitDisp);
             this.tabPage3.Controls.Add(this.cbxRolDisp);
-            this.tabPage3.Controls.Add(this.label11);
-            this.tabPage3.Controls.Add(this.label9);
-            this.tabPage3.Controls.Add(this.label8);
-            this.tabPage3.Controls.Add(this.label7);
             this.tabPage3.Controls.Add(this.btnReadPit);
             this.tabPage3.Controls.Add(this.btnReadRol);
             this.tabPage3.Controls.Add(this.btnWritePit);
             this.tabPage3.Controls.Add(this.btnWriteRol);
             this.tabPage3.Controls.Add(this.tbxPitParam2);
+            this.tabPage3.Controls.Add(this.tbxPitParam4);
             this.tabPage3.Controls.Add(this.tbxPitParam3);
             this.tabPage3.Controls.Add(this.tbxRolParam2);
             this.tabPage3.Controls.Add(this.tbxPitParam1);
+            this.tabPage3.Controls.Add(this.tbxRolParam4);
             this.tabPage3.Controls.Add(this.tbxRolParam3);
+            this.tabPage3.Controls.Add(this.lblPitParam4);
             this.tabPage3.Controls.Add(this.lblPitParam3);
             this.tabPage3.Controls.Add(this.tbxRolParam1);
             this.tabPage3.Controls.Add(this.lblPitParam2);
-            this.tabPage3.Controls.Add(this.lblPitAe);
-            this.tabPage3.Controls.Add(this.lblRolAe);
-            this.tabPage3.Controls.Add(this.lblPitGe);
+            this.tabPage3.Controls.Add(this.lblPitSt3);
+            this.tabPage3.Controls.Add(this.lblRolSt4);
+            this.tabPage3.Controls.Add(this.lblRolSt3);
+            this.tabPage3.Controls.Add(this.lblPitSt2);
+            this.tabPage3.Controls.Add(this.lblRolParam4);
             this.tabPage3.Controls.Add(this.lblRolParam3);
-            this.tabPage3.Controls.Add(this.lblRolGe);
-            this.tabPage3.Controls.Add(this.lblPitG);
+            this.tabPage3.Controls.Add(this.lblRolSt2);
+            this.tabPage3.Controls.Add(this.lblPitSt1);
             this.tabPage3.Controls.Add(this.lblPitParam1);
-            this.tabPage3.Controls.Add(this.lblRolG);
+            this.tabPage3.Controls.Add(this.lblRolSt1);
             this.tabPage3.Controls.Add(this.lblRolParam2);
             this.tabPage3.Controls.Add(this.lblRolParam1);
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
@@ -832,42 +852,6 @@
             this.cbxRolDisp.TabIndex = 10;
             this.cbxRolDisp.Text = "显示";
             this.cbxRolDisp.UseVisualStyleBackColor = true;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(4, 232);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(87, 75);
-            this.label11.TabIndex = 3;
-            this.label11.Text = "PitchKpOut\r\n\r\nPitchKpIn\r\n\r\nPitchKdIn";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(582, 232);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(55, 75);
-            this.label9.TabIndex = 3;
-            this.label9.Text = "gyro\r\n\r\ngEst\r\n\r\nAccEst";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(582, 69);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(55, 75);
-            this.label8.TabIndex = 3;
-            this.label8.Text = "gyro\r\n\r\ngEst\r\n\r\nAccEst";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(4, 69);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(79, 75);
-            this.label7.TabIndex = 3;
-            this.label7.Text = "RollKpOut\r\n\r\nRollKpIn\r\n\r\nRollKdIn";
             // 
             // btnReadPit
             // 
@@ -916,6 +900,13 @@
             this.tbxPitParam2.Size = new System.Drawing.Size(100, 25);
             this.tbxPitParam2.TabIndex = 4;
             // 
+            // tbxPitParam4
+            // 
+            this.tbxPitParam4.Location = new System.Drawing.Point(109, 320);
+            this.tbxPitParam4.Name = "tbxPitParam4";
+            this.tbxPitParam4.Size = new System.Drawing.Size(100, 25);
+            this.tbxPitParam4.TabIndex = 5;
+            // 
             // tbxPitParam3
             // 
             this.tbxPitParam3.Location = new System.Drawing.Point(109, 289);
@@ -937,12 +928,28 @@
             this.tbxPitParam1.Size = new System.Drawing.Size(100, 25);
             this.tbxPitParam1.TabIndex = 3;
             // 
+            // tbxRolParam4
+            // 
+            this.tbxRolParam4.Location = new System.Drawing.Point(109, 157);
+            this.tbxRolParam4.Name = "tbxRolParam4";
+            this.tbxRolParam4.Size = new System.Drawing.Size(100, 25);
+            this.tbxRolParam4.TabIndex = 2;
+            // 
             // tbxRolParam3
             // 
             this.tbxRolParam3.Location = new System.Drawing.Point(109, 126);
             this.tbxRolParam3.Name = "tbxRolParam3";
             this.tbxRolParam3.Size = new System.Drawing.Size(100, 25);
             this.tbxRolParam3.TabIndex = 2;
+            // 
+            // lblPitParam4
+            // 
+            this.lblPitParam4.AutoSize = true;
+            this.lblPitParam4.Location = new System.Drawing.Point(215, 323);
+            this.lblPitParam4.Name = "lblPitParam4";
+            this.lblPitParam4.Size = new System.Drawing.Size(15, 15);
+            this.lblPitParam4.TabIndex = 0;
+            this.lblPitParam4.Text = "0";
             // 
             // lblPitParam3
             // 
@@ -969,32 +976,50 @@
             this.lblPitParam2.TabIndex = 0;
             this.lblPitParam2.Text = "0";
             // 
-            // lblPitAe
+            // lblPitSt3
             // 
-            this.lblPitAe.AutoSize = true;
-            this.lblPitAe.Location = new System.Drawing.Point(658, 294);
-            this.lblPitAe.Name = "lblPitAe";
-            this.lblPitAe.Size = new System.Drawing.Size(15, 15);
-            this.lblPitAe.TabIndex = 0;
-            this.lblPitAe.Text = "0";
+            this.lblPitSt3.AutoSize = true;
+            this.lblPitSt3.Location = new System.Drawing.Point(658, 294);
+            this.lblPitSt3.Name = "lblPitSt3";
+            this.lblPitSt3.Size = new System.Drawing.Size(15, 15);
+            this.lblPitSt3.TabIndex = 0;
+            this.lblPitSt3.Text = "0";
             // 
-            // lblRolAe
+            // lblRolSt4
             // 
-            this.lblRolAe.AutoSize = true;
-            this.lblRolAe.Location = new System.Drawing.Point(658, 129);
-            this.lblRolAe.Name = "lblRolAe";
-            this.lblRolAe.Size = new System.Drawing.Size(15, 15);
-            this.lblRolAe.TabIndex = 0;
-            this.lblRolAe.Text = "0";
+            this.lblRolSt4.AutoSize = true;
+            this.lblRolSt4.Location = new System.Drawing.Point(658, 156);
+            this.lblRolSt4.Name = "lblRolSt4";
+            this.lblRolSt4.Size = new System.Drawing.Size(15, 15);
+            this.lblRolSt4.TabIndex = 0;
+            this.lblRolSt4.Text = "0";
             // 
-            // lblPitGe
+            // lblRolSt3
             // 
-            this.lblPitGe.AutoSize = true;
-            this.lblPitGe.Location = new System.Drawing.Point(658, 263);
-            this.lblPitGe.Name = "lblPitGe";
-            this.lblPitGe.Size = new System.Drawing.Size(15, 15);
-            this.lblPitGe.TabIndex = 0;
-            this.lblPitGe.Text = "0";
+            this.lblRolSt3.AutoSize = true;
+            this.lblRolSt3.Location = new System.Drawing.Point(658, 129);
+            this.lblRolSt3.Name = "lblRolSt3";
+            this.lblRolSt3.Size = new System.Drawing.Size(15, 15);
+            this.lblRolSt3.TabIndex = 0;
+            this.lblRolSt3.Text = "0";
+            // 
+            // lblPitSt2
+            // 
+            this.lblPitSt2.AutoSize = true;
+            this.lblPitSt2.Location = new System.Drawing.Point(658, 263);
+            this.lblPitSt2.Name = "lblPitSt2";
+            this.lblPitSt2.Size = new System.Drawing.Size(15, 15);
+            this.lblPitSt2.TabIndex = 0;
+            this.lblPitSt2.Text = "0";
+            // 
+            // lblRolParam4
+            // 
+            this.lblRolParam4.AutoSize = true;
+            this.lblRolParam4.Location = new System.Drawing.Point(215, 160);
+            this.lblRolParam4.Name = "lblRolParam4";
+            this.lblRolParam4.Size = new System.Drawing.Size(15, 15);
+            this.lblRolParam4.TabIndex = 0;
+            this.lblRolParam4.Text = "0";
             // 
             // lblRolParam3
             // 
@@ -1005,23 +1030,23 @@
             this.lblRolParam3.TabIndex = 0;
             this.lblRolParam3.Text = "0";
             // 
-            // lblRolGe
+            // lblRolSt2
             // 
-            this.lblRolGe.AutoSize = true;
-            this.lblRolGe.Location = new System.Drawing.Point(658, 102);
-            this.lblRolGe.Name = "lblRolGe";
-            this.lblRolGe.Size = new System.Drawing.Size(15, 15);
-            this.lblRolGe.TabIndex = 0;
-            this.lblRolGe.Text = "0";
+            this.lblRolSt2.AutoSize = true;
+            this.lblRolSt2.Location = new System.Drawing.Point(658, 102);
+            this.lblRolSt2.Name = "lblRolSt2";
+            this.lblRolSt2.Size = new System.Drawing.Size(15, 15);
+            this.lblRolSt2.TabIndex = 0;
+            this.lblRolSt2.Text = "0";
             // 
-            // lblPitG
+            // lblPitSt1
             // 
-            this.lblPitG.AutoSize = true;
-            this.lblPitG.Location = new System.Drawing.Point(658, 232);
-            this.lblPitG.Name = "lblPitG";
-            this.lblPitG.Size = new System.Drawing.Size(15, 15);
-            this.lblPitG.TabIndex = 0;
-            this.lblPitG.Text = "0";
+            this.lblPitSt1.AutoSize = true;
+            this.lblPitSt1.Location = new System.Drawing.Point(658, 232);
+            this.lblPitSt1.Name = "lblPitSt1";
+            this.lblPitSt1.Size = new System.Drawing.Size(15, 15);
+            this.lblPitSt1.TabIndex = 0;
+            this.lblPitSt1.Text = "0";
             // 
             // lblPitParam1
             // 
@@ -1032,14 +1057,14 @@
             this.lblPitParam1.TabIndex = 0;
             this.lblPitParam1.Text = "0";
             // 
-            // lblRolG
+            // lblRolSt1
             // 
-            this.lblRolG.AutoSize = true;
-            this.lblRolG.Location = new System.Drawing.Point(658, 72);
-            this.lblRolG.Name = "lblRolG";
-            this.lblRolG.Size = new System.Drawing.Size(15, 15);
-            this.lblRolG.TabIndex = 0;
-            this.lblRolG.Text = "0";
+            this.lblRolSt1.AutoSize = true;
+            this.lblRolSt1.Location = new System.Drawing.Point(658, 72);
+            this.lblRolSt1.Name = "lblRolSt1";
+            this.lblRolSt1.Size = new System.Drawing.Size(15, 15);
+            this.lblRolSt1.TabIndex = 0;
+            this.lblRolSt1.Text = "0";
             // 
             // lblRolParam2
             // 
@@ -1132,6 +1157,71 @@
             this.btnOpen.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnOpen.UseVisualStyleBackColor = true;
             this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(3, 64);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 25);
+            this.textBox1.TabIndex = 11;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(3, 95);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(100, 25);
+            this.textBox2.TabIndex = 11;
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(3, 126);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(100, 25);
+            this.textBox3.TabIndex = 11;
+            // 
+            // textBox4
+            // 
+            this.textBox4.Location = new System.Drawing.Point(3, 157);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(100, 25);
+            this.textBox4.TabIndex = 11;
+            // 
+            // textBox5
+            // 
+            this.textBox5.Location = new System.Drawing.Point(3, 227);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(100, 25);
+            this.textBox5.TabIndex = 11;
+            // 
+            // textBox6
+            // 
+            this.textBox6.Location = new System.Drawing.Point(3, 289);
+            this.textBox6.Name = "textBox6";
+            this.textBox6.Size = new System.Drawing.Size(100, 25);
+            this.textBox6.TabIndex = 11;
+            // 
+            // textBox7
+            // 
+            this.textBox7.Location = new System.Drawing.Point(3, 258);
+            this.textBox7.Name = "textBox7";
+            this.textBox7.Size = new System.Drawing.Size(100, 25);
+            this.textBox7.TabIndex = 11;
+            // 
+            // textBox8
+            // 
+            this.textBox8.Location = new System.Drawing.Point(3, 320);
+            this.textBox8.Name = "textBox8";
+            this.textBox8.Size = new System.Drawing.Size(100, 25);
+            this.textBox8.TabIndex = 11;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(4, 43);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(297, 15);
+            this.label7.TabIndex = 12;
+            this.label7.Text = "参数名称      参数传输值    参数真实值";
             // 
             // Form1
             // 
@@ -1251,12 +1341,10 @@
         private System.Windows.Forms.Label lblRolParam1;
         private System.Windows.Forms.Button btnReadRol;
         private System.Windows.Forms.Button btnWriteRol;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox tbxRolParam2;
         private System.Windows.Forms.TextBox tbxRolParam3;
         private System.Windows.Forms.Label lblRolParam3;
         private System.Windows.Forms.Label lblRolParam2;
-        private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox tbxPitParam2;
         private System.Windows.Forms.TextBox tbxPitParam3;
         private System.Windows.Forms.TextBox tbxPitParam1;
@@ -1265,16 +1353,28 @@
         private System.Windows.Forms.Label lblPitParam1;
         private System.Windows.Forms.Button btnReadPit;
         private System.Windows.Forms.Button btnWritePit;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label lblPitAe;
-        private System.Windows.Forms.Label lblRolAe;
-        private System.Windows.Forms.Label lblPitGe;
-        private System.Windows.Forms.Label lblRolGe;
-        private System.Windows.Forms.Label lblPitG;
-        private System.Windows.Forms.Label lblRolG;
+        private System.Windows.Forms.Label lblPitSt3;
+        private System.Windows.Forms.Label lblRolSt3;
+        private System.Windows.Forms.Label lblPitSt2;
+        private System.Windows.Forms.Label lblRolSt2;
+        private System.Windows.Forms.Label lblPitSt1;
+        private System.Windows.Forms.Label lblRolSt1;
         private System.Windows.Forms.CheckBox cbxPitDisp;
         private System.Windows.Forms.CheckBox cbxRolDisp;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label lblRolSt4;
+        private System.Windows.Forms.TextBox tbxRolParam4;
+        private System.Windows.Forms.Label lblRolParam4;
+        private System.Windows.Forms.TextBox tbxPitParam4;
+        private System.Windows.Forms.Label lblPitParam4;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox textBox5;
     }
 }
 
