@@ -12,7 +12,7 @@ namespace GroundStation
     public partial class Form1 : Form
     {
         string[] LastPorts = { };
-        const string version = "V0.06";
+        const string version = "V0.07";
         long TxCount = 0, RxCount = 0;
         Protocol ptcl = new Protocol();
         public Form1()

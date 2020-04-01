@@ -7,6 +7,24 @@ namespace GroundStation
 {
     partial class Form1
     {
+        /*读取roll控制器参数*/
+        private void btnReadRol_Click(object sender, EventArgs e)
+        {
+            if (serialPort1.IsOpen == false) return;
+            GlobalStat |= 0x02;
+            byte DataAdd = ptcl.Send_Req(0x01);
+            serialPort1.Write(ptcl.DataToSend, 0, DataAdd);
+            TxCount += DataAdd;
+        }
+        /*读取pitch控制器参数*/
+        private void btnReadPit_Click(object sender, EventArgs e)
+        {
+            if (serialPort1.IsOpen == false) return;
+            GlobalStat |= 0x02;
+            byte DataAdd = ptcl.Send_Req(0x04);
+            serialPort1.Write(ptcl.DataToSend, 0, DataAdd);
+            TxCount += DataAdd;
+        }
         /*写入roll控制器参数*/
         private void btnWriteRol_Click(object sender, EventArgs e)
         {
@@ -28,15 +46,6 @@ namespace GroundStation
             catch (Exception)
             { }
         }
-        /*读取roll控制器参数*/
-        private void btnReadRol_Click(object sender, EventArgs e)
-        {
-            if (serialPort1.IsOpen == false) return;
-            GlobalStat |= 0x02;
-            byte DataAdd = ptcl.Send_Req(0x01);
-            serialPort1.Write(ptcl.DataToSend, 0, DataAdd);
-            TxCount += DataAdd;
-        }
         /*写入pitch控制器参数*/
         private void btnWritePit_Click(object sender, EventArgs e)
         {
@@ -57,15 +66,6 @@ namespace GroundStation
             }
             catch (Exception)
             { }
-        }
-        /*读取pitch控制器参数*/
-        private void btnReadPit_Click(object sender, EventArgs e)
-        {
-            if (serialPort1.IsOpen == false) return;
-            GlobalStat |= 0x02;
-            byte DataAdd = ptcl.Send_Req(0x04);
-            serialPort1.Write(ptcl.DataToSend, 0, DataAdd);
-            TxCount += DataAdd;
         }
         /*状态参数显示*/
         private void Status_Display()

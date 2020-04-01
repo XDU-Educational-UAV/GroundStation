@@ -29,7 +29,7 @@ namespace GroundStation
                     RxState = 2;
                     break;
                 case 2:
-                    if (RxState <= 12)
+                    if (RxData <= 12)
                     {
                         sum += RxData;
                         LenWord = RxData;
@@ -46,6 +46,8 @@ namespace GroundStation
                     DataReceived[p++] = RxData;
                     if (p >= LenWord)
                         RxState = 4;
+                    else if (p >= 12)
+                        RxState = 5;
                     break;
                 case 4:  //匹配校验和
                     RxState = 0;
@@ -54,7 +56,10 @@ namespace GroundStation
                         return 0;
                     else
                         return 2;
-                default: break;
+                default:
+                    p = 0;
+                    RxState = 0;
+                    break;
             }
             return 1;
         }
