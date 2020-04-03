@@ -22,5 +22,257 @@ namespace GroundStation.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string tbxTx1Str {
+            get {
+                return ((string)(this["tbxTx1Str"]));
+            }
+            set {
+                this["tbxTx1Str"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string tbxTx2Str {
+            get {
+                return ((string)(this["tbxTx2Str"]));
+            }
+            set {
+                this["tbxTx2Str"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string tbxTx3Str {
+            get {
+                return ((string)(this["tbxTx3Str"]));
+            }
+            set {
+                this["tbxTx3Str"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string cbx2Str {
+            get {
+                return ((string)(this["cbx2Str"]));
+            }
+            set {
+                this["cbx2Str"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string tbxIntervalStr {
+            get {
+                return ((string)(this["tbxIntervalStr"]));
+            }
+            set {
+                this["tbxIntervalStr"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string tbxRolCName1Str {
+            get {
+                return ((string)(this["tbxRolCName1Str"]));
+            }
+            set {
+                this["tbxRolCName1Str"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string tbxRolCName2Str {
+            get {
+                return ((string)(this["tbxRolCName2Str"]));
+            }
+            set {
+                this["tbxRolCName2Str"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string tbxRolCName3Str {
+            get {
+                return ((string)(this["tbxRolCName3Str"]));
+            }
+            set {
+                this["tbxRolCName3Str"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string tbxRolCName4Str {
+            get {
+                return ((string)(this["tbxRolCName4Str"]));
+            }
+            set {
+                this["tbxRolCName4Str"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string tbxRolSName1Str {
+            get {
+                return ((string)(this["tbxRolSName1Str"]));
+            }
+            set {
+                this["tbxRolSName1Str"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string tbxRolSName2Str {
+            get {
+                return ((string)(this["tbxRolSName2Str"]));
+            }
+            set {
+                this["tbxRolSName2Str"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string tbxRolSName3Str {
+            get {
+                return ((string)(this["tbxRolSName3Str"]));
+            }
+            set {
+                this["tbxRolSName3Str"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string tbxRolSName4Str {
+            get {
+                return ((string)(this["tbxRolSName4Str"]));
+            }
+            set {
+                this["tbxRolSName4Str"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string tbxPitCName1Str {
+            get {
+                return ((string)(this["tbxPitCName1Str"]));
+            }
+            set {
+                this["tbxPitCName1Str"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string tbxPitCName2Str {
+            get {
+                return ((string)(this["tbxPitCName2Str"]));
+            }
+            set {
+                this["tbxPitCName2Str"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string tbxPitCName3Str {
+            get {
+                return ((string)(this["tbxPitCName3Str"]));
+            }
+            set {
+                this["tbxPitCName3Str"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string tbxPitCName4Str {
+            get {
+                return ((string)(this["tbxPitCName4Str"]));
+            }
+            set {
+                this["tbxPitCName4Str"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string tbxPitSName1Str {
+            get {
+                return ((string)(this["tbxPitSName1Str"]));
+            }
+            set {
+                this["tbxPitSName1Str"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string tbxPitSName2Str {
+            get {
+                return ((string)(this["tbxPitSName2Str"]));
+            }
+            set {
+                this["tbxPitSName2Str"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string tbxPitSName3Str {
+            get {
+                return ((string)(this["tbxPitSName3Str"]));
+            }
+            set {
+                this["tbxPitSName3Str"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string tbxPitSName4Str {
+            get {
+                return ((string)(this["tbxPitSName4Str"]));
+            }
+            set {
+                this["tbxPitSName4Str"] = value;
+            }
+        }
     }
 }

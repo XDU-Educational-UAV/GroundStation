@@ -12,21 +12,21 @@ namespace GroundStation
         private void btnSend1_Click(object sender, EventArgs e)
         {
             if (serialPort1.IsOpen)
-                Tab0_Text_Send(tbxTx1, rbtnSend1CHR);
+                Tab0_Text_Send(tbxTx1, cbxHexSend1);
         }
         private void btnSend2_Click(object sender, EventArgs e)
         {
             if (serialPort1.IsOpen)
-                Tab0_Text_Send(tbxTx2, rbtnSend2CHR);
+                Tab0_Text_Send(tbxTx2, cbxHexSend2);
         }
         private void btnSend3_Click(object sender, EventArgs e)
         {
             if (serialPort1.IsOpen)
-                Tab0_Text_Send(tbxTx3, rbtnSend3CHR);
+                Tab0_Text_Send(tbxTx3, cbxHexSend3);
         }
         private void Base_Text_Receive()
         {
-            if (rbtnRcvCHR.Checked)  //字符串方式读
+            if (!cbxHexRcv.Checked)  //字符串方式读
             {
                 string str = serialPort1.ReadExisting();
                 tbxRx.AppendText(str);
@@ -46,16 +46,16 @@ namespace GroundStation
                     RxCount++;
                 } while (serialPort1.BytesToRead > 0);
                 tbxRx.AppendText(str);
-                labelRxCnt.Text = $"Rx:{RxCount}";
             }
+            labelRxCnt.Text = $"Rx:{RxCount}";
         }
         /*串口发送数据*/
-        private void Tab0_Text_Send(TextBox box, RadioButton btnChr)
+        private void Tab0_Text_Send(TextBox box, CheckBox cbxHex)
         {
+            if (serialPort1.IsOpen == false) return;
             string text = box.Text;
-            if (text == "")
-                return;
-            if (btnChr.Checked)  //字符串方式发送
+            if (text == "") return;
+            if (!cbxHex.Checked)  //字符串方式发送
             {
                 serialPort1.Write(text);
                 TxCount += text.Length;
@@ -79,17 +79,17 @@ namespace GroundStation
         /*定时发送复选框*/
         private void textBox4_TextChanged(object sender, EventArgs e)
         {
-            checkBox1.Checked = false;
+            cbxAutoSend.Checked = false;
         }
         /*定时发送*/
         private void tmrSendUser_Tick(object sender, EventArgs e)
         {
-            Tab0_Text_Send(tbxTx1, rbtnSend1CHR);
+            Tab0_Text_Send(tbxTx1, cbxHexSend1);
         }
         /*发送间隔设置文本框*/
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        private void cbxAutoSend_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBox1.Checked)
+            if (cbxAutoSend.Checked)
             {
                 tmrSendUser.Enabled = true;
                 tmrSendUser.Interval = Convert.ToInt32(tbxInterval.Text);

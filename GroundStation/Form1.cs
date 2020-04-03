@@ -12,7 +12,7 @@ namespace GroundStation
     public partial class Form1 : Form
     {
         string[] LastPorts = { };
-        const string version = "V0.07";
+        const string version = "V0.08";
         long TxCount = 0, RxCount = 0;
         Protocol ptcl = new Protocol();
         public Form1()
@@ -21,9 +21,28 @@ namespace GroundStation
         }
         private void Form1_Load(object sender, EventArgs e)
         {
-            comboBox2.Text = "115200";
             label4.Text = "Ground Station " + version;
             tabControl1.SelectedIndex = 1;
+            comboBox2.Text = Properties.Settings.Default.cbx2Str;
+            tbxTx1.Text = Properties.Settings.Default.tbxTx1Str;
+            tbxTx2.Text = Properties.Settings.Default.tbxTx2Str;
+            tbxTx3.Text = Properties.Settings.Default.tbxTx3Str;
+            tbxRolCName1.Text = Properties.Settings.Default.tbxRolCName1Str;
+            tbxRolCName2.Text = Properties.Settings.Default.tbxRolCName2Str;
+            tbxRolCName3.Text = Properties.Settings.Default.tbxRolCName3Str;
+            tbxRolCName4.Text = Properties.Settings.Default.tbxRolCName4Str;
+            tbxRolCName1.Text = Properties.Settings.Default.tbxRolSName1Str;
+            tbxRolCName2.Text = Properties.Settings.Default.tbxRolSName2Str;
+            tbxRolCName3.Text = Properties.Settings.Default.tbxRolSName3Str;
+            tbxRolCName4.Text = Properties.Settings.Default.tbxRolSName4Str;
+            tbxPitCName1.Text = Properties.Settings.Default.tbxPitCName1Str;
+            tbxPitCName2.Text = Properties.Settings.Default.tbxPitCName2Str;
+            tbxPitCName3.Text = Properties.Settings.Default.tbxPitCName3Str;
+            tbxPitCName4.Text = Properties.Settings.Default.tbxPitCName4Str;
+            tbxPitCName1.Text = Properties.Settings.Default.tbxPitSName1Str;
+            tbxPitCName2.Text = Properties.Settings.Default.tbxPitSName2Str;
+            tbxPitCName3.Text = Properties.Settings.Default.tbxPitSName3Str;
+            tbxPitCName4.Text = Properties.Settings.Default.tbxPitSName4Str;
         }
         /*开闭串口按钮*/
         private void btnOpen_Click(object sender, EventArgs e)
@@ -123,19 +142,43 @@ namespace GroundStation
                 }
             } while (serialPort1.BytesToRead > 0);
             RxCount += DataAdd;
-            labelRxCnt.Text = $"Rx:{RxCount}";            
+            labelRxCnt.Text = $"Rx:{RxCount}";
         }
         private void btnClearBuf_Click(object sender, EventArgs e)
         {
             tbxRx.Text = "";
         }
-
         private void btnReCnt_Click(object sender, EventArgs e)
         {
             TxCount = 0;
             RxCount = 0;
             labelTxCnt.Text = "Tx:0";
             labelRxCnt.Text = "Rx:0";
+        }
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Properties.Settings.Default.tbxTx1Str = tbxTx1.Text;
+            Properties.Settings.Default.tbxTx2Str = tbxTx2.Text;
+            Properties.Settings.Default.tbxTx3Str = tbxTx3.Text;
+            Properties.Settings.Default.cbx2Str = comboBox2.Text;
+            Properties.Settings.Default.tbxIntervalStr = tbxInterval.Text;
+            Properties.Settings.Default.tbxRolCName1Str = tbxRolCName1.Text;
+            Properties.Settings.Default.tbxRolCName2Str = tbxRolCName2.Text;
+            Properties.Settings.Default.tbxRolCName3Str = tbxRolCName3.Text;
+            Properties.Settings.Default.tbxRolCName4Str = tbxRolCName4.Text;
+            Properties.Settings.Default.tbxRolSName1Str = tbxRolCName1.Text;
+            Properties.Settings.Default.tbxRolSName2Str = tbxRolCName2.Text;
+            Properties.Settings.Default.tbxRolSName3Str = tbxRolCName3.Text;
+            Properties.Settings.Default.tbxRolSName4Str = tbxRolCName4.Text;
+            Properties.Settings.Default.tbxPitCName1Str = tbxPitCName1.Text;
+            Properties.Settings.Default.tbxPitCName2Str = tbxPitCName2.Text;
+            Properties.Settings.Default.tbxPitCName3Str = tbxPitCName3.Text;
+            Properties.Settings.Default.tbxPitCName4Str = tbxPitCName4.Text;
+            Properties.Settings.Default.tbxPitSName1Str = tbxPitCName1.Text;
+            Properties.Settings.Default.tbxPitSName2Str = tbxPitCName2.Text;
+            Properties.Settings.Default.tbxPitSName3Str = tbxPitCName3.Text;
+            Properties.Settings.Default.tbxPitSName4Str = tbxPitCName4.Text;
+            Properties.Settings.Default.Save();
         }
     }
 }

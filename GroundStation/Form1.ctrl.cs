@@ -46,6 +46,7 @@ namespace GroundStation
                         lblLock.Text = "锁定";
                         lblLock.ForeColor = Color.Red;
                         GlobalStat &= 0xBF;
+                        vScrollThr.Value = 100;
                     }
                     double voltage = RxTemp[1] * 2 / 100.0;
                     lblVoltage.Text = voltage.ToString("#0.00");
@@ -150,7 +151,7 @@ namespace GroundStation
                     sdata[3] = (short)((RxTemp[6] << 8) | RxTemp[7]);
                     ddata[0] = sdata[0] / 100.0;
                     ddata[1] = sdata[1] / 100.0;
-                    ddata[2] = sdata[2] / 100.0;
+                    ddata[2] = sdata[2] / 10.0;
                     ddata[3] = sdata[3] / 100.0;
                     lblRolSt1.Text = ddata[0].ToString("#0.00");
                     lblRolSt2.Text = ddata[1].ToString("#0.00");
@@ -184,7 +185,7 @@ namespace GroundStation
             if ((GlobalStat & 0x80) != 0x80)
                 return;  //没有与下位机建立通信
             ErrCnt++;
-            byte DataAdd = 0, password = 0x48;
+            byte DataAdd = 0, password = 0;
             if (ErrCnt >= 20)
             {
                 lblCtrl.Text = "失控";
@@ -192,6 +193,12 @@ namespace GroundStation
             }
             if ((GlobalStat & 0x01) == 0x01)
             {
+                if (tbxPassword.Text == "") return;
+                try
+                {
+                    Convert.ToByte(tbxPassword.Text, 16);
+                }
+                catch (Exception) { }
                 if ((GlobalStat & 0x040) == 0x40)
                     DataAdd = ptcl.Send_Cmd(password, 0);
                 else
@@ -203,10 +210,10 @@ namespace GroundStation
             else
             {
                 int[] RCdata = new int[4];
-                RCdata[0] = 10*(100 - hScrollRol.Value);
-                RCdata[1] = 10*(100 - vScrollPit.Value);
-                RCdata[2] = 10*(100 - vScrollThr.Value);
-                RCdata[3] = 10*(100 - hScrollYaw.Value);
+                RCdata[0] = 10 * (100 - hScrollRol.Value);
+                RCdata[1] = 10 * (100 - vScrollPit.Value);
+                RCdata[2] = 10 * (100 - vScrollThr.Value);
+                RCdata[3] = 10 * (100 - hScrollYaw.Value);
                 DataAdd = ptcl.Send_S16_Data(RCdata, 4, 0x08);
                 serialPort1.Write(ptcl.DataToSend, 0, DataAdd);
                 GlobalStat &= 0xFD;
