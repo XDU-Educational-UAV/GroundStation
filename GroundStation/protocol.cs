@@ -1,18 +1,34 @@
-﻿/**************文件说明**********************
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Drawing;
+using System.ComponentModel;
+using System.Data;
+using System.Windows.Forms.DataVisualization.Charting;
+/**************文件说明**********************
 与下位机的数据交换
+Byte_Receive
+Send_Cmd
+Send_S16_Data
+Send_U8_Data
+Send_Req
 ********************************************/
+
 namespace GroundStation
 {
     class Protocol
     {
         public byte[] DataReceived = new byte[12];  //来自下位机的有效数据
-        public byte[] DataToSend = new byte[12];
         public byte FcnWord = 0, LenWord = 0;
+        private byte[] DataToSend = new byte[12];
         private byte RxState = 0, sum = 0, p = 0;
         /***********************
         对从串口收到的数据进行预处理并将有效数据保存至RxTemp
         **********************/
-        public byte Text_Receive(byte RxData)
+        public byte Byte_Receive(byte RxData)
         {
             switch (RxState)
             {
@@ -66,7 +82,7 @@ namespace GroundStation
         /***********************
         发送解锁帧
         **********************/
-        public byte Send_Cmd(byte password, byte state)
+        public byte Send_Cmd(byte password, byte state, Action<byte[], int, int> SerialWrite)
         {
             byte sum = 0x3F;
             DataToSend[0] = 0x3C;
@@ -77,12 +93,13 @@ namespace GroundStation
             sum += state;
             sum += password;
             DataToSend[5] = sum;
+            SerialWrite(DataToSend, 0, 6);
             return 6;
         }
         /***********************
         发送int16型数据
         **********************/
-        public byte Send_S16_Data(int[] data, byte len, byte fcn)
+        public byte Send_S16_Data(int[] data, byte len, byte fcn, Action<byte[], int, int> SerialWrite)
         {
             byte i, cnt = 0, checksum = 0;
             DataToSend[cnt++] = 0x3C;
@@ -96,12 +113,13 @@ namespace GroundStation
             for (i = 0; i < cnt; i++)
                 checksum += DataToSend[i];
             DataToSend[cnt++] = checksum;
+            SerialWrite(DataToSend, 0, cnt);
             return cnt;
         }
         /***********************
         发送byte型数据
         **********************/
-        public byte Send_U8_Data(byte[] data, byte len, byte fcn)
+        public byte Send_U8_Data(byte[] data, byte len, byte fcn, Action<byte[], int, int> SerialWrite)
         {
             byte i, cnt = 0, checksum = 0;
             DataToSend[cnt++] = 0x3C;
@@ -112,21 +130,25 @@ namespace GroundStation
             for (i = 0; i < cnt; i++)
                 checksum += DataToSend[i];
             DataToSend[cnt++] = checksum;
+            SerialWrite(DataToSend, 0, cnt);
             return cnt;
         }
         /***********************
         发送req
         **********************/
-        public byte Send_Req(byte req)
+        public byte Send_Req(byte req1,byte req2, Action<byte[], int, int> SerialWrite)
         {
-            byte sum = 0xDD;
+            byte sum = 0xDE;  //3C+A0+02=DE
             DataToSend[0] = 0x3C;
             DataToSend[1] = 0xA0;
-            DataToSend[2] = 0x01;
-            DataToSend[3] = req;
-            sum += req;
-            DataToSend[4] = sum;
-            return 5;
+            DataToSend[2] = 0x02;
+            DataToSend[3] = req1;
+            DataToSend[4] = req2;
+            sum += req1;
+            sum += req2;
+            DataToSend[5] = sum;
+            SerialWrite(DataToSend, 0, 6);
+            return 6;
         }
     }
 }

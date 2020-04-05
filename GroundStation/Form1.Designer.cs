@@ -56,6 +56,17 @@
             this.label3 = new System.Windows.Forms.Label();
             this.btnSend2 = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.lblCtrlThr = new System.Windows.Forms.Label();
+            this.lblCtrlPit = new System.Windows.Forms.Label();
+            this.lblCtrlRol = new System.Windows.Forms.Label();
+            this.lblCtrlYaw = new System.Windows.Forms.Label();
+            this.cbxMotor = new System.Windows.Forms.CheckBox();
+            this.cbxRC = new System.Windows.Forms.CheckBox();
+            this.cbxSensor = new System.Windows.Forms.CheckBox();
+            this.cbxStat = new System.Windows.Forms.CheckBox();
+            this.cbxAtti = new System.Windows.Forms.CheckBox();
+            this.tbxPassword = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.lblVoltage = new System.Windows.Forms.Label();
             this.btnLock = new System.Windows.Forms.Button();
             this.lblCtrl = new System.Windows.Forms.Label();
@@ -87,6 +98,7 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.tbxPitCName4 = new System.Windows.Forms.TextBox();
             this.tbxPitSName4 = new System.Windows.Forms.TextBox();
@@ -108,6 +120,8 @@
             this.cbxRolDisp = new System.Windows.Forms.CheckBox();
             this.btnReadPit = new System.Windows.Forms.Button();
             this.btnReadRol = new System.Windows.Forms.Button();
+            this.btnAccCali = new System.Windows.Forms.Button();
+            this.btnGyroCali = new System.Windows.Forms.Button();
             this.btnWritePit = new System.Windows.Forms.Button();
             this.btnWriteRol = new System.Windows.Forms.Button();
             this.tbxPitParam2 = new System.Windows.Forms.TextBox();
@@ -135,6 +149,7 @@
             this.lblRolParam2 = new System.Windows.Forms.Label();
             this.lblRolParam1 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.cbxDisp = new System.Windows.Forms.CheckBox();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tmrSendUser = new System.Windows.Forms.Timer(this.components);
             this.label4 = new System.Windows.Forms.Label();
@@ -145,8 +160,6 @@
             this.btnReCnt = new System.Windows.Forms.Button();
             this.tmrCtrl = new System.Windows.Forms.Timer(this.components);
             this.btnOpen = new System.Windows.Forms.Button();
-            this.label10 = new System.Windows.Forms.Label();
-            this.tbxPassword = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -281,7 +294,7 @@
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1238, 651);
-            this.tabControl1.TabIndex = 1;
+            this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
             // 
@@ -383,6 +396,15 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.lblCtrlThr);
+            this.tabPage2.Controls.Add(this.lblCtrlPit);
+            this.tabPage2.Controls.Add(this.lblCtrlRol);
+            this.tabPage2.Controls.Add(this.lblCtrlYaw);
+            this.tabPage2.Controls.Add(this.cbxMotor);
+            this.tabPage2.Controls.Add(this.cbxRC);
+            this.tabPage2.Controls.Add(this.cbxSensor);
+            this.tabPage2.Controls.Add(this.cbxStat);
+            this.tabPage2.Controls.Add(this.cbxAtti);
             this.tabPage2.Controls.Add(this.tbxPassword);
             this.tabPage2.Controls.Add(this.label10);
             this.tabPage2.Controls.Add(this.lblVoltage);
@@ -420,6 +442,110 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "飞行控制";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // lblCtrlThr
+            // 
+            this.lblCtrlThr.AutoSize = true;
+            this.lblCtrlThr.Location = new System.Drawing.Point(351, 280);
+            this.lblCtrlThr.Name = "lblCtrlThr";
+            this.lblCtrlThr.Size = new System.Drawing.Size(15, 15);
+            this.lblCtrlThr.TabIndex = 21;
+            this.lblCtrlThr.Text = "0";
+            // 
+            // lblCtrlPit
+            // 
+            this.lblCtrlPit.AutoSize = true;
+            this.lblCtrlPit.Location = new System.Drawing.Point(983, 280);
+            this.lblCtrlPit.Name = "lblCtrlPit";
+            this.lblCtrlPit.Size = new System.Drawing.Size(31, 15);
+            this.lblCtrlPit.TabIndex = 21;
+            this.lblCtrlPit.Text = "500";
+            // 
+            // lblCtrlRol
+            // 
+            this.lblCtrlRol.AutoSize = true;
+            this.lblCtrlRol.Location = new System.Drawing.Point(1070, 552);
+            this.lblCtrlRol.Name = "lblCtrlRol";
+            this.lblCtrlRol.Size = new System.Drawing.Size(31, 15);
+            this.lblCtrlRol.TabIndex = 21;
+            this.lblCtrlRol.Text = "500";
+            // 
+            // lblCtrlYaw
+            // 
+            this.lblCtrlYaw.AutoSize = true;
+            this.lblCtrlYaw.Location = new System.Drawing.Point(406, 552);
+            this.lblCtrlYaw.Name = "lblCtrlYaw";
+            this.lblCtrlYaw.Size = new System.Drawing.Size(31, 15);
+            this.lblCtrlYaw.TabIndex = 21;
+            this.lblCtrlYaw.Text = "500";
+            // 
+            // cbxMotor
+            // 
+            this.cbxMotor.AutoSize = true;
+            this.cbxMotor.Location = new System.Drawing.Point(154, 436);
+            this.cbxMotor.Name = "cbxMotor";
+            this.cbxMotor.Size = new System.Drawing.Size(89, 19);
+            this.cbxMotor.TabIndex = 20;
+            this.cbxMotor.Text = "油门显示";
+            this.cbxMotor.UseVisualStyleBackColor = true;
+            // 
+            // cbxRC
+            // 
+            this.cbxRC.AutoSize = true;
+            this.cbxRC.Location = new System.Drawing.Point(154, 361);
+            this.cbxRC.Name = "cbxRC";
+            this.cbxRC.Size = new System.Drawing.Size(119, 19);
+            this.cbxRC.TabIndex = 20;
+            this.cbxRC.Text = "遥控信号显示";
+            this.cbxRC.UseVisualStyleBackColor = true;
+            // 
+            // cbxSensor
+            // 
+            this.cbxSensor.AutoSize = true;
+            this.cbxSensor.Location = new System.Drawing.Point(154, 241);
+            this.cbxSensor.Name = "cbxSensor";
+            this.cbxSensor.Size = new System.Drawing.Size(104, 19);
+            this.cbxSensor.TabIndex = 20;
+            this.cbxSensor.Text = "传感器显示";
+            this.cbxSensor.UseVisualStyleBackColor = true;
+            // 
+            // cbxStat
+            // 
+            this.cbxStat.AutoSize = true;
+            this.cbxStat.Checked = true;
+            this.cbxStat.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbxStat.Location = new System.Drawing.Point(154, 12);
+            this.cbxStat.Name = "cbxStat";
+            this.cbxStat.Size = new System.Drawing.Size(89, 19);
+            this.cbxStat.TabIndex = 20;
+            this.cbxStat.Text = "状态显示";
+            this.cbxStat.UseVisualStyleBackColor = true;
+            // 
+            // cbxAtti
+            // 
+            this.cbxAtti.AutoSize = true;
+            this.cbxAtti.Location = new System.Drawing.Point(154, 181);
+            this.cbxAtti.Name = "cbxAtti";
+            this.cbxAtti.Size = new System.Drawing.Size(89, 19);
+            this.cbxAtti.TabIndex = 20;
+            this.cbxAtti.Text = "姿态显示";
+            this.cbxAtti.UseVisualStyleBackColor = true;
+            // 
+            // tbxPassword
+            // 
+            this.tbxPassword.Location = new System.Drawing.Point(774, 493);
+            this.tbxPassword.Name = "tbxPassword";
+            this.tbxPassword.Size = new System.Drawing.Size(100, 25);
+            this.tbxPassword.TabIndex = 19;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(701, 496);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(67, 15);
+            this.label10.TabIndex = 18;
+            this.label10.Text = "解锁密码";
             // 
             // lblVoltage
             // 
@@ -725,6 +851,7 @@
             this.tabPage3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.tabPage3.Controls.Add(this.label9);
             this.tabPage3.Controls.Add(this.label8);
+            this.tabPage3.Controls.Add(this.label11);
             this.tabPage3.Controls.Add(this.label7);
             this.tabPage3.Controls.Add(this.tbxPitCName4);
             this.tabPage3.Controls.Add(this.tbxPitSName4);
@@ -746,6 +873,8 @@
             this.tabPage3.Controls.Add(this.cbxRolDisp);
             this.tabPage3.Controls.Add(this.btnReadPit);
             this.tabPage3.Controls.Add(this.btnReadRol);
+            this.tabPage3.Controls.Add(this.btnAccCali);
+            this.tabPage3.Controls.Add(this.btnGyroCali);
             this.tabPage3.Controls.Add(this.btnWritePit);
             this.tabPage3.Controls.Add(this.btnWriteRol);
             this.tabPage3.Controls.Add(this.tbxPitParam2);
@@ -799,6 +928,15 @@
             this.label8.TabIndex = 13;
             this.label8.Text = "控制参数";
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(507, 43);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(206, 15);
+            this.label11.TabIndex = 12;
+            this.label11.Text = "参数名称        参数真实值";
+            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -813,7 +951,7 @@
             this.tbxPitCName4.Location = new System.Drawing.Point(3, 320);
             this.tbxPitCName4.Name = "tbxPitCName4";
             this.tbxPitCName4.Size = new System.Drawing.Size(100, 25);
-            this.tbxPitCName4.TabIndex = 11;
+            this.tbxPitCName4.TabIndex = 7;
             // 
             // tbxPitSName4
             // 
@@ -834,14 +972,14 @@
             this.tbxRolCName4.Location = new System.Drawing.Point(3, 157);
             this.tbxRolCName4.Name = "tbxRolCName4";
             this.tbxRolCName4.Size = new System.Drawing.Size(100, 25);
-            this.tbxRolCName4.TabIndex = 11;
+            this.tbxRolCName4.TabIndex = 3;
             // 
             // tbxPitCName2
             // 
             this.tbxPitCName2.Location = new System.Drawing.Point(3, 258);
             this.tbxPitCName2.Name = "tbxPitCName2";
             this.tbxPitCName2.Size = new System.Drawing.Size(100, 25);
-            this.tbxPitCName2.TabIndex = 11;
+            this.tbxPitCName2.TabIndex = 5;
             // 
             // tbxPitSName2
             // 
@@ -869,7 +1007,7 @@
             this.tbxRolCName2.Location = new System.Drawing.Point(3, 95);
             this.tbxRolCName2.Name = "tbxRolCName2";
             this.tbxRolCName2.Size = new System.Drawing.Size(100, 25);
-            this.tbxRolCName2.TabIndex = 11;
+            this.tbxRolCName2.TabIndex = 1;
             // 
             // tbxRolSName3
             // 
@@ -883,7 +1021,7 @@
             this.tbxPitCName3.Location = new System.Drawing.Point(3, 289);
             this.tbxPitCName3.Name = "tbxPitCName3";
             this.tbxPitCName3.Size = new System.Drawing.Size(100, 25);
-            this.tbxPitCName3.TabIndex = 11;
+            this.tbxPitCName3.TabIndex = 6;
             // 
             // tbxPitSName1
             // 
@@ -897,7 +1035,7 @@
             this.tbxRolCName3.Location = new System.Drawing.Point(3, 126);
             this.tbxRolCName3.Name = "tbxRolCName3";
             this.tbxRolCName3.Size = new System.Drawing.Size(100, 25);
-            this.tbxRolCName3.TabIndex = 11;
+            this.tbxRolCName3.TabIndex = 2;
             // 
             // tbxRolSName1
             // 
@@ -911,19 +1049,19 @@
             this.tbxPitCName1.Location = new System.Drawing.Point(3, 227);
             this.tbxPitCName1.Name = "tbxPitCName1";
             this.tbxPitCName1.Size = new System.Drawing.Size(100, 25);
-            this.tbxPitCName1.TabIndex = 11;
+            this.tbxPitCName1.TabIndex = 4;
             // 
             // tbxRolCName1
             // 
             this.tbxRolCName1.Location = new System.Drawing.Point(3, 64);
             this.tbxRolCName1.Name = "tbxRolCName1";
             this.tbxRolCName1.Size = new System.Drawing.Size(100, 25);
-            this.tbxRolCName1.TabIndex = 11;
+            this.tbxRolCName1.TabIndex = 0;
             // 
             // cbxPitDisp
             // 
             this.cbxPitDisp.AutoSize = true;
-            this.cbxPitDisp.Location = new System.Drawing.Point(641, 200);
+            this.cbxPitDisp.Location = new System.Drawing.Point(743, 207);
             this.cbxPitDisp.Name = "cbxPitDisp";
             this.cbxPitDisp.Size = new System.Drawing.Size(59, 19);
             this.cbxPitDisp.TabIndex = 10;
@@ -933,7 +1071,7 @@
             // cbxRolDisp
             // 
             this.cbxRolDisp.AutoSize = true;
-            this.cbxRolDisp.Location = new System.Drawing.Point(641, 15);
+            this.cbxRolDisp.Location = new System.Drawing.Point(743, 42);
             this.cbxRolDisp.Name = "cbxRolDisp";
             this.cbxRolDisp.Size = new System.Drawing.Size(59, 19);
             this.cbxRolDisp.TabIndex = 10;
@@ -960,6 +1098,26 @@
             this.btnReadRol.UseVisualStyleBackColor = true;
             this.btnReadRol.Click += new System.EventHandler(this.btnReadRol_Click);
             // 
+            // btnAccCali
+            // 
+            this.btnAccCali.Location = new System.Drawing.Point(132, 578);
+            this.btnAccCali.Name = "btnAccCali";
+            this.btnAccCali.Size = new System.Drawing.Size(123, 41);
+            this.btnAccCali.TabIndex = 8;
+            this.btnAccCali.Text = "加速度计校准";
+            this.btnAccCali.UseVisualStyleBackColor = true;
+            this.btnAccCali.Click += new System.EventHandler(this.btnAccCali_Click);
+            // 
+            // btnGyroCali
+            // 
+            this.btnGyroCali.Location = new System.Drawing.Point(3, 578);
+            this.btnGyroCali.Name = "btnGyroCali";
+            this.btnGyroCali.Size = new System.Drawing.Size(123, 41);
+            this.btnGyroCali.TabIndex = 8;
+            this.btnGyroCali.Text = "陀螺仪校准";
+            this.btnGyroCali.UseVisualStyleBackColor = true;
+            this.btnGyroCali.Click += new System.EventHandler(this.btnGyroCali_Click);
+            // 
             // btnWritePit
             // 
             this.btnWritePit.Location = new System.Drawing.Point(308, 274);
@@ -985,21 +1143,21 @@
             this.tbxPitParam2.Location = new System.Drawing.Point(109, 258);
             this.tbxPitParam2.Name = "tbxPitParam2";
             this.tbxPitParam2.Size = new System.Drawing.Size(100, 25);
-            this.tbxPitParam2.TabIndex = 4;
+            this.tbxPitParam2.TabIndex = 5;
             // 
             // tbxPitParam4
             // 
             this.tbxPitParam4.Location = new System.Drawing.Point(109, 320);
             this.tbxPitParam4.Name = "tbxPitParam4";
             this.tbxPitParam4.Size = new System.Drawing.Size(100, 25);
-            this.tbxPitParam4.TabIndex = 5;
+            this.tbxPitParam4.TabIndex = 7;
             // 
             // tbxPitParam3
             // 
             this.tbxPitParam3.Location = new System.Drawing.Point(109, 289);
             this.tbxPitParam3.Name = "tbxPitParam3";
             this.tbxPitParam3.Size = new System.Drawing.Size(100, 25);
-            this.tbxPitParam3.TabIndex = 5;
+            this.tbxPitParam3.TabIndex = 6;
             // 
             // tbxRolParam2
             // 
@@ -1013,14 +1171,14 @@
             this.tbxPitParam1.Location = new System.Drawing.Point(109, 227);
             this.tbxPitParam1.Name = "tbxPitParam1";
             this.tbxPitParam1.Size = new System.Drawing.Size(100, 25);
-            this.tbxPitParam1.TabIndex = 3;
+            this.tbxPitParam1.TabIndex = 4;
             // 
             // tbxRolParam4
             // 
             this.tbxRolParam4.Location = new System.Drawing.Point(109, 157);
             this.tbxRolParam4.Name = "tbxRolParam4";
             this.tbxRolParam4.Size = new System.Drawing.Size(100, 25);
-            this.tbxRolParam4.TabIndex = 2;
+            this.tbxRolParam4.TabIndex = 3;
             // 
             // tbxRolParam3
             // 
@@ -1182,6 +1340,7 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.cbxDisp);
             this.tabPage4.Controls.Add(this.chart1);
             this.tabPage4.Location = new System.Drawing.Point(4, 25);
             this.tabPage4.Name = "tabPage4";
@@ -1190,19 +1349,30 @@
             this.tabPage4.Text = "波形显示";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // cbxDisp
+            // 
+            this.cbxDisp.AutoSize = true;
+            this.cbxDisp.Location = new System.Drawing.Point(1138, 600);
+            this.cbxDisp.Name = "cbxDisp";
+            this.cbxDisp.Size = new System.Drawing.Size(89, 19);
+            this.cbxDisp.TabIndex = 1;
+            this.cbxDisp.Text = "开始显示";
+            this.cbxDisp.UseVisualStyleBackColor = true;
+            // 
             // chart1
             // 
             chartArea1.Name = "ChartArea1";
             this.chart1.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
             this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(3, 3);
+            this.chart1.Location = new System.Drawing.Point(-60, 3);
             this.chart1.Name = "chart1";
             series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(1224, 516);
+            this.chart1.Size = new System.Drawing.Size(1513, 591);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
             // 
@@ -1280,22 +1450,6 @@
             this.btnOpen.UseVisualStyleBackColor = true;
             this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
             // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(701, 496);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(67, 15);
-            this.label10.TabIndex = 18;
-            this.label10.Text = "解锁密码";
-            // 
-            // tbxPassword
-            // 
-            this.tbxPassword.Location = new System.Drawing.Point(774, 493);
-            this.tbxPassword.Name = "tbxPassword";
-            this.tbxPassword.Size = new System.Drawing.Size(100, 25);
-            this.tbxPassword.TabIndex = 19;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -1312,8 +1466,10 @@
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cbxPort);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "地面站";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
@@ -1328,6 +1484,7 @@
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1450,6 +1607,19 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox tbxPassword;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.CheckBox cbxDisp;
+        private System.Windows.Forms.CheckBox cbxMotor;
+        private System.Windows.Forms.CheckBox cbxRC;
+        private System.Windows.Forms.CheckBox cbxSensor;
+        private System.Windows.Forms.CheckBox cbxAtti;
+        private System.Windows.Forms.CheckBox cbxStat;
+        private System.Windows.Forms.Label lblCtrlThr;
+        private System.Windows.Forms.Label lblCtrlPit;
+        private System.Windows.Forms.Label lblCtrlRol;
+        private System.Windows.Forms.Label lblCtrlYaw;
+        private System.Windows.Forms.Button btnAccCali;
+        private System.Windows.Forms.Button btnGyroCali;
     }
 }
 

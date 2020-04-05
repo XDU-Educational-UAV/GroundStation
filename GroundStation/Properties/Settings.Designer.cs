@@ -274,5 +274,17 @@ namespace GroundStation.Properties {
                 this["tbxPitSName4Str"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int TabIndexInt {
+            get {
+                return ((int)(this["TabIndexInt"]));
+            }
+            set {
+                this["TabIndexInt"] = value;
+            }
+        }
     }
 }

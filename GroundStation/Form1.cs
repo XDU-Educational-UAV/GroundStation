@@ -4,7 +4,17 @@ using System.Windows.Forms;
 using System.IO.Ports;
 using System.Drawing;
 /**************文件说明**********************
-主窗体生成,串口开闭与收发,所有标签的公共部分
+主窗体生成与关闭,串口开闭
+事件:
+Form1
+Form1_Load
+btnOpen_Click
+tmrPortChk_Tick
+btnClearBuf_Click
+btnReCnt_Click
+Form1_FormClosing
+函数:
+SerialPort_Close
 ********************************************/
 
 namespace GroundStation
@@ -12,7 +22,7 @@ namespace GroundStation
     public partial class Form1 : Form
     {
         string[] LastPorts = { };
-        const string version = "V0.08";
+        const string version = "V0.09";
         long TxCount = 0, RxCount = 0;
         Protocol ptcl = new Protocol();
         public Form1()
@@ -22,7 +32,8 @@ namespace GroundStation
         private void Form1_Load(object sender, EventArgs e)
         {
             label4.Text = "Ground Station " + version;
-            tabControl1.SelectedIndex = 1;
+            ChartInit();
+            tabControl1.SelectedIndex = Properties.Settings.Default.TabIndexInt;
             comboBox2.Text = Properties.Settings.Default.cbx2Str;
             tbxTx1.Text = Properties.Settings.Default.tbxTx1Str;
             tbxTx2.Text = Properties.Settings.Default.tbxTx2Str;
@@ -50,7 +61,7 @@ namespace GroundStation
             if (serialPort1.IsOpen)
             {
                 serialPort1.Close();
-                my_SerialPort_Close();
+                SerialPort_Close();
                 return;
             }
             try
@@ -80,7 +91,7 @@ namespace GroundStation
             {
                 if (LastPorts.Length == 0)  //原因是一直没有可用端口
                     return;
-                my_SerialPort_Close();  //原因是端口意外断开
+                SerialPort_Close();  //原因是端口意外断开
                 cbxPort.Items.Clear();
                 LastPorts = ports;
             }
@@ -89,12 +100,13 @@ namespace GroundStation
                 if (Enumerable.SequenceEqual(ports, LastPorts))  //可用端口没有变化
                 {
                     if (serialPort1.IsOpen == false)  //端口短时间内断开重连
-                        my_SerialPort_Close();
+                        SerialPort_Close();
                     return;
                 }
-                if (LastPorts.Length != 0)  //可用端口改变
+                if (serialPort1.IsOpen == true) return;  //端口打开时有了新的可用端口
+                    if (LastPorts.Length != 0)  //可用端口改变
                 {
-                    my_SerialPort_Close();
+                    SerialPort_Close();
                     cbxPort.Items.Clear();
                 }
                 foreach (string port in ports)  //扫描并添加可用端口
@@ -103,8 +115,10 @@ namespace GroundStation
                 cbxPort.Text = ports[0];  //默认选择第一个可用端口
             }
         }
-        /*关闭串口后需要完成的一系列操作*/
-        private void my_SerialPort_Close()
+        /***********************
+        关闭串口后需要完成的一系列操作
+         **********************/
+        private void SerialPort_Close()
         {
             cbxPort.Enabled = true;
             comboBox2.Enabled = true;
@@ -118,36 +132,13 @@ namespace GroundStation
             lblCtrl.ForeColor = Color.Red;
             GlobalStat &= 0x7F;
         }
-        /*定时10ms处理串口接收缓冲RxStr*/
-        private void tmrPortRcv_Tick(object sender, EventArgs e)
-        {
-            if (serialPort1.IsOpen == false) return;
-            if (serialPort1.BytesToRead == 0) return;
-            if (tabControl1.SelectedIndex == 0)
-            {
-                Base_Text_Receive();
-                return;
-            }
-            byte success, DataAdd = 0;
-            do  //可能会一次发送大量数据
-            {
-                success = ptcl.Text_Receive((byte)serialPort1.ReadByte());
-                DataAdd++;
-                if (success == 0)
-                    Data_Receive_Precess();
-                if (success == 2)
-                {
-                    lblCtrl.Text = "失控";
-                    lblCtrl.ForeColor = Color.Red;
-                }
-            } while (serialPort1.BytesToRead > 0);
-            RxCount += DataAdd;
-            labelRxCnt.Text = $"Rx:{RxCount}";
-        }
+        /*清除缓存*/
         private void btnClearBuf_Click(object sender, EventArgs e)
         {
             tbxRx.Text = "";
+            Chart_Clear();
         }
+        /*重新计数*/
         private void btnReCnt_Click(object sender, EventArgs e)
         {
             TxCount = 0;
@@ -155,12 +146,14 @@ namespace GroundStation
             labelTxCnt.Text = "Tx:0";
             labelRxCnt.Text = "Rx:0";
         }
+        /*窗口关闭保存软件设置*/
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             Properties.Settings.Default.tbxTx1Str = tbxTx1.Text;
             Properties.Settings.Default.tbxTx2Str = tbxTx2.Text;
             Properties.Settings.Default.tbxTx3Str = tbxTx3.Text;
             Properties.Settings.Default.cbx2Str = comboBox2.Text;
+            Properties.Settings.Default.TabIndexInt = tabControl1.SelectedIndex;
             Properties.Settings.Default.tbxIntervalStr = tbxInterval.Text;
             Properties.Settings.Default.tbxRolCName1Str = tbxRolCName1.Text;
             Properties.Settings.Default.tbxRolCName2Str = tbxRolCName2.Text;

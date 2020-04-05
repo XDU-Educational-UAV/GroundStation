@@ -52,7 +52,7 @@ namespace GroundStation
         /*串口发送数据*/
         private void Tab0_Text_Send(TextBox box, CheckBox cbxHex)
         {
-            if (serialPort1.IsOpen == false) return;
+            if (!serialPort1.IsOpen) return;
             string text = box.Text;
             if (text == "") return;
             if (!cbxHex.Checked)  //字符串方式发送
