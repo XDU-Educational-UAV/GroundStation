@@ -29,6 +29,10 @@ namespace GroundStation
                 hScrollYaw.Value--;
             if (((KeyState & 0x80) == 0x80) && (hScrollYaw.Value < 100))
                 hScrollYaw.Value++;
+            lblCtrlRol.Text = (10 * (100 - hScrollRol.Value)).ToString();
+            lblCtrlPit.Text = (10 * (100 - vScrollPit.Value)).ToString();
+            lblCtrlThr.Text = (10 * (100 - vScrollThr.Value)).ToString();
+            lblCtrlYaw.Text = (10 * (100 - hScrollYaw.Value)).ToString();
         }
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {

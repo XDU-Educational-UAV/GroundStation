@@ -16,24 +16,31 @@ namespace GroundStation
     {
         private bool Check_Port()  //避免同时发送多个数据帧
         {
-            if (!serialPort1.IsOpen) return false;
-            if (cbxRolDisp.Checked) return false;
-            if (cbxPitDisp.Checked) return false;
+            byte check = 0;
+            if (!serialPort1.IsOpen) check |= 1;
+            if (cbxRolDisp.Checked) check |= 1;
+            if (cbxPitDisp.Checked) check |= 1;
+            if (check != 0)
+            {
+                lblVersion.Text = "未发送!";
+                return false;
+            }
+            lblVersion.Text = version;
             return true;
         }
         /*读取roll控制器参数*/
         private void btnReadRol_Click(object sender, EventArgs e)
         {
             if (!Check_Port()) return;
-            GlobalStat |= 0x02;
-            byte DataAdd = ptcl.Send_Req(0, 0x01,serialPort1.Write);
+            stat.TextSave = true;
+            byte DataAdd = ptcl.Send_Req(0, 0x01, serialPort1.Write);
             TxCount += DataAdd;
         }
         /*读取pitch控制器参数*/
         private void btnReadPit_Click(object sender, EventArgs e)
         {
             if (!Check_Port()) return;
-            GlobalStat |= 0x02;
+            stat.TextSave = true;
             byte DataAdd = ptcl.Send_Req(0, 0x04, serialPort1.Write);
             TxCount += DataAdd;
         }
@@ -42,14 +49,14 @@ namespace GroundStation
         {
             if (!Check_Port()) return;
             int[] idata = new int[4];
-            GlobalStat &= 0xFD;
+            stat.TextSave = false;
             try
             {
                 idata[0] = Convert.ToInt32(tbxRolParam1.Text);
                 idata[1] = Convert.ToInt32(tbxRolParam2.Text);
                 idata[2] = Convert.ToInt32(tbxRolParam3.Text);
                 idata[3] = Convert.ToInt32(tbxRolParam4.Text);
-                byte DataAdd = ptcl.Send_S16_Data(idata, 4, 0xA1,serialPort1.Write);
+                byte DataAdd = ptcl.Send_S16_Data(idata, 4, 0xA1, serialPort1.Write);
                 TxCount += DataAdd;
             }
             catch (Exception) { }
@@ -59,7 +66,7 @@ namespace GroundStation
         {
             if (!Check_Port()) return;
             int[] idata = new int[4];
-            GlobalStat &= 0xFD;
+            stat.TextSave = false;
             try
             {
                 idata[0] = Convert.ToInt32(tbxPitParam1.Text);

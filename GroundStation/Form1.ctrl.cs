@@ -5,7 +5,9 @@ using System.Drawing;
 事件:
 btnCtrl_Click
 btnLock_Click
+cbxSpeedMode_CheckedChanged
 函数:
+CtrlPanel_Update
 CtrlMsg_Send
 ********************************************/
 
@@ -13,27 +15,23 @@ namespace GroundStation
 {
     partial class Form1
     {
-        private byte ErrCnt = 0, GlobalStat = 0;
-        //GlobalStat状态定义
-        //BIT7:建立控制链路
-        //BIT6:已解锁
-        //BIT1:控制器参数保存至文本框
-        //BIT0:发送请求解锁或锁定命令
+        private byte ErrCnt = 0;
+        GlobalStatus stat;
 
-        /*建立控制链路按钮,按下后开始发送数据*/
+        /*建立控制链路按钮,按下后开始发送控制信号*/
         private void btnCtrl_Click(object sender, EventArgs e)
         {
-            if ((GlobalStat & 0x80) == 0x80)
+            if (stat.CtrlLink)  //正在发送控制信号,按下后停止发送
             {
-                GlobalStat &= 0x7F;
+                stat.CtrlLink = false;
                 btnCtrl.Image = Properties.Resources.ledoff;
                 btnCtrl.Text = "建立控制链路";
                 lblCtrl.Text = "失控";
                 lblCtrl.ForeColor = Color.Red;
             }
-            else if (serialPort1.IsOpen)
+            else if (serialPort1.IsOpen)  //如果串口打开就开始发送
             {
-                GlobalStat |= 0x80;
+                stat.CtrlLink = true;
                 btnCtrl.Image = Properties.Resources.ledon;
                 btnCtrl.Text = "断开控制链路";
             }
@@ -41,44 +39,81 @@ namespace GroundStation
         /*此按钮只发送锁定/解锁命令,按钮名称的更改在定时任务中*/
         private void btnLock_Click(object sender, EventArgs e)
         {
-            if ((GlobalStat & 0x80) != 0x80)
-                return;
-            GlobalStat |= 0x01;
+            if (!stat.CtrlLink) return;
+            stat.LockCmdOn = true;
         }
-        private void CtrlMsg_Send()
+        /*更改飞行模式*/
+        private void cbxSpeedMode_CheckedChanged(object sender, EventArgs e)
         {
-            Key_Change();  //控制按键检测
-            lblCtrlRol.Text = (10 * (100 - hScrollRol.Value)).ToString();
-            lblCtrlPit.Text = (10 * (100 - vScrollPit.Value)).ToString();
-            lblCtrlThr.Text = (10 * (100 - vScrollThr.Value)).ToString();
-            lblCtrlYaw.Text = (10 * (100 - hScrollYaw.Value)).ToString();
-            if (!serialPort1.IsOpen) return;
-            if ((GlobalStat & 0x80) != 0x80) return;  //没有与下位机建立通信
+            stat.SendModeChange = true;
+        }
+        /***********************
+         定时更新界面
+          **********************/
+        private void CtrlPanel_Update()
+        {
             ErrCnt++;
-            byte DataAdd = 0, password = 0, SendByte = 0;
-            int[] RCdata = new int[4];
             if (ErrCnt >= 20)
+                stat.inCtrl = false;
+            if (stat.isUnlock)
+            {
+                btnLock.Text = "锁定";
+                lblLock.Text = "解锁";
+                lblLock.ForeColor = Color.Black;
+            }
+            else
+            {
+                btnLock.Text = "解锁";
+                lblLock.Text = "锁定";
+                lblLock.ForeColor = Color.Red;
+                vScrollThr.Value = 100;
+            }
+            if (stat.inCtrl)
+            {
+                lblCtrl.Text = "控制中";
+                lblCtrl.ForeColor = Color.Black;
+            }
+            else
             {
                 lblCtrl.Text = "失控";
                 lblCtrl.ForeColor = Color.Red;
             }
-            if ((GlobalStat & 0x01) == 0x01)  //发送请求解锁或锁定命令
+        }
+        /***********************
+        定时发送任务
+         **********************/
+        private void CtrlMsg_Send()
+        {
+            Key_Change();  //控制按键检测
+            if (!serialPort1.IsOpen) return;
+            byte password = 0;
+            //按下了锁定/解锁按钮
+            if (stat.LockCmdOn)
             {
+                stat.LockCmdOn = false;
                 if (tbxPassword.Text == "") return;
                 try
                 {
                     password = Convert.ToByte(tbxPassword.Text, 16);
+                    if (stat.isUnlock)
+                        TxCount += ptcl.Send_Cmd(password, 0, serialPort1.Write);
+                    else
+                        TxCount += ptcl.Send_Cmd(password, 0x01, serialPort1.Write);
+                    labelTxCnt.Text = $"Tx:{TxCount}";
                 }
                 catch (Exception) { }
-                if ((GlobalStat & 0x040) == 0x40)
-                    DataAdd = ptcl.Send_Cmd(password, 0,serialPort1.Write);
-                else
-                    DataAdd = ptcl.Send_Cmd(password, 0x01, serialPort1.Write);
-                GlobalStat &= 0xFE;
-                TxCount += DataAdd;
-                labelTxCnt.Text = $"Tx:{TxCount}";
                 return;
             }
+            if(stat.SendModeChange)
+            {
+                stat.SendModeChange = false;
+                if (cbxSpeedMode.Checked)
+                    TxCount += ptcl.Send_Req(0x80, 0, serialPort1.Write);
+                else
+                    TxCount += ptcl.Send_Req(0x40, 0, serialPort1.Write);
+            }
+            //显示下位机状态信息
+            byte SendByte = 0;
             if (cbxStat.Checked)
                 SendByte |= 0x01;
             if (cbxAtti.Checked)
@@ -89,21 +124,23 @@ namespace GroundStation
                 SendByte |= 0x08;
             if (cbxMotor.Checked)
                 SendByte |= 0x10;
-            if (SendByte != 0)
+            if ((SendByte != 0) && (stat.SendEn))
             {
-                DataAdd = ptcl.Send_Req(SendByte, 0, serialPort1.Write);
-                TxCount += DataAdd;
+                TxCount += ptcl.Send_Req(SendByte, 0, serialPort1.Write);
                 labelTxCnt.Text = $"Tx:{TxCount}";
-                return;
             }
-            RCdata[0] = 10 * (100 - hScrollRol.Value);
-            RCdata[1] = 10 * (100 - vScrollPit.Value);
-            RCdata[2] = 10 * (100 - vScrollThr.Value);
-            RCdata[3] = 10 * (100 - hScrollYaw.Value);
-            DataAdd = ptcl.Send_S16_Data(RCdata, 4, 0x08, serialPort1.Write);
-            GlobalStat &= 0xFD;
-            TxCount += DataAdd;
-            labelTxCnt.Text = $"Tx:{TxCount}";
+            //向下位机发送控制指令
+            else if ((stat.CtrlLink) && (!stat.SendEn))
+            {
+                int[] RCdata = new int[4];
+                RCdata[0] = 10 * (100 - hScrollRol.Value);
+                RCdata[1] = 10 * (100 - vScrollPit.Value);
+                RCdata[2] = 10 * (100 - vScrollThr.Value);
+                RCdata[3] = 10 * (100 - hScrollYaw.Value);
+                TxCount += ptcl.Send_S16_Data(RCdata, 4, 0x08, serialPort1.Write);
+                labelTxCnt.Text = $"Tx:{TxCount}";
+            }
+            stat.SendEn = !stat.SendEn;
         }
     }
 }

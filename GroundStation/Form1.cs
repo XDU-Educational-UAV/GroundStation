@@ -22,7 +22,7 @@ namespace GroundStation
     public partial class Form1 : Form
     {
         string[] LastPorts = { };
-        const string version = "V0.09";
+        const string version = "Ground Station V0.10";
         long TxCount = 0, RxCount = 0;
         Protocol ptcl = new Protocol();
         public Form1()
@@ -31,7 +31,7 @@ namespace GroundStation
         }
         private void Form1_Load(object sender, EventArgs e)
         {
-            label4.Text = "Ground Station " + version;
+            lblVersion.Text = version;
             ChartInit();
             tabControl1.SelectedIndex = Properties.Settings.Default.TabIndexInt;
             comboBox2.Text = Properties.Settings.Default.cbx2Str;
@@ -75,12 +75,12 @@ namespace GroundStation
                 btnOpen.Text = "断开连接";
                 cbxPort.Enabled = false;
                 comboBox2.Enabled = false;
-                label4.Text = "Ground Station " + version;
+                lblVersion.Text = version;
                 tmrPortRcv.Enabled = true;
             }
             catch (Exception)
             {
-                label4.Text = "串口打开失败!";  //已选端口被占用
+                lblVersion.Text = "串口打开失败!";  //已选端口被占用
             }
         }
         /*定时每秒检测端口状况*/
@@ -104,7 +104,7 @@ namespace GroundStation
                     return;
                 }
                 if (serialPort1.IsOpen == true) return;  //端口打开时有了新的可用端口
-                    if (LastPorts.Length != 0)  //可用端口改变
+                if (LastPorts.Length != 0)  //可用端口改变
                 {
                     SerialPort_Close();
                     cbxPort.Items.Clear();
@@ -130,7 +130,7 @@ namespace GroundStation
             btnCtrl.Text = "建立控制链路";
             lblCtrl.Text = "失控";
             lblCtrl.ForeColor = Color.Red;
-            GlobalStat &= 0x7F;
+            stat.CtrlLink = false;
         }
         /*清除缓存*/
         private void btnClearBuf_Click(object sender, EventArgs e)

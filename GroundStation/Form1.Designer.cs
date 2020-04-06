@@ -152,7 +152,7 @@
             this.cbxDisp = new System.Windows.Forms.CheckBox();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tmrSendUser = new System.Windows.Forms.Timer(this.components);
-            this.label4 = new System.Windows.Forms.Label();
+            this.lblVersion = new System.Windows.Forms.Label();
             this.tmrPortRcv = new System.Windows.Forms.Timer(this.components);
             this.labelTxCnt = new System.Windows.Forms.Label();
             this.labelRxCnt = new System.Windows.Forms.Label();
@@ -160,6 +160,7 @@
             this.btnReCnt = new System.Windows.Forms.Button();
             this.tmrCtrl = new System.Windows.Forms.Timer(this.components);
             this.btnOpen = new System.Windows.Forms.Button();
+            this.cbxSpeedMode = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -396,6 +397,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.cbxSpeedMode);
             this.tabPage2.Controls.Add(this.lblCtrlThr);
             this.tabPage2.Controls.Add(this.lblCtrlPit);
             this.tabPage2.Controls.Add(this.lblCtrlRol);
@@ -533,7 +535,7 @@
             // 
             // tbxPassword
             // 
-            this.tbxPassword.Location = new System.Drawing.Point(774, 493);
+            this.tbxPassword.Location = new System.Drawing.Point(772, 463);
             this.tbxPassword.Name = "tbxPassword";
             this.tbxPassword.Size = new System.Drawing.Size(100, 25);
             this.tbxPassword.TabIndex = 19;
@@ -541,7 +543,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(701, 496);
+            this.label10.Location = new System.Drawing.Point(699, 466);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(67, 15);
             this.label10.TabIndex = 18;
@@ -560,7 +562,7 @@
             // 
             // btnLock
             // 
-            this.btnLock.Location = new System.Drawing.Point(762, 524);
+            this.btnLock.Location = new System.Drawing.Point(772, 507);
             this.btnLock.Name = "btnLock";
             this.btnLock.Size = new System.Drawing.Size(75, 43);
             this.btnLock.TabIndex = 16;
@@ -1380,14 +1382,14 @@
             // 
             this.tmrSendUser.Tick += new System.EventHandler(this.tmrSendUser_Tick);
             // 
-            // label4
+            // lblVersion
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 682);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(119, 15);
-            this.label4.TabIndex = 13;
-            this.label4.Text = "Ground Station";
+            this.lblVersion.AutoSize = true;
+            this.lblVersion.Location = new System.Drawing.Point(12, 682);
+            this.lblVersion.Name = "lblVersion";
+            this.lblVersion.Size = new System.Drawing.Size(15, 15);
+            this.lblVersion.TabIndex = 13;
+            this.lblVersion.Text = ".";
             // 
             // tmrPortRcv
             // 
@@ -1450,6 +1452,17 @@
             this.btnOpen.UseVisualStyleBackColor = true;
             this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
             // 
+            // cbxSpeedMode
+            // 
+            this.cbxSpeedMode.AutoSize = true;
+            this.cbxSpeedMode.Location = new System.Drawing.Point(505, 466);
+            this.cbxSpeedMode.Name = "cbxSpeedMode";
+            this.cbxSpeedMode.Size = new System.Drawing.Size(89, 19);
+            this.cbxSpeedMode.TabIndex = 22;
+            this.cbxSpeedMode.Text = "速度模式";
+            this.cbxSpeedMode.UseVisualStyleBackColor = true;
+            this.cbxSpeedMode.CheckedChanged += new System.EventHandler(this.cbxSpeedMode_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -1459,7 +1472,7 @@
             this.Controls.Add(this.btnClearBuf);
             this.Controls.Add(this.labelRxCnt);
             this.Controls.Add(this.labelTxCnt);
-            this.Controls.Add(this.label4);
+            this.Controls.Add(this.lblVersion);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.btnOpen);
             this.Controls.Add(this.label2);
@@ -1511,7 +1524,7 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Timer tmrSendUser;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblVersion;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.Timer tmrPortRcv;
         private System.Windows.Forms.Label labelTxCnt;
@@ -1620,6 +1633,7 @@
         private System.Windows.Forms.Label lblCtrlYaw;
         private System.Windows.Forms.Button btnAccCali;
         private System.Windows.Forms.Button btnGyroCali;
+        private System.Windows.Forms.CheckBox cbxSpeedMode;
     }
 }
 
