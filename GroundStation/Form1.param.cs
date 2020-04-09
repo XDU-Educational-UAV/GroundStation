@@ -33,7 +33,7 @@ namespace GroundStation
         {
             if (!Check_Port()) return;
             stat.TextSave = true;
-            byte DataAdd = ptcl.Send_Req(0, 0x01, serialPort1.Write);
+            byte DataAdd = ptcl.Send_Req(0, 0x01, SerialPort_Send);
             TxCount += DataAdd;
         }
         /*读取pitch控制器参数*/
@@ -41,7 +41,7 @@ namespace GroundStation
         {
             if (!Check_Port()) return;
             stat.TextSave = true;
-            byte DataAdd = ptcl.Send_Req(0, 0x04, serialPort1.Write);
+            byte DataAdd = ptcl.Send_Req(0, 0x04, SerialPort_Send);
             TxCount += DataAdd;
         }
         /*写入roll控制器参数*/
@@ -56,7 +56,7 @@ namespace GroundStation
                 idata[1] = Convert.ToInt32(tbxRolParam2.Text);
                 idata[2] = Convert.ToInt32(tbxRolParam3.Text);
                 idata[3] = Convert.ToInt32(tbxRolParam4.Text);
-                byte DataAdd = ptcl.Send_S16_Data(idata, 4, 0xA1, serialPort1.Write);
+                byte DataAdd = ptcl.Send_S16_Data(idata, 4, 0xA1, SerialPort_Send);
                 TxCount += DataAdd;
             }
             catch (Exception) { }
@@ -73,7 +73,7 @@ namespace GroundStation
                 idata[1] = Convert.ToInt32(tbxPitParam2.Text);
                 idata[2] = Convert.ToInt32(tbxPitParam3.Text);
                 idata[3] = Convert.ToInt32(tbxPitParam4.Text);
-                byte DataAdd = ptcl.Send_S16_Data(idata, 4, 0xA3, serialPort1.Write);
+                byte DataAdd = ptcl.Send_S16_Data(idata, 4, 0xA3, SerialPort_Send);
                 TxCount += DataAdd;
             }
             catch (Exception) { }
@@ -82,7 +82,7 @@ namespace GroundStation
         private void btnGyroCali_Click(object sender, EventArgs e)
         {
             if (!Check_Port()) return;
-            byte DataAdd = ptcl.Send_Req(0, 0x20, serialPort1.Write);
+            byte DataAdd = ptcl.Send_Req(0, 0x20, SerialPort_Send);
             TxCount += DataAdd;
             labelTxCnt.Text = $"Tx:{TxCount}";
         }
@@ -90,7 +90,7 @@ namespace GroundStation
         private void btnAccCali_Click(object sender, EventArgs e)
         {
             if (!Check_Port()) return;
-            byte DataAdd = ptcl.Send_Req(0, 0x10, serialPort1.Write);
+            byte DataAdd = ptcl.Send_Req(0, 0x10, SerialPort_Send);
             TxCount += DataAdd;
             labelTxCnt.Text = $"Tx:{TxCount}";
         }
@@ -107,7 +107,7 @@ namespace GroundStation
                 req |= 0x08;
             if (req != 0)
             {
-                byte DataAdd = ptcl.Send_Req(0, req, serialPort1.Write);
+                byte DataAdd = ptcl.Send_Req(0, req, SerialPort_Send);
                 TxCount += DataAdd;
             }
             labelTxCnt.Text = $"Tx:{TxCount}";

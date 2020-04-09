@@ -79,7 +79,7 @@ namespace GroundStation
             if (!serialPort1.IsOpen) return;
             if (cbxDisp.Checked)
             {
-                byte DataAdd = ptcl.Send_Req(0, 0x0A, serialPort1.Write);
+                byte DataAdd = ptcl.Send_Req(0, 0x0A, SerialPort_Send);
                 TxCount += DataAdd;
                 labelTxCnt.Text = $"Tx:{TxCount}";
             }

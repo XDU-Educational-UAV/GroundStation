@@ -96,9 +96,9 @@ namespace GroundStation
                 {
                     password = Convert.ToByte(tbxPassword.Text, 16);
                     if (stat.isUnlock)
-                        TxCount += ptcl.Send_Cmd(password, 0, serialPort1.Write);
+                        TxCount += ptcl.Send_Cmd(password, 0, SerialPort_Send);
                     else
-                        TxCount += ptcl.Send_Cmd(password, 0x01, serialPort1.Write);
+                        TxCount += ptcl.Send_Cmd(password, 0x01, SerialPort_Send);
                     labelTxCnt.Text = $"Tx:{TxCount}";
                 }
                 catch (Exception) { }
@@ -108,9 +108,9 @@ namespace GroundStation
             {
                 stat.SendModeChange = false;
                 if (cbxSpeedMode.Checked)
-                    TxCount += ptcl.Send_Req(0x80, 0, serialPort1.Write);
+                    TxCount += ptcl.Send_Req(0x80, 0, SerialPort_Send);
                 else
-                    TxCount += ptcl.Send_Req(0x40, 0, serialPort1.Write);
+                    TxCount += ptcl.Send_Req(0x40, 0, SerialPort_Send);
             }
             //显示下位机状态信息
             byte SendByte = 0;
@@ -126,7 +126,7 @@ namespace GroundStation
                 SendByte |= 0x10;
             if ((SendByte != 0) && (stat.SendEn))
             {
-                TxCount += ptcl.Send_Req(SendByte, 0, serialPort1.Write);
+                TxCount += ptcl.Send_Req(SendByte, 0, SerialPort_Send);
                 labelTxCnt.Text = $"Tx:{TxCount}";
             }
             //向下位机发送控制指令
@@ -137,7 +137,7 @@ namespace GroundStation
                 RCdata[1] = 10 * (100 - vScrollPit.Value);
                 RCdata[2] = 10 * (100 - vScrollThr.Value);
                 RCdata[3] = 10 * (100 - hScrollYaw.Value);
-                TxCount += ptcl.Send_S16_Data(RCdata, 4, 0x08, serialPort1.Write);
+                TxCount += ptcl.Send_S16_Data(RCdata, 4, 0x08, SerialPort_Send);
                 labelTxCnt.Text = $"Tx:{TxCount}";
             }
             stat.SendEn = !stat.SendEn;

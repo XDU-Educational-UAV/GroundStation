@@ -28,23 +28,33 @@ namespace GroundStation
         {
             if (!cbxHexRcv.Checked)  //字符串方式读
             {
-                string str = serialPort1.ReadExisting();
-                tbxRx.AppendText(str);
-                RxCount += str.Length;
+                try
+                {
+                    string str = serialPort1.ReadExisting();
+                    tbxRx.AppendText(str);
+                    RxCount += str.Length;
+                }
+                catch (Exception) { };
             }
             else  //16进制方式读
             {
                 string str = "";
                 byte temp;
+                int remain = 0;
                 do
                 {
-                    temp = (byte)serialPort1.ReadByte();  //使用string方式读的ASCII值是7位的,所有超过0x3F的值都以0x3F显示
-                    if (temp <= 0x0F)
-                        str += "0" + Convert.ToString(temp, 16).ToUpper() + " ";
-                    else
-                        str += Convert.ToString(temp, 16).ToUpper() + " ";
-                    RxCount++;
-                } while (serialPort1.BytesToRead > 0);
+                    try
+                    {
+                        temp = (byte)serialPort1.ReadByte();  //使用string方式读的ASCII值是7位的,所有超过0x3F的值都以0x3F显示
+                        remain = serialPort1.BytesToRead;
+                        if (temp <= 0x0F)
+                            str += "0" + Convert.ToString(temp, 16).ToUpper() + " ";
+                        else
+                            str += Convert.ToString(temp, 16).ToUpper() + " ";
+                        RxCount++;
+                    }
+                    catch (Exception) { };
+                } while ( remain> 0);
                 tbxRx.AppendText(str);
             }
             labelRxCnt.Text = $"Rx:{RxCount}";
@@ -57,8 +67,12 @@ namespace GroundStation
             if (text == "") return;
             if (!cbxHex.Checked)  //字符串方式发送
             {
-                serialPort1.Write(text);
+                try
+                {
+                    serialPort1.Write(text);
                 TxCount += text.Length;
+                }
+                catch (Exception) { }
             }
             else  //16进制方式发送
             {

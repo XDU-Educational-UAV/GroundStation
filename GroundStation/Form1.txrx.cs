@@ -13,6 +13,17 @@ namespace GroundStation
 {
     partial class Form1
     {
+        /***********************
+         为串口发送加上异常处理
+         **********************/
+        private void SerialPort_Send(byte[] buffer,int count)
+        {
+            try
+            {
+            serialPort1.Write(buffer, 0, count);
+            }
+            catch (Exception) { };
+        }
         /*定时10ms处理串口接收缓冲RxStr*/
         private void tmrPortRcv_Tick(object sender, EventArgs e)
         {
@@ -23,10 +34,16 @@ namespace GroundStation
                 Base_Text_Receive();
                 return;
             }
-            byte success, DataAdd = 0;
+            byte success=1, DataAdd = 0;
+            int remain=0;
             do  //可能会一次收到大量数据
             {
-                success = ptcl.Byte_Receive((byte)serialPort1.ReadByte());
+                try
+                {
+                    success = ptcl.Byte_Receive((byte)serialPort1.ReadByte());
+                    remain = serialPort1.BytesToRead;
+                }
+                catch (Exception) { };
                 DataAdd++;
                 if (success == 0)
                     Data_Receive_Precess();
@@ -35,7 +52,7 @@ namespace GroundStation
                     lblCtrl.Text = "失控";
                     lblCtrl.ForeColor = Color.Red;
                 }
-            } while (serialPort1.BytesToRead > 0);
+            } while (remain > 0);
             RxCount += DataAdd;
             labelRxCnt.Text = $"Rx:{RxCount}";
         }
