@@ -56,6 +56,9 @@
             this.label3 = new System.Windows.Forms.Label();
             this.btnSend2 = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.label4 = new System.Windows.Forms.Label();
+            this.lblMode = new System.Windows.Forms.Label();
+            this.cbxSpeedMode = new System.Windows.Forms.CheckBox();
             this.lblCtrlThr = new System.Windows.Forms.Label();
             this.lblCtrlPit = new System.Windows.Forms.Label();
             this.lblCtrlRol = new System.Windows.Forms.Label();
@@ -64,6 +67,7 @@
             this.cbxRC = new System.Windows.Forms.CheckBox();
             this.cbxSensor = new System.Windows.Forms.CheckBox();
             this.cbxStat = new System.Windows.Forms.CheckBox();
+            this.cbxQuaternion = new System.Windows.Forms.CheckBox();
             this.cbxAtti = new System.Windows.Forms.CheckBox();
             this.tbxPassword = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
@@ -76,9 +80,13 @@
             this.lblM3 = new System.Windows.Forms.Label();
             this.lblM2 = new System.Windows.Forms.Label();
             this.lblM1 = new System.Windows.Forms.Label();
+            this.lblQ3 = new System.Windows.Forms.Label();
             this.lblRCyaw = new System.Windows.Forms.Label();
+            this.lblQ2 = new System.Windows.Forms.Label();
             this.lblRCthr = new System.Windows.Forms.Label();
+            this.lblQ1 = new System.Windows.Forms.Label();
             this.lblRCpit = new System.Windows.Forms.Label();
+            this.lblQ0 = new System.Windows.Forms.Label();
             this.lblRCrol = new System.Windows.Forms.Label();
             this.lblGyroz = new System.Windows.Forms.Label();
             this.lblGyroy = new System.Windows.Forms.Label();
@@ -160,7 +168,6 @@
             this.btnReCnt = new System.Windows.Forms.Button();
             this.tmrCtrl = new System.Windows.Forms.Timer(this.components);
             this.btnOpen = new System.Windows.Forms.Button();
-            this.cbxSpeedMode = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -397,6 +404,8 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.label4);
+            this.tabPage2.Controls.Add(this.lblMode);
             this.tabPage2.Controls.Add(this.cbxSpeedMode);
             this.tabPage2.Controls.Add(this.lblCtrlThr);
             this.tabPage2.Controls.Add(this.lblCtrlPit);
@@ -406,6 +415,7 @@
             this.tabPage2.Controls.Add(this.cbxRC);
             this.tabPage2.Controls.Add(this.cbxSensor);
             this.tabPage2.Controls.Add(this.cbxStat);
+            this.tabPage2.Controls.Add(this.cbxQuaternion);
             this.tabPage2.Controls.Add(this.cbxAtti);
             this.tabPage2.Controls.Add(this.tbxPassword);
             this.tabPage2.Controls.Add(this.label10);
@@ -418,9 +428,13 @@
             this.tabPage2.Controls.Add(this.lblM3);
             this.tabPage2.Controls.Add(this.lblM2);
             this.tabPage2.Controls.Add(this.lblM1);
+            this.tabPage2.Controls.Add(this.lblQ3);
             this.tabPage2.Controls.Add(this.lblRCyaw);
+            this.tabPage2.Controls.Add(this.lblQ2);
             this.tabPage2.Controls.Add(this.lblRCthr);
+            this.tabPage2.Controls.Add(this.lblQ1);
             this.tabPage2.Controls.Add(this.lblRCpit);
+            this.tabPage2.Controls.Add(this.lblQ0);
             this.tabPage2.Controls.Add(this.lblRCrol);
             this.tabPage2.Controls.Add(this.lblGyroz);
             this.tabPage2.Controls.Add(this.lblGyroy);
@@ -445,10 +459,40 @@
             this.tabPage2.Text = "飞行控制";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(973, 19);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(23, 60);
+            this.label4.TabIndex = 24;
+            this.label4.Text = "q0\r\nq1\r\nq2\r\nq3";
+            // 
+            // lblMode
+            // 
+            this.lblMode.AutoSize = true;
+            this.lblMode.Font = new System.Drawing.Font("楷体", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblMode.Location = new System.Drawing.Point(6, 112);
+            this.lblMode.Name = "lblMode";
+            this.lblMode.Size = new System.Drawing.Size(106, 24);
+            this.lblMode.TabIndex = 23;
+            this.lblMode.Text = "姿态模式";
+            // 
+            // cbxSpeedMode
+            // 
+            this.cbxSpeedMode.AutoSize = true;
+            this.cbxSpeedMode.Location = new System.Drawing.Point(772, 531);
+            this.cbxSpeedMode.Name = "cbxSpeedMode";
+            this.cbxSpeedMode.Size = new System.Drawing.Size(89, 19);
+            this.cbxSpeedMode.TabIndex = 22;
+            this.cbxSpeedMode.Text = "速度模式";
+            this.cbxSpeedMode.UseVisualStyleBackColor = true;
+            this.cbxSpeedMode.CheckedChanged += new System.EventHandler(this.cbxSpeedMode_CheckedChanged);
+            // 
             // lblCtrlThr
             // 
             this.lblCtrlThr.AutoSize = true;
-            this.lblCtrlThr.Location = new System.Drawing.Point(351, 280);
+            this.lblCtrlThr.Location = new System.Drawing.Point(243, 280);
             this.lblCtrlThr.Name = "lblCtrlThr";
             this.lblCtrlThr.Size = new System.Drawing.Size(15, 15);
             this.lblCtrlThr.TabIndex = 21;
@@ -457,7 +501,7 @@
             // lblCtrlPit
             // 
             this.lblCtrlPit.AutoSize = true;
-            this.lblCtrlPit.Location = new System.Drawing.Point(983, 280);
+            this.lblCtrlPit.Location = new System.Drawing.Point(848, 280);
             this.lblCtrlPit.Name = "lblCtrlPit";
             this.lblCtrlPit.Size = new System.Drawing.Size(31, 15);
             this.lblCtrlPit.TabIndex = 21;
@@ -523,6 +567,16 @@
             this.cbxStat.Text = "状态显示";
             this.cbxStat.UseVisualStyleBackColor = true;
             // 
+            // cbxQuaternion
+            // 
+            this.cbxQuaternion.AutoSize = true;
+            this.cbxQuaternion.Location = new System.Drawing.Point(1113, 17);
+            this.cbxQuaternion.Name = "cbxQuaternion";
+            this.cbxQuaternion.Size = new System.Drawing.Size(104, 19);
+            this.cbxQuaternion.TabIndex = 20;
+            this.cbxQuaternion.Text = "四元数显示";
+            this.cbxQuaternion.UseVisualStyleBackColor = true;
+            // 
             // cbxAtti
             // 
             this.cbxAtti.AutoSize = true;
@@ -535,7 +589,7 @@
             // 
             // tbxPassword
             // 
-            this.tbxPassword.Location = new System.Drawing.Point(772, 463);
+            this.tbxPassword.Location = new System.Drawing.Point(772, 429);
             this.tbxPassword.Name = "tbxPassword";
             this.tbxPassword.Size = new System.Drawing.Size(100, 25);
             this.tbxPassword.TabIndex = 19;
@@ -543,7 +597,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(699, 466);
+            this.label10.Location = new System.Drawing.Point(699, 432);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(67, 15);
             this.label10.TabIndex = 18;
@@ -562,7 +616,7 @@
             // 
             // btnLock
             // 
-            this.btnLock.Location = new System.Drawing.Point(772, 507);
+            this.btnLock.Location = new System.Drawing.Point(772, 473);
             this.btnLock.Name = "btnLock";
             this.btnLock.Size = new System.Drawing.Size(75, 43);
             this.btnLock.TabIndex = 16;
@@ -646,6 +700,17 @@
             this.lblM1.Text = "0";
             this.lblM1.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
+            // lblQ3
+            // 
+            this.lblQ3.AutoSize = true;
+            this.lblQ3.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblQ3.Location = new System.Drawing.Point(1020, 66);
+            this.lblQ3.Name = "lblQ3";
+            this.lblQ3.Size = new System.Drawing.Size(15, 15);
+            this.lblQ3.TabIndex = 9;
+            this.lblQ3.Text = "0";
+            this.lblQ3.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // lblRCyaw
             // 
             this.lblRCyaw.AutoSize = true;
@@ -656,6 +721,17 @@
             this.lblRCyaw.TabIndex = 9;
             this.lblRCyaw.Text = "0";
             this.lblRCyaw.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // lblQ2
+            // 
+            this.lblQ2.AutoSize = true;
+            this.lblQ2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblQ2.Location = new System.Drawing.Point(1020, 51);
+            this.lblQ2.Name = "lblQ2";
+            this.lblQ2.Size = new System.Drawing.Size(15, 15);
+            this.lblQ2.TabIndex = 9;
+            this.lblQ2.Text = "0";
+            this.lblQ2.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // lblRCthr
             // 
@@ -668,6 +744,17 @@
             this.lblRCthr.Text = "0";
             this.lblRCthr.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
+            // lblQ1
+            // 
+            this.lblQ1.AutoSize = true;
+            this.lblQ1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblQ1.Location = new System.Drawing.Point(1020, 36);
+            this.lblQ1.Name = "lblQ1";
+            this.lblQ1.Size = new System.Drawing.Size(15, 15);
+            this.lblQ1.TabIndex = 9;
+            this.lblQ1.Text = "0";
+            this.lblQ1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // lblRCpit
             // 
             this.lblRCpit.AutoSize = true;
@@ -678,6 +765,17 @@
             this.lblRCpit.TabIndex = 9;
             this.lblRCpit.Text = "0";
             this.lblRCpit.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // lblQ0
+            // 
+            this.lblQ0.AutoSize = true;
+            this.lblQ0.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblQ0.Location = new System.Drawing.Point(1020, 21);
+            this.lblQ0.Name = "lblQ0";
+            this.lblQ0.Size = new System.Drawing.Size(15, 15);
+            this.lblQ0.TabIndex = 9;
+            this.lblQ0.Text = "0";
+            this.lblQ0.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // lblRCrol
             // 
@@ -839,7 +937,7 @@
             // 
             this.btnCtrl.Image = global::GroundStation.Properties.Resources.ledoff;
             this.btnCtrl.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCtrl.Location = new System.Drawing.Point(505, 507);
+            this.btnCtrl.Location = new System.Drawing.Point(503, 473);
             this.btnCtrl.Name = "btnCtrl";
             this.btnCtrl.Size = new System.Drawing.Size(179, 43);
             this.btnCtrl.TabIndex = 12;
@@ -1452,17 +1550,6 @@
             this.btnOpen.UseVisualStyleBackColor = true;
             this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
             // 
-            // cbxSpeedMode
-            // 
-            this.cbxSpeedMode.AutoSize = true;
-            this.cbxSpeedMode.Location = new System.Drawing.Point(505, 466);
-            this.cbxSpeedMode.Name = "cbxSpeedMode";
-            this.cbxSpeedMode.Size = new System.Drawing.Size(89, 19);
-            this.cbxSpeedMode.TabIndex = 22;
-            this.cbxSpeedMode.Text = "速度模式";
-            this.cbxSpeedMode.UseVisualStyleBackColor = true;
-            this.cbxSpeedMode.CheckedChanged += new System.EventHandler(this.cbxSpeedMode_CheckedChanged);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -1634,6 +1721,13 @@
         private System.Windows.Forms.Button btnAccCali;
         private System.Windows.Forms.Button btnGyroCali;
         private System.Windows.Forms.CheckBox cbxSpeedMode;
+        private System.Windows.Forms.Label lblMode;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.CheckBox cbxQuaternion;
+        private System.Windows.Forms.Label lblQ3;
+        private System.Windows.Forms.Label lblQ2;
+        private System.Windows.Forms.Label lblQ1;
+        private System.Windows.Forms.Label lblQ0;
     }
 }
 

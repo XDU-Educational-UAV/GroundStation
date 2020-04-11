@@ -82,7 +82,7 @@ namespace GroundStation
         private void btnGyroCali_Click(object sender, EventArgs e)
         {
             if (!Check_Port()) return;
-            byte DataAdd = ptcl.Send_Req(0, 0x20, SerialPort_Send);
+            byte DataAdd = ptcl.Send_Req(0, 0x80, SerialPort_Send);
             TxCount += DataAdd;
             labelTxCnt.Text = $"Tx:{TxCount}";
         }
@@ -90,7 +90,7 @@ namespace GroundStation
         private void btnAccCali_Click(object sender, EventArgs e)
         {
             if (!Check_Port()) return;
-            byte DataAdd = ptcl.Send_Req(0, 0x10, SerialPort_Send);
+            byte DataAdd = ptcl.Send_Req(0, 0x40, SerialPort_Send);
             TxCount += DataAdd;
             labelTxCnt.Text = $"Tx:{TxCount}";
         }

@@ -34,7 +34,10 @@ namespace GroundStation
                     tbxRx.AppendText(str);
                     RxCount += str.Length;
                 }
-                catch (Exception) { };
+                catch (Exception)
+                {
+                    SerialPort_Close();
+                };
             }
             else  //16进制方式读
             {
@@ -53,8 +56,11 @@ namespace GroundStation
                             str += Convert.ToString(temp, 16).ToUpper() + " ";
                         RxCount++;
                     }
-                    catch (Exception) { };
-                } while ( remain> 0);
+                    catch (Exception)
+                    {
+                        SerialPort_Close();
+                    };
+                } while (remain > 0);
                 tbxRx.AppendText(str);
             }
             labelRxCnt.Text = $"Rx:{RxCount}";
@@ -70,9 +76,12 @@ namespace GroundStation
                 try
                 {
                     serialPort1.Write(text);
-                TxCount += text.Length;
+                    TxCount += text.Length;
                 }
-                catch (Exception) { }
+                catch (Exception)
+                {
+                    SerialPort_Close();
+                }
             }
             else  //16进制方式发送
             {
@@ -86,7 +95,11 @@ namespace GroundStation
                     serialPort1.Write(HexData, 0, BufferSize);
                     TxCount += BufferSize;
                 }
-                catch (Exception) { }  //存在十六进制外的字符串
+                catch (FormatException) { }  //存在十六进制外的字符串
+                catch (Exception)
+                {
+                    SerialPort_Close();
+                }
             }
             labelTxCnt.Text = $"Tx:{TxCount}";
         }
