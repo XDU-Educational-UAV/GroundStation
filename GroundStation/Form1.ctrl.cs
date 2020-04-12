@@ -26,8 +26,6 @@ namespace GroundStation
                 stat.CtrlLink = false;
                 btnCtrl.Image = Properties.Resources.ledoff;
                 btnCtrl.Text = "建立控制链路";
-                lblCtrl.Text = "失控";
-                lblCtrl.ForeColor = Color.Red;
             }
             else if (serialPort1.IsOpen)  //如果串口打开就开始发送
             {
@@ -54,7 +52,10 @@ namespace GroundStation
         {
             ErrCnt++;
             if (ErrCnt >= 20)
+            {
                 stat.inCtrl = false;
+                ErrCnt--;
+            }
             if (stat.isUnlock)
             {
                 btnLock.Text = "锁定";
@@ -104,26 +105,35 @@ namespace GroundStation
                 catch (Exception) { }
                 return;
             }
-            if(stat.SendModeChange)
+            if (stat.SendModeChange)
             {
                 stat.SendModeChange = false;
-                if (cbxSpeedMode.Checked)
-                    TxCount += ptcl.Send_Req(0x80, 0, SerialPort_Send);
-                else
-                    TxCount += ptcl.Send_Req(0x40, 0, SerialPort_Send);
+                if (tbxPassword.Text == "") return;
+                try
+                {
+                    password = Convert.ToByte(tbxPassword.Text, 16);
+                    if (cbxSpeedMode.Checked)
+                        TxCount += ptcl.Send_Cmd(password, 0x80, SerialPort_Send);
+                    else
+                        TxCount += ptcl.Send_Cmd(password, 0x40, SerialPort_Send);
+                    labelTxCnt.Text = $"Tx:{TxCount}";
+                }
+                catch (Exception) { }
             }
             //显示下位机状态信息
             byte SendByte = 0;
             if (cbxStat.Checked)
-                SendByte |= 0x01;
+                SendByte |= FuncByte.stat;
             if (cbxAtti.Checked)
-                SendByte |= 0x02;
+                SendByte |= FuncByte.atti;
             if (cbxSensor.Checked)
-                SendByte |= 0x04;
+                SendByte |= FuncByte.sensor;
             if (cbxRC.Checked)
-                SendByte |= 0x08;
+                SendByte |= FuncByte.rc;
             if (cbxMotor.Checked)
-                SendByte |= 0x10;
+                SendByte |= FuncByte.motor;
+            if (cbxQuaternion.Checked)
+                SendByte |= FuncByte.quaternion;
             if ((SendByte != 0) && (stat.SendEn))
             {
                 TxCount += ptcl.Send_Req(SendByte, 0, SerialPort_Send);
@@ -134,7 +144,7 @@ namespace GroundStation
             {
                 int[] RCdata = new int[4];
                 RCdata[0] = 10 * (100 - hScrollRol.Value);
-                RCdata[1] = 10 * (100 - vScrollPit.Value);
+                RCdata[1] = 10 * vScrollPit.Value;
                 RCdata[2] = 10 * (100 - vScrollThr.Value);
                 RCdata[3] = 10 * (100 - hScrollYaw.Value);
                 TxCount += ptcl.Send_S16_Data(RCdata, 4, 0x08, SerialPort_Send);

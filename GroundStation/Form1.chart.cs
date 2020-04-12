@@ -29,8 +29,7 @@ namespace GroundStation
             Color[] DataColor = new Color[]
                 {Color.Red,Color.Blue,Color.Green,Color.Orange,Color.Purple,Color.Silver,Color.Pink,Color.Cyan};
             chart1.Series.Clear();
-            chart1.ChartAreas[0].AxisY.Minimum = 0;
-            chart1.ChartAreas[0].AxisY.Maximum = 0;
+            stat.ChartFirst = true;
             chart1.ChartAreas[0].AxisX.Interval = 5;
             chart1.ChartAreas[0].AxisX.MajorGrid.LineColor = Color.Silver;
             chart1.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.Silver;
@@ -67,6 +66,12 @@ namespace GroundStation
             chart1.Series[LineLabel].Points.Clear();
             for (int i = 0; i < DataQueue[LineLabel].Count; i++)
             {
+                if (stat.ChartFirst)
+                {
+                    chart1.ChartAreas[0].AxisY.Maximum = data;
+                    chart1.ChartAreas[0].AxisY.Minimum = data-0.01;
+                    stat.ChartFirst = false;
+                }
                 if (data > chart1.ChartAreas[0].AxisY.Maximum)
                     chart1.ChartAreas[0].AxisY.Maximum = data;
                 else if (data < chart1.ChartAreas[0].AxisY.Minimum)
@@ -97,8 +102,7 @@ namespace GroundStation
                     DataQueue[i].Dequeue();
                 chart1.Series[i].Points.Clear();
             }
-            chart1.ChartAreas[0].AxisY.Minimum = 0;
-            chart1.ChartAreas[0].AxisY.Maximum = 0;
+            stat.ChartFirst = true;
         }
     }
 }

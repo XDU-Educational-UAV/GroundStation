@@ -16,13 +16,16 @@ namespace GroundStation
         /***********************
          为串口发送加上异常处理
          **********************/
-        private void SerialPort_Send(byte[] buffer,int count)
+        private void SerialPort_Send(byte[] buffer, int count)
         {
             try
             {
-            serialPort1.Write(buffer, 0, count);
+                serialPort1.Write(buffer, 0, count);
             }
-            catch (Exception) { };
+            catch (Exception)
+            {
+                SerialPort_Close();
+            };
         }
         /*定时10ms处理串口接收缓冲RxStr*/
         private void tmrPortRcv_Tick(object sender, EventArgs e)
@@ -34,8 +37,8 @@ namespace GroundStation
                 Base_Text_Receive();
                 return;
             }
-            byte success=1, DataAdd = 0;
-            int remain=0;
+            byte success = 1, DataAdd = 0;
+            int remain = 0;
             do  //可能会一次收到大量数据
             {
                 try
@@ -87,15 +90,19 @@ namespace GroundStation
             short[] sdata = new short[6];
             switch (ptcl.FcnWord)
             {
-                case FunctionByte.stat:
+                case FuncByte.stat:
                     if ((RxTemp[0] & 0x01) == 0x01)
                         stat.isUnlock = true;
                     else
                         stat.isUnlock = false;
-                    double voltage = RxTemp[1] * 2 / 100.0;
-                    lblVoltage.Text = voltage.ToString("#0.00");
+                    if ((RxTemp[0] & 0x20) == 0x20)
+                        lblMode.Text = "速度模式";
+                    else
+                        lblMode.Text = "姿态模式";
+                    double voltage = ((RxTemp[1] << 8) | RxTemp[2]) / 1000.0;
+                    lblVoltage.Text = voltage.ToString("#0.000")+"V";
                     break;
-                case FunctionByte.atti:  //注意RxTemp为有符号16位整型
+                case FuncByte.atti:  //注意RxTemp为有符号16位整型
                     sdata[0] = (short)((RxTemp[0] << 8) | RxTemp[1]);
                     sdata[1] = (short)((RxTemp[2] << 8) | RxTemp[3]);
                     sdata[2] = (short)((RxTemp[4] << 8) | RxTemp[5]);
@@ -106,21 +113,21 @@ namespace GroundStation
                     lblPitch.Text = ddata[1].ToString("#0.00");
                     lblYaw.Text = ddata[2].ToString("#0.00");
                     break;
-                case FunctionByte.sensor:
+                case FuncByte.sensor:
                     sdata[0] = (short)((RxTemp[0] << 8) | RxTemp[1]);
                     sdata[1] = (short)((RxTemp[2] << 8) | RxTemp[3]);
                     sdata[2] = (short)((RxTemp[4] << 8) | RxTemp[5]);
                     sdata[3] = (short)((RxTemp[6] << 8) | RxTemp[7]);
                     sdata[4] = (short)((RxTemp[8] << 8) | RxTemp[9]);
                     sdata[5] = (short)((RxTemp[10] << 8) | RxTemp[11]);
-                    lblAccx.Text = sdata[0].ToString("#0.00");
-                    lblAccy.Text = sdata[1].ToString("#0.00");
-                    lblAccz.Text = sdata[2].ToString("#0.00");
-                    lblGyrox.Text = sdata[3].ToString("#0.00");
-                    lblGyroy.Text = sdata[4].ToString("#0.00");
-                    lblGyroz.Text = sdata[5].ToString("#0.00");
+                    lblAccx.Text = sdata[0].ToString();
+                    lblAccy.Text = sdata[1].ToString();
+                    lblAccz.Text = sdata[2].ToString();
+                    lblGyrox.Text = sdata[3].ToString();
+                    lblGyroy.Text = sdata[4].ToString();
+                    lblGyroz.Text = sdata[5].ToString();
                     break;
-                case FunctionByte.rc:
+                case FuncByte.rc:
                     idata[0] = ((RxTemp[0] << 8) | RxTemp[1]) / 10;
                     idata[1] = ((RxTemp[2] << 8) | RxTemp[3]) / 10;
                     idata[2] = ((RxTemp[4] << 8) | RxTemp[5]) / 10;
@@ -130,7 +137,7 @@ namespace GroundStation
                     lblRCthr.Text = idata[2].ToString();
                     lblRCyaw.Text = idata[3].ToString();
                     break;
-                case FunctionByte.motor:
+                case FuncByte.motor:
                     idata[0] = (RxTemp[0] << 8) | RxTemp[1];
                     idata[1] = (RxTemp[2] << 8) | RxTemp[3];
                     idata[2] = (RxTemp[4] << 8) | RxTemp[5];
@@ -140,31 +147,45 @@ namespace GroundStation
                     lblM3.Text = idata[2].ToString();
                     lblM4.Text = idata[3].ToString();
                     break;
-                case FunctionByte.rolCtrl:
+                case FuncByte.quaternion:
+                    sdata[0] = (short)((RxTemp[0] << 8) | RxTemp[1]);
+                    sdata[1] = (short)((RxTemp[2] << 8) | RxTemp[3]);
+                    sdata[2] = (short)((RxTemp[4] << 8) | RxTemp[5]);
+                    sdata[3] = (short)((RxTemp[6] << 8) | RxTemp[7]);
+                    ddata[0] = sdata[0] / 10000.0;
+                    ddata[1] = sdata[1] / 10000.0;
+                    ddata[2] = sdata[2] / 10000.0;
+                    ddata[3] = sdata[3] / 10000.0;
+                    lblQ0.Text = ddata[0].ToString("#0.0000");
+                    lblQ1.Text = ddata[1].ToString("#0.0000");
+                    lblQ2.Text = ddata[2].ToString("#0.0000");
+                    lblQ3.Text = ddata[3].ToString("#0.0000");
+                    break;
+                case FuncByte.rolCtrl:
                     idata[0] = (RxTemp[0] << 8) | RxTemp[1];
                     idata[1] = (RxTemp[2] << 8) | RxTemp[3];
                     idata[2] = (RxTemp[4] << 8) | RxTemp[5];
-                    idata[3] = (RxTemp[6] << 8) | RxTemp[7];
+                    sdata[3] = (short)((RxTemp[6] << 8) | RxTemp[7]);
                     if (stat.TextSave)
                     {
                         tbxRolParam1.Text = idata[0].ToString();
                         tbxRolParam2.Text = idata[1].ToString();
                         tbxRolParam3.Text = idata[2].ToString();
-                        tbxRolParam4.Text = idata[3].ToString();
+                        tbxRolParam4.Text = sdata[3].ToString();
                     }
                     else
                     {
                         ddata[0] = idata[0] / 1000.0;
                         ddata[1] = idata[1] / 1000.0;
                         ddata[2] = idata[2] / 1000.0;
-                        ddata[3] = idata[3] / 1000.0;
+                        ddata[3] = sdata[3] / 100.0;
                         lblRolParam1.Text = ddata[0].ToString("#0.000");
                         lblRolParam2.Text = ddata[1].ToString("#0.000");
                         lblRolParam3.Text = ddata[2].ToString("#0.000");
-                        lblRolParam4.Text = ddata[3].ToString("#0.000");
+                        lblRolParam4.Text = ddata[3].ToString("#0.00");
                     }
                     break;
-                case FunctionByte.pitCtrl:
+                case FuncByte.pitCtrl:
                     idata[0] = (RxTemp[0] << 8) | RxTemp[1];
                     idata[1] = (RxTemp[2] << 8) | RxTemp[3];
                     idata[2] = (RxTemp[4] << 8) | RxTemp[5];
@@ -188,24 +209,7 @@ namespace GroundStation
                         lblPitParam4.Text = ddata[3].ToString("#0.000");
                     }
                     break;
-                case FunctionByte.rolStat:
-                    sdata[0] = (short)((RxTemp[0] << 8) | RxTemp[1]);
-                    sdata[1] = (short)((RxTemp[2] << 8) | RxTemp[3]);
-                    sdata[2] = (short)((RxTemp[4] << 8) | RxTemp[5]);
-                    sdata[3] = (short)((RxTemp[6] << 8) | RxTemp[7]);
-                    ddata[0] = sdata[0] / 100.0;
-                    ddata[1] = sdata[1] / 100.0;
-                    ddata[2] = sdata[2] / 10.0;
-                    ddata[3] = sdata[3] / 100.0;
-                    lblRolSt1.Text = ddata[0].ToString("#0.00");
-                    lblRolSt2.Text = ddata[1].ToString("#0.00");
-                    lblRolSt3.Text = ddata[2].ToString("#0.00");
-                    lblRolSt4.Text = ddata[3].ToString("#0.00");
-                    for (int i = 0; i < 4; i++)
-                        if (cbxData[i].Checked)
-                            Chart_Update(ddata[i], i);
-                    break;
-                case FunctionByte.pitStat:
+                case FuncByte.rolStat:
                     sdata[0] = (short)((RxTemp[0] << 8) | RxTemp[1]);
                     sdata[1] = (short)((RxTemp[2] << 8) | RxTemp[3]);
                     sdata[2] = (short)((RxTemp[4] << 8) | RxTemp[5]);
@@ -214,13 +218,30 @@ namespace GroundStation
                     ddata[1] = sdata[1] / 100.0;
                     ddata[2] = sdata[2] / 100.0;
                     ddata[3] = sdata[3] / 100.0;
-                    lblPitSt1.Text = ddata[0].ToString("#0.00");
-                    lblPitSt2.Text = ddata[1].ToString("#0.00");
-                    lblPitSt3.Text = ddata[2].ToString("#0.00");
-                    lblPitSt4.Text = ddata[3].ToString("#0.00");
-                    for (int i = 4; i < 8; i++)
+                    lblRolSt1.Text = ddata[0].ToString("#0.000");
+                    lblRolSt2.Text = ddata[1].ToString("#0.000");
+                    lblRolSt3.Text = ddata[2].ToString("#0.000");
+                    lblRolSt4.Text = ddata[3].ToString("#0.000");
+                    for (int i = 0; i < 4; i++)
                         if (cbxData[i].Checked)
                             Chart_Update(ddata[i], i);
+                    break;
+                case FuncByte.pitStat:
+                    sdata[0] = (short)((RxTemp[0] << 8) | RxTemp[1]);
+                    sdata[1] = (short)((RxTemp[2] << 8) | RxTemp[3]);
+                    sdata[2] = (short)((RxTemp[4] << 8) | RxTemp[5]);
+                    sdata[3] = (short)((RxTemp[6] << 8) | RxTemp[7]);
+                    ddata[0] = sdata[0] / 100.0;
+                    ddata[1] = sdata[1] / 100.0;
+                    ddata[2] = sdata[2] / 100.0;
+                    ddata[3] = sdata[3] / 100.0;
+                    lblPitSt1.Text = ddata[0].ToString("#0.000");
+                    lblPitSt2.Text = ddata[1].ToString("#0.000");
+                    lblPitSt3.Text = ddata[2].ToString("#0.000");
+                    lblPitSt4.Text = ddata[3].ToString("#0.000");
+                    for (int i = 4; i < 8; i++)
+                        if (cbxData[i].Checked)
+                            Chart_Update(ddata[i - 4], i);
                     break;
                 default: break;
             }

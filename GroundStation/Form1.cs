@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Windows.Forms;
 using System.IO.Ports;
-using System.Drawing;
 /**************文件说明**********************
 主窗体生成与关闭,串口开闭
 事件:
@@ -22,7 +21,7 @@ namespace GroundStation
     public partial class Form1 : Form
     {
         string[] LastPorts = { };
-        const string version = "Ground Station V0.11";
+        const string version = "Ground Station V0.13";
         long TxCount = 0, RxCount = 0;
         Protocol ptcl = new Protocol();
         public Form1()
@@ -120,6 +119,8 @@ namespace GroundStation
          **********************/
         private void SerialPort_Close()
         {
+            if (serialPort1.IsOpen)
+                serialPort1.Close();
             cbxPort.Enabled = true;
             comboBox2.Enabled = true;
             btnOpen.Image = Properties.Resources.ledoff;
@@ -128,9 +129,8 @@ namespace GroundStation
             //tab1
             btnCtrl.Image = Properties.Resources.ledoff;
             btnCtrl.Text = "建立控制链路";
-            lblCtrl.Text = "失控";
-            lblCtrl.ForeColor = Color.Red;
             stat.CtrlLink = false;
+            stat.inCtrl = false;
         }
         /*清除缓存*/
         private void btnClearBuf_Click(object sender, EventArgs e)
