@@ -56,7 +56,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.btnSend2 = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.label4 = new System.Windows.Forms.Label();
             this.lblMode = new System.Windows.Forms.Label();
             this.cbxSpeedMode = new System.Windows.Forms.CheckBox();
             this.lblCtrlThr = new System.Windows.Forms.Label();
@@ -404,7 +403,6 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.label4);
             this.tabPage2.Controls.Add(this.lblMode);
             this.tabPage2.Controls.Add(this.cbxSpeedMode);
             this.tabPage2.Controls.Add(this.lblCtrlThr);
@@ -458,15 +456,6 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "飞行控制";
             this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(973, 19);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(23, 60);
-            this.label4.TabIndex = 24;
-            this.label4.Text = "q0\r\nq1\r\nq2\r\nq3";
             // 
             // lblMode
             // 
@@ -528,7 +517,7 @@
             // cbxMotor
             // 
             this.cbxMotor.AutoSize = true;
-            this.cbxMotor.Location = new System.Drawing.Point(154, 436);
+            this.cbxMotor.Location = new System.Drawing.Point(154, 448);
             this.cbxMotor.Name = "cbxMotor";
             this.cbxMotor.Size = new System.Drawing.Size(89, 19);
             this.cbxMotor.TabIndex = 20;
@@ -538,7 +527,7 @@
             // cbxRC
             // 
             this.cbxRC.AutoSize = true;
-            this.cbxRC.Location = new System.Drawing.Point(154, 361);
+            this.cbxRC.Location = new System.Drawing.Point(154, 364);
             this.cbxRC.Name = "cbxRC";
             this.cbxRC.Size = new System.Drawing.Size(119, 19);
             this.cbxRC.TabIndex = 20;
@@ -548,7 +537,7 @@
             // cbxSensor
             // 
             this.cbxSensor.AutoSize = true;
-            this.cbxSensor.Location = new System.Drawing.Point(154, 241);
+            this.cbxSensor.Location = new System.Drawing.Point(154, 258);
             this.cbxSensor.Name = "cbxSensor";
             this.cbxSensor.Size = new System.Drawing.Size(104, 19);
             this.cbxSensor.TabIndex = 20;
@@ -570,7 +559,7 @@
             // cbxQuaternion
             // 
             this.cbxQuaternion.AutoSize = true;
-            this.cbxQuaternion.Location = new System.Drawing.Point(1113, 17);
+            this.cbxQuaternion.Location = new System.Drawing.Point(154, 526);
             this.cbxQuaternion.Name = "cbxQuaternion";
             this.cbxQuaternion.Size = new System.Drawing.Size(104, 19);
             this.cbxQuaternion.TabIndex = 20;
@@ -580,7 +569,7 @@
             // cbxAtti
             // 
             this.cbxAtti.AutoSize = true;
-            this.cbxAtti.Location = new System.Drawing.Point(154, 181);
+            this.cbxAtti.Location = new System.Drawing.Point(154, 184);
             this.cbxAtti.Name = "cbxAtti";
             this.cbxAtti.Size = new System.Drawing.Size(89, 19);
             this.cbxAtti.TabIndex = 20;
@@ -660,7 +649,7 @@
             // 
             this.lblM4.AutoSize = true;
             this.lblM4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblM4.Location = new System.Drawing.Point(73, 480);
+            this.lblM4.Location = new System.Drawing.Point(73, 468);
             this.lblM4.Name = "lblM4";
             this.lblM4.Size = new System.Drawing.Size(15, 15);
             this.lblM4.TabIndex = 9;
@@ -671,7 +660,7 @@
             // 
             this.lblM3.AutoSize = true;
             this.lblM3.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblM3.Location = new System.Drawing.Point(73, 466);
+            this.lblM3.Location = new System.Drawing.Point(73, 454);
             this.lblM3.Name = "lblM3";
             this.lblM3.Size = new System.Drawing.Size(15, 15);
             this.lblM3.TabIndex = 9;
@@ -682,7 +671,7 @@
             // 
             this.lblM2.AutoSize = true;
             this.lblM2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblM2.Location = new System.Drawing.Point(73, 451);
+            this.lblM2.Location = new System.Drawing.Point(73, 439);
             this.lblM2.Name = "lblM2";
             this.lblM2.Size = new System.Drawing.Size(15, 15);
             this.lblM2.TabIndex = 9;
@@ -693,7 +682,7 @@
             // 
             this.lblM1.AutoSize = true;
             this.lblM1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblM1.Location = new System.Drawing.Point(73, 436);
+            this.lblM1.Location = new System.Drawing.Point(73, 424);
             this.lblM1.Name = "lblM1";
             this.lblM1.Size = new System.Drawing.Size(15, 15);
             this.lblM1.TabIndex = 9;
@@ -704,7 +693,7 @@
             // 
             this.lblQ3.AutoSize = true;
             this.lblQ3.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblQ3.Location = new System.Drawing.Point(1020, 66);
+            this.lblQ3.Location = new System.Drawing.Point(73, 545);
             this.lblQ3.Name = "lblQ3";
             this.lblQ3.Size = new System.Drawing.Size(15, 15);
             this.lblQ3.TabIndex = 9;
@@ -715,7 +704,7 @@
             // 
             this.lblRCyaw.AutoSize = true;
             this.lblRCyaw.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblRCyaw.Location = new System.Drawing.Point(73, 406);
+            this.lblRCyaw.Location = new System.Drawing.Point(73, 394);
             this.lblRCyaw.Name = "lblRCyaw";
             this.lblRCyaw.Size = new System.Drawing.Size(15, 15);
             this.lblRCyaw.TabIndex = 9;
@@ -726,7 +715,7 @@
             // 
             this.lblQ2.AutoSize = true;
             this.lblQ2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblQ2.Location = new System.Drawing.Point(1020, 51);
+            this.lblQ2.Location = new System.Drawing.Point(73, 530);
             this.lblQ2.Name = "lblQ2";
             this.lblQ2.Size = new System.Drawing.Size(15, 15);
             this.lblQ2.TabIndex = 9;
@@ -737,7 +726,7 @@
             // 
             this.lblRCthr.AutoSize = true;
             this.lblRCthr.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblRCthr.Location = new System.Drawing.Point(73, 391);
+            this.lblRCthr.Location = new System.Drawing.Point(73, 379);
             this.lblRCthr.Name = "lblRCthr";
             this.lblRCthr.Size = new System.Drawing.Size(15, 15);
             this.lblRCthr.TabIndex = 9;
@@ -748,7 +737,7 @@
             // 
             this.lblQ1.AutoSize = true;
             this.lblQ1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblQ1.Location = new System.Drawing.Point(1020, 36);
+            this.lblQ1.Location = new System.Drawing.Point(73, 515);
             this.lblQ1.Name = "lblQ1";
             this.lblQ1.Size = new System.Drawing.Size(15, 15);
             this.lblQ1.TabIndex = 9;
@@ -759,7 +748,7 @@
             // 
             this.lblRCpit.AutoSize = true;
             this.lblRCpit.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblRCpit.Location = new System.Drawing.Point(73, 376);
+            this.lblRCpit.Location = new System.Drawing.Point(73, 364);
             this.lblRCpit.Name = "lblRCpit";
             this.lblRCpit.Size = new System.Drawing.Size(15, 15);
             this.lblRCpit.TabIndex = 9;
@@ -770,7 +759,7 @@
             // 
             this.lblQ0.AutoSize = true;
             this.lblQ0.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblQ0.Location = new System.Drawing.Point(1020, 21);
+            this.lblQ0.Location = new System.Drawing.Point(73, 500);
             this.lblQ0.Name = "lblQ0";
             this.lblQ0.Size = new System.Drawing.Size(15, 15);
             this.lblQ0.TabIndex = 9;
@@ -781,7 +770,7 @@
             // 
             this.lblRCrol.AutoSize = true;
             this.lblRCrol.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblRCrol.Location = new System.Drawing.Point(73, 361);
+            this.lblRCrol.Location = new System.Drawing.Point(73, 349);
             this.lblRCrol.Name = "lblRCrol";
             this.lblRCrol.Size = new System.Drawing.Size(15, 15);
             this.lblRCrol.TabIndex = 9;
@@ -792,7 +781,7 @@
             // 
             this.lblGyroz.AutoSize = true;
             this.lblGyroz.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblGyroz.Location = new System.Drawing.Point(73, 332);
+            this.lblGyroz.Location = new System.Drawing.Point(73, 320);
             this.lblGyroz.Name = "lblGyroz";
             this.lblGyroz.Size = new System.Drawing.Size(15, 15);
             this.lblGyroz.TabIndex = 9;
@@ -803,7 +792,7 @@
             // 
             this.lblGyroy.AutoSize = true;
             this.lblGyroy.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblGyroy.Location = new System.Drawing.Point(73, 317);
+            this.lblGyroy.Location = new System.Drawing.Point(73, 305);
             this.lblGyroy.Name = "lblGyroy";
             this.lblGyroy.Size = new System.Drawing.Size(15, 15);
             this.lblGyroy.TabIndex = 10;
@@ -814,7 +803,7 @@
             // 
             this.lblGyrox.AutoSize = true;
             this.lblGyrox.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblGyrox.Location = new System.Drawing.Point(73, 302);
+            this.lblGyrox.Location = new System.Drawing.Point(73, 290);
             this.lblGyrox.Name = "lblGyrox";
             this.lblGyrox.Size = new System.Drawing.Size(15, 15);
             this.lblGyrox.TabIndex = 11;
@@ -825,7 +814,7 @@
             // 
             this.lblAccz.AutoSize = true;
             this.lblAccz.Font = new System.Drawing.Font("宋体", 9F);
-            this.lblAccz.Location = new System.Drawing.Point(73, 271);
+            this.lblAccz.Location = new System.Drawing.Point(73, 259);
             this.lblAccz.Name = "lblAccz";
             this.lblAccz.Size = new System.Drawing.Size(15, 15);
             this.lblAccz.TabIndex = 6;
@@ -835,7 +824,7 @@
             // lblAccy
             // 
             this.lblAccy.AutoSize = true;
-            this.lblAccy.Location = new System.Drawing.Point(73, 256);
+            this.lblAccy.Location = new System.Drawing.Point(73, 244);
             this.lblAccy.Name = "lblAccy";
             this.lblAccy.Size = new System.Drawing.Size(15, 15);
             this.lblAccy.TabIndex = 7;
@@ -846,7 +835,7 @@
             // 
             this.lblAccx.AutoSize = true;
             this.lblAccx.Font = new System.Drawing.Font("宋体", 9F);
-            this.lblAccx.Location = new System.Drawing.Point(73, 241);
+            this.lblAccx.Location = new System.Drawing.Point(73, 229);
             this.lblAccx.Name = "lblAccx";
             this.lblAccx.Size = new System.Drawing.Size(15, 15);
             this.lblAccx.TabIndex = 8;
@@ -857,7 +846,7 @@
             // 
             this.lblYaw.AutoSize = true;
             this.lblYaw.Font = new System.Drawing.Font("宋体", 9F);
-            this.lblYaw.Location = new System.Drawing.Point(73, 211);
+            this.lblYaw.Location = new System.Drawing.Point(73, 199);
             this.lblYaw.Name = "lblYaw";
             this.lblYaw.Size = new System.Drawing.Size(15, 15);
             this.lblYaw.TabIndex = 5;
@@ -868,7 +857,7 @@
             // 
             this.lblPitch.AutoSize = true;
             this.lblPitch.Font = new System.Drawing.Font("宋体", 9F);
-            this.lblPitch.Location = new System.Drawing.Point(73, 196);
+            this.lblPitch.Location = new System.Drawing.Point(73, 184);
             this.lblPitch.Name = "lblPitch";
             this.lblPitch.Size = new System.Drawing.Size(15, 15);
             this.lblPitch.TabIndex = 5;
@@ -879,7 +868,7 @@
             // 
             this.lblRoll.AutoSize = true;
             this.lblRoll.Font = new System.Drawing.Font("宋体", 9F);
-            this.lblRoll.Location = new System.Drawing.Point(73, 181);
+            this.lblRoll.Location = new System.Drawing.Point(73, 169);
             this.lblRoll.Name = "lblRoll";
             this.lblRoll.Size = new System.Drawing.Size(15, 15);
             this.lblRoll.TabIndex = 5;
@@ -890,12 +879,12 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("宋体", 9F);
-            this.label5.Location = new System.Drawing.Point(8, 181);
+            this.label5.Location = new System.Drawing.Point(8, 168);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(55, 315);
+            this.label5.Size = new System.Drawing.Size(55, 390);
             this.label5.TabIndex = 4;
             this.label5.Text = "Roll\r\nPitch\r\nYaw\r\n\r\naccx\r\naccy\r\naccz\r\n\r\ngyrox\r\ngyroy\r\ngyroz\r\n\r\nRCrol\r\nRCpit\r\nRCth" +
-    "r\r\nRCyaw\r\n\r\nMOTOR1\r\nMOTOR2\r\nMOTOR3\r\nMOTOR4";
+    "r\r\nRCyaw\r\n\r\nMOTOR1\r\nMOTOR2\r\nMOTOR3\r\nMOTOR4\r\n\r\nq0\r\nq1\r\nq2\r\nq3";
             // 
             // vScrollPit
             // 
@@ -1722,7 +1711,6 @@
         private System.Windows.Forms.Button btnGyroCali;
         private System.Windows.Forms.CheckBox cbxSpeedMode;
         private System.Windows.Forms.Label lblMode;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox cbxQuaternion;
         private System.Windows.Forms.Label lblQ3;
         private System.Windows.Forms.Label lblQ2;

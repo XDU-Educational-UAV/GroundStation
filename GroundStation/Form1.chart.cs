@@ -69,7 +69,7 @@ namespace GroundStation
                 if (stat.ChartFirst)
                 {
                     chart1.ChartAreas[0].AxisY.Maximum = data;
-                    chart1.ChartAreas[0].AxisY.Minimum = data;
+                    chart1.ChartAreas[0].AxisY.Minimum = data-0.01;
                     stat.ChartFirst = false;
                 }
                 if (data > chart1.ChartAreas[0].AxisY.Maximum)

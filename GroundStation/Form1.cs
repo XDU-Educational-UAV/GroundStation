@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Windows.Forms;
 using System.IO.Ports;
-using System.Drawing;
 /**************文件说明**********************
 主窗体生成与关闭,串口开闭
 事件:
@@ -22,7 +21,7 @@ namespace GroundStation
     public partial class Form1 : Form
     {
         string[] LastPorts = { };
-        const string version = "Ground Station V0.12";
+        const string version = "Ground Station V0.13";
         long TxCount = 0, RxCount = 0;
         Protocol ptcl = new Protocol();
         public Form1()

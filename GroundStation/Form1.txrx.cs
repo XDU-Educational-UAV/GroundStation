@@ -100,7 +100,7 @@ namespace GroundStation
                     else
                         lblMode.Text = "姿态模式";
                     double voltage = ((RxTemp[1] << 8) | RxTemp[2]) / 1000.0;
-                    lblVoltage.Text = voltage.ToString("#0.00")+"V";
+                    lblVoltage.Text = voltage.ToString("#0.000")+"V";
                     break;
                 case FuncByte.atti:  //注意RxTemp为有符号16位整型
                     sdata[0] = (short)((RxTemp[0] << 8) | RxTemp[1]);
@@ -165,24 +165,24 @@ namespace GroundStation
                     idata[0] = (RxTemp[0] << 8) | RxTemp[1];
                     idata[1] = (RxTemp[2] << 8) | RxTemp[3];
                     idata[2] = (RxTemp[4] << 8) | RxTemp[5];
-                    idata[3] = (RxTemp[6] << 8) | RxTemp[7];
+                    sdata[3] = (short)((RxTemp[6] << 8) | RxTemp[7]);
                     if (stat.TextSave)
                     {
                         tbxRolParam1.Text = idata[0].ToString();
                         tbxRolParam2.Text = idata[1].ToString();
                         tbxRolParam3.Text = idata[2].ToString();
-                        tbxRolParam4.Text = idata[3].ToString();
+                        tbxRolParam4.Text = sdata[3].ToString();
                     }
                     else
                     {
                         ddata[0] = idata[0] / 1000.0;
                         ddata[1] = idata[1] / 1000.0;
                         ddata[2] = idata[2] / 1000.0;
-                        ddata[3] = idata[3] / 1000.0;
+                        ddata[3] = sdata[3] / 100.0;
                         lblRolParam1.Text = ddata[0].ToString("#0.000");
                         lblRolParam2.Text = ddata[1].ToString("#0.000");
                         lblRolParam3.Text = ddata[2].ToString("#0.000");
-                        lblRolParam4.Text = ddata[3].ToString("#0.000");
+                        lblRolParam4.Text = ddata[3].ToString("#0.00");
                     }
                     break;
                 case FuncByte.pitCtrl:
