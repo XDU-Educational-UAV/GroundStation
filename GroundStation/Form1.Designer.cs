@@ -34,9 +34,9 @@
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
-            this.cbxPort = new System.Windows.Forms.ComboBox();
+            this.cbxPort1 = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.cbxBaudRate1 = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.tbxTx1 = new System.Windows.Forms.TextBox();
             this.tbxTx2 = new System.Windows.Forms.TextBox();
@@ -57,23 +57,32 @@
             this.btnSend2 = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.lblMode = new System.Windows.Forms.Label();
-            this.cbxSpeedMode = new System.Windows.Forms.CheckBox();
             this.lblCtrlThr = new System.Windows.Forms.Label();
             this.lblCtrlPit = new System.Windows.Forms.Label();
             this.lblCtrlRol = new System.Windows.Forms.Label();
             this.lblCtrlYaw = new System.Windows.Forms.Label();
+            this.btnOpen2 = new System.Windows.Forms.Button();
             this.cbxMotor = new System.Windows.Forms.CheckBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.cbxBaudRate2 = new System.Windows.Forms.ComboBox();
             this.cbxRC = new System.Windows.Forms.CheckBox();
             this.cbxSensor = new System.Windows.Forms.CheckBox();
+            this.cbxPort2 = new System.Windows.Forms.ComboBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
             this.cbxStat = new System.Windows.Forms.CheckBox();
             this.cbxQuaternion = new System.Windows.Forms.CheckBox();
             this.cbxAtti = new System.Windows.Forms.CheckBox();
             this.tbxPassword = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.lblVoltage = new System.Windows.Forms.Label();
+            this.btnAttiMode = new System.Windows.Forms.Button();
+            this.btnSpeedMode = new System.Windows.Forms.Button();
+            this.btnUnLock = new System.Windows.Forms.Button();
             this.btnLock = new System.Windows.Forms.Button();
             this.lblCtrl = new System.Windows.Forms.Label();
             this.lblLock = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.lblM4 = new System.Windows.Forms.Label();
             this.lblM3 = new System.Windows.Forms.Label();
@@ -160,13 +169,14 @@
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tmrSendUser = new System.Windows.Forms.Timer(this.components);
             this.lblVersion = new System.Windows.Forms.Label();
-            this.tmrPortRcv = new System.Windows.Forms.Timer(this.components);
             this.labelTxCnt = new System.Windows.Forms.Label();
             this.labelRxCnt = new System.Windows.Forms.Label();
             this.btnClearBuf = new System.Windows.Forms.Button();
             this.btnReCnt = new System.Windows.Forms.Button();
             this.tmrCtrl = new System.Windows.Forms.Timer(this.components);
-            this.btnOpen = new System.Windows.Forms.Button();
+            this.btnOpen1 = new System.Windows.Forms.Button();
+            this.tmrPortRcv = new System.Windows.Forms.Timer(this.components);
+            this.serialPort2 = new System.IO.Ports.SerialPort(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -177,16 +187,17 @@
             // 
             // serialPort1
             // 
-            this.serialPort1.BaudRate = 38400;
+            this.serialPort1.ReadBufferSize = 1024;
+            this.serialPort1.WriteBufferSize = 128;
             // 
-            // cbxPort
+            // cbxPort1
             // 
-            this.cbxPort.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbxPort.FormattingEnabled = true;
-            this.cbxPort.Location = new System.Drawing.Point(1129, 679);
-            this.cbxPort.Name = "cbxPort";
-            this.cbxPort.Size = new System.Drawing.Size(121, 23);
-            this.cbxPort.TabIndex = 0;
+            this.cbxPort1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxPort1.FormattingEnabled = true;
+            this.cbxPort1.Location = new System.Drawing.Point(1129, 679);
+            this.cbxPort1.Name = "cbxPort1";
+            this.cbxPort1.Size = new System.Drawing.Size(121, 23);
+            this.cbxPort1.TabIndex = 0;
             // 
             // label1
             // 
@@ -197,19 +208,19 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "端口";
             // 
-            // comboBox2
+            // cbxBaudRate1
             // 
-            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Items.AddRange(new object[] {
+            this.cbxBaudRate1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxBaudRate1.FormattingEnabled = true;
+            this.cbxBaudRate1.Items.AddRange(new object[] {
             "9600",
             "38400",
             "57600",
             "115200"});
-            this.comboBox2.Location = new System.Drawing.Point(959, 679);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(121, 23);
-            this.comboBox2.TabIndex = 1;
+            this.cbxBaudRate1.Location = new System.Drawing.Point(959, 679);
+            this.cbxBaudRate1.Name = "cbxBaudRate1";
+            this.cbxBaudRate1.Size = new System.Drawing.Size(121, 23);
+            this.cbxBaudRate1.TabIndex = 1;
             // 
             // label2
             // 
@@ -404,23 +415,32 @@
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.lblMode);
-            this.tabPage2.Controls.Add(this.cbxSpeedMode);
             this.tabPage2.Controls.Add(this.lblCtrlThr);
             this.tabPage2.Controls.Add(this.lblCtrlPit);
             this.tabPage2.Controls.Add(this.lblCtrlRol);
             this.tabPage2.Controls.Add(this.lblCtrlYaw);
+            this.tabPage2.Controls.Add(this.btnOpen2);
             this.tabPage2.Controls.Add(this.cbxMotor);
+            this.tabPage2.Controls.Add(this.label14);
+            this.tabPage2.Controls.Add(this.cbxBaudRate2);
             this.tabPage2.Controls.Add(this.cbxRC);
             this.tabPage2.Controls.Add(this.cbxSensor);
+            this.tabPage2.Controls.Add(this.cbxPort2);
+            this.tabPage2.Controls.Add(this.label13);
+            this.tabPage2.Controls.Add(this.label12);
             this.tabPage2.Controls.Add(this.cbxStat);
             this.tabPage2.Controls.Add(this.cbxQuaternion);
             this.tabPage2.Controls.Add(this.cbxAtti);
             this.tabPage2.Controls.Add(this.tbxPassword);
             this.tabPage2.Controls.Add(this.label10);
             this.tabPage2.Controls.Add(this.lblVoltage);
+            this.tabPage2.Controls.Add(this.btnAttiMode);
+            this.tabPage2.Controls.Add(this.btnSpeedMode);
+            this.tabPage2.Controls.Add(this.btnUnLock);
             this.tabPage2.Controls.Add(this.btnLock);
             this.tabPage2.Controls.Add(this.lblCtrl);
             this.tabPage2.Controls.Add(this.lblLock);
+            this.tabPage2.Controls.Add(this.label4);
             this.tabPage2.Controls.Add(this.label6);
             this.tabPage2.Controls.Add(this.lblM4);
             this.tabPage2.Controls.Add(this.lblM3);
@@ -467,17 +487,6 @@
             this.lblMode.TabIndex = 23;
             this.lblMode.Text = "姿态模式";
             // 
-            // cbxSpeedMode
-            // 
-            this.cbxSpeedMode.AutoSize = true;
-            this.cbxSpeedMode.Location = new System.Drawing.Point(772, 531);
-            this.cbxSpeedMode.Name = "cbxSpeedMode";
-            this.cbxSpeedMode.Size = new System.Drawing.Size(89, 19);
-            this.cbxSpeedMode.TabIndex = 22;
-            this.cbxSpeedMode.Text = "速度模式";
-            this.cbxSpeedMode.UseVisualStyleBackColor = true;
-            this.cbxSpeedMode.CheckedChanged += new System.EventHandler(this.cbxSpeedMode_CheckedChanged);
-            // 
             // lblCtrlThr
             // 
             this.lblCtrlThr.AutoSize = true;
@@ -514,6 +523,19 @@
             this.lblCtrlYaw.TabIndex = 21;
             this.lblCtrlYaw.Text = "500";
             // 
+            // btnOpen2
+            // 
+            this.btnOpen2.Image = global::GroundStation.Properties.Resources.ledoff;
+            this.btnOpen2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnOpen2.Location = new System.Drawing.Point(1065, 174);
+            this.btnOpen2.Name = "btnOpen2";
+            this.btnOpen2.Size = new System.Drawing.Size(140, 40);
+            this.btnOpen2.TabIndex = 2;
+            this.btnOpen2.Text = "打开连接";
+            this.btnOpen2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnOpen2.UseVisualStyleBackColor = true;
+            this.btnOpen2.Click += new System.EventHandler(this.btnOpen2_Click);
+            // 
             // cbxMotor
             // 
             this.cbxMotor.AutoSize = true;
@@ -523,6 +545,29 @@
             this.cbxMotor.TabIndex = 20;
             this.cbxMotor.Text = "油门显示";
             this.cbxMotor.UseVisualStyleBackColor = true;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(1012, 132);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(52, 15);
+            this.label14.TabIndex = 3;
+            this.label14.Text = "波特率";
+            // 
+            // cbxBaudRate2
+            // 
+            this.cbxBaudRate2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxBaudRate2.FormattingEnabled = true;
+            this.cbxBaudRate2.Items.AddRange(new object[] {
+            "9600",
+            "38400",
+            "57600",
+            "115200"});
+            this.cbxBaudRate2.Location = new System.Drawing.Point(1084, 129);
+            this.cbxBaudRate2.Name = "cbxBaudRate2";
+            this.cbxBaudRate2.Size = new System.Drawing.Size(121, 23);
+            this.cbxBaudRate2.TabIndex = 1;
             // 
             // cbxRC
             // 
@@ -543,6 +588,33 @@
             this.cbxSensor.TabIndex = 20;
             this.cbxSensor.Text = "传感器显示";
             this.cbxSensor.UseVisualStyleBackColor = true;
+            // 
+            // cbxPort2
+            // 
+            this.cbxPort2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxPort2.FormattingEnabled = true;
+            this.cbxPort2.Location = new System.Drawing.Point(1084, 91);
+            this.cbxPort2.Name = "cbxPort2";
+            this.cbxPort2.Size = new System.Drawing.Size(121, 23);
+            this.cbxPort2.TabIndex = 0;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(1053, -375);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(37, 15);
+            this.label13.TabIndex = 3;
+            this.label13.Text = "端口";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(1027, 94);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(37, 15);
+            this.label12.TabIndex = 3;
+            this.label12.Text = "端口";
             // 
             // cbxStat
             // 
@@ -603,15 +675,45 @@
             this.lblVoltage.TabIndex = 17;
             this.lblVoltage.Text = "0V";
             // 
+            // btnAttiMode
+            // 
+            this.btnAttiMode.Location = new System.Drawing.Point(666, 522);
+            this.btnAttiMode.Name = "btnAttiMode";
+            this.btnAttiMode.Size = new System.Drawing.Size(100, 43);
+            this.btnAttiMode.TabIndex = 16;
+            this.btnAttiMode.Text = "姿态模式";
+            this.btnAttiMode.UseVisualStyleBackColor = true;
+            this.btnAttiMode.Click += new System.EventHandler(this.btnPassword_Click);
+            // 
+            // btnSpeedMode
+            // 
+            this.btnSpeedMode.Location = new System.Drawing.Point(772, 522);
+            this.btnSpeedMode.Name = "btnSpeedMode";
+            this.btnSpeedMode.Size = new System.Drawing.Size(100, 43);
+            this.btnSpeedMode.TabIndex = 16;
+            this.btnSpeedMode.Text = "速度模式";
+            this.btnSpeedMode.UseVisualStyleBackColor = true;
+            this.btnSpeedMode.Click += new System.EventHandler(this.btnPassword_Click);
+            // 
+            // btnUnLock
+            // 
+            this.btnUnLock.Location = new System.Drawing.Point(772, 473);
+            this.btnUnLock.Name = "btnUnLock";
+            this.btnUnLock.Size = new System.Drawing.Size(100, 43);
+            this.btnUnLock.TabIndex = 16;
+            this.btnUnLock.Text = "解锁";
+            this.btnUnLock.UseVisualStyleBackColor = true;
+            this.btnUnLock.Click += new System.EventHandler(this.btnPassword_Click);
+            // 
             // btnLock
             // 
-            this.btnLock.Location = new System.Drawing.Point(772, 473);
+            this.btnLock.Location = new System.Drawing.Point(666, 473);
             this.btnLock.Name = "btnLock";
-            this.btnLock.Size = new System.Drawing.Size(75, 43);
+            this.btnLock.Size = new System.Drawing.Size(100, 43);
             this.btnLock.TabIndex = 16;
-            this.btnLock.Text = "解锁";
+            this.btnLock.Text = "锁定";
             this.btnLock.UseVisualStyleBackColor = true;
-            this.btnLock.Click += new System.EventHandler(this.btnLock_Click);
+            this.btnLock.Click += new System.EventHandler(this.btnPassword_Click);
             // 
             // lblCtrl
             // 
@@ -635,15 +737,25 @@
             this.lblLock.TabIndex = 14;
             this.lblLock.Text = "锁定";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("宋体", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label4.Location = new System.Drawing.Point(969, 3);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(236, 28);
+            this.label4.TabIndex = 13;
+            this.label4.Text = "外部遥控信号输入";
+            // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("宋体", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label6.Location = new System.Drawing.Point(6, 3);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(152, 28);
+            this.label6.Size = new System.Drawing.Size(124, 28);
             this.label6.TabIndex = 13;
-            this.label6.Text = "飞行状态：";
+            this.label6.Text = "飞行状态";
             // 
             // lblM4
             // 
@@ -926,7 +1038,7 @@
             // 
             this.btnCtrl.Image = global::GroundStation.Properties.Resources.ledoff;
             this.btnCtrl.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCtrl.Location = new System.Drawing.Point(503, 473);
+            this.btnCtrl.Location = new System.Drawing.Point(397, 473);
             this.btnCtrl.Name = "btnCtrl";
             this.btnCtrl.Size = new System.Drawing.Size(179, 43);
             this.btnCtrl.TabIndex = 12;
@@ -1474,14 +1586,9 @@
             this.lblVersion.AutoSize = true;
             this.lblVersion.Location = new System.Drawing.Point(12, 682);
             this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(15, 15);
+            this.lblVersion.Size = new System.Drawing.Size(111, 15);
             this.lblVersion.TabIndex = 13;
-            this.lblVersion.Text = ".";
-            // 
-            // tmrPortRcv
-            // 
-            this.tmrPortRcv.Interval = 10;
-            this.tmrPortRcv.Tick += new System.EventHandler(this.tmrPortRcv_Tick);
+            this.lblVersion.Text = "GroundStation";
             // 
             // labelTxCnt
             // 
@@ -1526,18 +1633,28 @@
             this.tmrCtrl.Enabled = true;
             this.tmrCtrl.Tick += new System.EventHandler(this.tmrCtrl_Tick);
             // 
-            // btnOpen
+            // btnOpen1
             // 
-            this.btnOpen.Image = global::GroundStation.Properties.Resources.ledoff;
-            this.btnOpen.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnOpen.Location = new System.Drawing.Point(755, 669);
-            this.btnOpen.Name = "btnOpen";
-            this.btnOpen.Size = new System.Drawing.Size(140, 40);
-            this.btnOpen.TabIndex = 2;
-            this.btnOpen.Text = "打开连接";
-            this.btnOpen.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnOpen.UseVisualStyleBackColor = true;
-            this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
+            this.btnOpen1.Image = global::GroundStation.Properties.Resources.ledoff;
+            this.btnOpen1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnOpen1.Location = new System.Drawing.Point(755, 669);
+            this.btnOpen1.Name = "btnOpen1";
+            this.btnOpen1.Size = new System.Drawing.Size(140, 40);
+            this.btnOpen1.TabIndex = 2;
+            this.btnOpen1.Text = "打开连接";
+            this.btnOpen1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnOpen1.UseVisualStyleBackColor = true;
+            this.btnOpen1.Click += new System.EventHandler(this.btnOpen1_Click);
+            // 
+            // tmrPortRcv
+            // 
+            this.tmrPortRcv.Interval = 10;
+            this.tmrPortRcv.Tick += new System.EventHandler(this.tmrPortRcv_Tick);
+            // 
+            // serialPort2
+            // 
+            this.serialPort2.ReadBufferSize = 128;
+            this.serialPort2.WriteBufferSize = 1;
             // 
             // Form1
             // 
@@ -1550,11 +1667,11 @@
             this.Controls.Add(this.labelTxCnt);
             this.Controls.Add(this.lblVersion);
             this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.btnOpen);
+            this.Controls.Add(this.btnOpen1);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.comboBox2);
+            this.Controls.Add(this.cbxBaudRate1);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.cbxPort);
+            this.Controls.Add(this.cbxPort1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
@@ -1583,11 +1700,11 @@
         #endregion
 
         private System.IO.Ports.SerialPort serialPort1;
-        private System.Windows.Forms.ComboBox cbxPort;
+        private System.Windows.Forms.ComboBox cbxPort1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox cbxBaudRate1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button btnOpen;
+        private System.Windows.Forms.Button btnOpen1;
         private System.Windows.Forms.TextBox tbxTx1;
         private System.Windows.Forms.TextBox tbxTx2;
         private System.Windows.Forms.TextBox tbxRx;
@@ -1602,7 +1719,6 @@
         private System.Windows.Forms.Timer tmrSendUser;
         private System.Windows.Forms.Label lblVersion;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.Timer tmrPortRcv;
         private System.Windows.Forms.Label labelTxCnt;
         private System.Windows.Forms.Label labelRxCnt;
         private System.Windows.Forms.Button btnClearBuf;
@@ -1709,13 +1825,24 @@
         private System.Windows.Forms.Label lblCtrlYaw;
         private System.Windows.Forms.Button btnAccCali;
         private System.Windows.Forms.Button btnGyroCali;
-        private System.Windows.Forms.CheckBox cbxSpeedMode;
         private System.Windows.Forms.Label lblMode;
         private System.Windows.Forms.CheckBox cbxQuaternion;
         private System.Windows.Forms.Label lblQ3;
         private System.Windows.Forms.Label lblQ2;
         private System.Windows.Forms.Label lblQ1;
         private System.Windows.Forms.Label lblQ0;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button btnOpen2;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.ComboBox cbxBaudRate2;
+        private System.Windows.Forms.ComboBox cbxPort2;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Timer tmrPortRcv;
+        private System.Windows.Forms.Button btnSpeedMode;
+        private System.IO.Ports.SerialPort serialPort2;
+        private System.Windows.Forms.Button btnAttiMode;
+        private System.Windows.Forms.Button btnUnLock;
     }
 }
 
