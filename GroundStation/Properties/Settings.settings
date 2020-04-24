@@ -11,7 +11,7 @@
     <Setting Name="tbxTx3Str" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="cbx2Str" Type="System.String" Scope="User">
+    <Setting Name="cbxBaudRateStr" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="tbxIntervalStr" Type="System.String" Scope="User">
@@ -67,6 +67,9 @@
     </Setting>
     <Setting Name="TabIndexInt" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="cbxBaudRate2Str" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

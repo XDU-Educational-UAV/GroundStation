@@ -62,12 +62,12 @@ namespace GroundStation.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string cbx2Str {
+        public string cbxBaudRateStr {
             get {
-                return ((string)(this["cbx2Str"]));
+                return ((string)(this["cbxBaudRateStr"]));
             }
             set {
-                this["cbx2Str"] = value;
+                this["cbxBaudRateStr"] = value;
             }
         }
         
@@ -284,6 +284,18 @@ namespace GroundStation.Properties {
             }
             set {
                 this["TabIndexInt"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string cbxBaudRate2Str {
+            get {
+                return ((string)(this["cbxBaudRate2Str"]));
+            }
+            set {
+                this["cbxBaudRate2Str"] = value;
             }
         }
     }

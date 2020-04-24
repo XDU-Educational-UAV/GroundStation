@@ -3,10 +3,12 @@ using System.Drawing;
 /**************文件说明**********************
 窗口收发
 事件:
-tmrPortRcv_Tick
 tmrCtrl_Tick
+mrPortRcv_Tick
 函数
+SerialPort1_Send
 Data_Receive_Precess
+Limit
 ********************************************/
 
 namespace GroundStation
@@ -16,7 +18,7 @@ namespace GroundStation
         /***********************
          为串口发送加上异常处理
          **********************/
-        private void SerialPort_Send(byte[] buffer, int count)
+        private void SerialPort1_Send(byte[] buffer, int count)
         {
             try
             {
@@ -24,40 +26,8 @@ namespace GroundStation
             }
             catch (Exception)
             {
-                SerialPort_Close();
+                SerialPort1_Close();
             };
-        }
-        /*定时10ms处理串口接收缓冲RxStr*/
-        private void tmrPortRcv_Tick(object sender, EventArgs e)
-        {
-            if (!serialPort1.IsOpen) return;
-            if (serialPort1.BytesToRead == 0) return;
-            if (tabControl1.SelectedIndex == 0)
-            {
-                Base_Text_Receive();
-                return;
-            }
-            byte success = 1, DataAdd = 0;
-            int remain = 0;
-            do  //可能会一次收到大量数据
-            {
-                try
-                {
-                    success = ptcl.Byte_Receive((byte)serialPort1.ReadByte());
-                    remain = serialPort1.BytesToRead;
-                }
-                catch (Exception) { };
-                DataAdd++;
-                if (success == 0)
-                    Data_Receive_Precess();
-                else if (success == 2)
-                {
-                    lblCtrl.Text = "失控";
-                    lblCtrl.ForeColor = Color.Red;
-                }
-            } while (remain > 0);
-            RxCount += DataAdd;
-            labelRxCnt.Text = $"Rx:{RxCount}";
         }
         /*定时100ms发送任务*/
         private void tmrCtrl_Tick(object sender, EventArgs e)
@@ -77,35 +47,111 @@ namespace GroundStation
                 default: break;
             }
         }
+        /*定时10ms处理串口接收缓冲RxStr*/
+        private void tmrPortRcv_Tick(object sender, EventArgs e)
+        {
+            int DataAdd1 = 0, DataAdd2 = 0;
+            if (serialPort1.IsOpen)
+                DataAdd1 = serialPort1.BytesToRead;
+            if (serialPort2.IsOpen)
+                DataAdd2 = serialPort2.BytesToRead;
+            if ((DataAdd1 + DataAdd2) == 0) return;
+            if ((tabControl1.SelectedIndex == 0) && (DataAdd1 != 0))
+            {
+                Base_Text_Receive();
+                return;
+            }
+            byte state = 1;
+            int remain = DataAdd1;
+            DataAdd1 = 0;
+            while (remain > 0)  //可能会一次收到大量数据
+            {
+                try
+                {
+                    state = ptcl1.Byte_Receive((byte)serialPort1.ReadByte());
+                    remain = serialPort1.BytesToRead;
+                    lblVersion.Text = version;
+                }
+                catch (Exception ex)
+                {
+                    lblVersion.Text = ex.Message;
+                }
+                DataAdd1++;
+                if (state == 0)
+                    Data_Receive_Precess(ptcl1);
+                else if (state == 2)
+                {
+                    lblCtrl.Text = "失控";
+                    lblCtrl.ForeColor = Color.Red;
+                }
+            }
+            RxCount += DataAdd1;
+            state = 1;
+            remain = DataAdd2;
+            DataAdd2 = 0;
+            while (remain > 0)
+            {
+                try
+                {
+                    state = ptcl2.Byte_Receive((byte)serialPort1.ReadByte());
+                    remain = serialPort2.BytesToRead;
+                    lblVersion.Text = version;
+                }
+                catch (Exception ex)
+                {
+                    lblVersion.Text = ex.Message;
+                }
+                DataAdd2++;
+                if (state == 0)
+                    Data_Receive_Precess(ptcl2);
+            }
+            RxCount += DataAdd2;
+            labelRxCnt.Text = $"Rx:{RxCount}";
+        }
         /***********************
          根据功能字进一步处理
          **********************/
-        private void Data_Receive_Precess()
+        private void Data_Receive_Precess(Protocol pt)
         {
-            ErrCnt = 0;
-            stat.inCtrl = true;
-            byte[] RxTemp = ptcl.DataReceived;
-            double[] ddata = new double[4];
-            int[] idata = new int[4];
+            if (pt.FcnWord == FuncByte.ctrlOut)
+                ErrRcvCnt = 0;
+            else
+                ErrCnt = 0;
+            byte[] RxTemp = pt.DataReceived;
             short[] sdata = new short[6];
-            switch (ptcl.FcnWord)
+            sdata[0] = (short)((RxTemp[0] << 8) | RxTemp[1]);
+            sdata[1] = (short)((RxTemp[2] << 8) | RxTemp[3]);
+            sdata[2] = (short)((RxTemp[4] << 8) | RxTemp[5]);
+            sdata[3] = (short)((RxTemp[6] << 8) | RxTemp[7]);
+            sdata[4] = (short)((RxTemp[8] << 8) | RxTemp[9]);
+            sdata[5] = (short)((RxTemp[10] << 8) | RxTemp[11]);
+            int[] idata = new int[4];
+            idata[0] = ((RxTemp[0] << 8) | RxTemp[1]);
+            idata[1] = ((RxTemp[2] << 8) | RxTemp[3]);
+            idata[2] = ((RxTemp[4] << 8) | RxTemp[5]);
+            idata[3] = ((RxTemp[6] << 8) | RxTemp[7]);
+            double[] ddata = new double[4];
+            switch (pt.FcnWord)
             {
                 case FuncByte.stat:
                     if ((RxTemp[0] & 0x01) == 0x01)
-                        stat.isUnlock = true;
+                    {
+                        lblLock.Text = "解锁";
+                        lblLock.ForeColor = Color.Black;
+                    }
                     else
-                        stat.isUnlock = false;
+                    {
+                        lblLock.Text = "锁定";
+                        lblLock.ForeColor = Color.Red;
+                    }
                     if ((RxTemp[0] & 0x20) == 0x20)
                         lblMode.Text = "速度模式";
                     else
                         lblMode.Text = "姿态模式";
                     double voltage = ((RxTemp[1] << 8) | RxTemp[2]) / 1000.0;
-                    lblVoltage.Text = voltage.ToString("#0.000")+"V";
+                    lblVoltage.Text = voltage.ToString("#0.000") + "V";
                     break;
                 case FuncByte.atti:  //注意RxTemp为有符号16位整型
-                    sdata[0] = (short)((RxTemp[0] << 8) | RxTemp[1]);
-                    sdata[1] = (short)((RxTemp[2] << 8) | RxTemp[3]);
-                    sdata[2] = (short)((RxTemp[4] << 8) | RxTemp[5]);
                     ddata[0] = sdata[0] / 100.0;
                     ddata[1] = sdata[1] / 100.0;
                     ddata[2] = sdata[2] / 100.0;
@@ -114,12 +160,6 @@ namespace GroundStation
                     lblYaw.Text = ddata[2].ToString("#0.00");
                     break;
                 case FuncByte.sensor:
-                    sdata[0] = (short)((RxTemp[0] << 8) | RxTemp[1]);
-                    sdata[1] = (short)((RxTemp[2] << 8) | RxTemp[3]);
-                    sdata[2] = (short)((RxTemp[4] << 8) | RxTemp[5]);
-                    sdata[3] = (short)((RxTemp[6] << 8) | RxTemp[7]);
-                    sdata[4] = (short)((RxTemp[8] << 8) | RxTemp[9]);
-                    sdata[5] = (short)((RxTemp[10] << 8) | RxTemp[11]);
                     lblAccx.Text = sdata[0].ToString();
                     lblAccy.Text = sdata[1].ToString();
                     lblAccz.Text = sdata[2].ToString();
@@ -128,30 +168,18 @@ namespace GroundStation
                     lblGyroz.Text = sdata[5].ToString();
                     break;
                 case FuncByte.rc:
-                    idata[0] = ((RxTemp[0] << 8) | RxTemp[1]) / 10;
-                    idata[1] = ((RxTemp[2] << 8) | RxTemp[3]) / 10;
-                    idata[2] = ((RxTemp[4] << 8) | RxTemp[5]) / 10;
-                    idata[3] = ((RxTemp[6] << 8) | RxTemp[7]) / 10;
                     lblRCrol.Text = idata[0].ToString();
                     lblRCpit.Text = idata[1].ToString();
                     lblRCthr.Text = idata[2].ToString();
                     lblRCyaw.Text = idata[3].ToString();
                     break;
                 case FuncByte.motor:
-                    idata[0] = (RxTemp[0] << 8) | RxTemp[1];
-                    idata[1] = (RxTemp[2] << 8) | RxTemp[3];
-                    idata[2] = (RxTemp[4] << 8) | RxTemp[5];
-                    idata[3] = (RxTemp[6] << 8) | RxTemp[7];
                     lblM1.Text = idata[0].ToString();
                     lblM2.Text = idata[1].ToString();
                     lblM3.Text = idata[2].ToString();
                     lblM4.Text = idata[3].ToString();
                     break;
                 case FuncByte.quaternion:
-                    sdata[0] = (short)((RxTemp[0] << 8) | RxTemp[1]);
-                    sdata[1] = (short)((RxTemp[2] << 8) | RxTemp[3]);
-                    sdata[2] = (short)((RxTemp[4] << 8) | RxTemp[5]);
-                    sdata[3] = (short)((RxTemp[6] << 8) | RxTemp[7]);
                     ddata[0] = sdata[0] / 10000.0;
                     ddata[1] = sdata[1] / 10000.0;
                     ddata[2] = sdata[2] / 10000.0;
@@ -162,10 +190,6 @@ namespace GroundStation
                     lblQ3.Text = ddata[3].ToString("#0.0000");
                     break;
                 case FuncByte.rolCtrl:
-                    idata[0] = (RxTemp[0] << 8) | RxTemp[1];
-                    idata[1] = (RxTemp[2] << 8) | RxTemp[3];
-                    idata[2] = (RxTemp[4] << 8) | RxTemp[5];
-                    sdata[3] = (short)((RxTemp[6] << 8) | RxTemp[7]);
                     if (stat.TextSave)
                     {
                         tbxRolParam1.Text = idata[0].ToString();
@@ -186,10 +210,6 @@ namespace GroundStation
                     }
                     break;
                 case FuncByte.pitCtrl:
-                    idata[0] = (RxTemp[0] << 8) | RxTemp[1];
-                    idata[1] = (RxTemp[2] << 8) | RxTemp[3];
-                    idata[2] = (RxTemp[4] << 8) | RxTemp[5];
-                    idata[3] = (RxTemp[6] << 8) | RxTemp[7];
                     if (stat.TextSave)
                     {
                         tbxPitParam1.Text = idata[0].ToString();
@@ -210,10 +230,6 @@ namespace GroundStation
                     }
                     break;
                 case FuncByte.rolStat:
-                    sdata[0] = (short)((RxTemp[0] << 8) | RxTemp[1]);
-                    sdata[1] = (short)((RxTemp[2] << 8) | RxTemp[3]);
-                    sdata[2] = (short)((RxTemp[4] << 8) | RxTemp[5]);
-                    sdata[3] = (short)((RxTemp[6] << 8) | RxTemp[7]);
                     ddata[0] = sdata[0] / 100.0;
                     ddata[1] = sdata[1] / 100.0;
                     ddata[2] = sdata[2] / 100.0;
@@ -227,10 +243,6 @@ namespace GroundStation
                             Chart_Update(ddata[i], i);
                     break;
                 case FuncByte.pitStat:
-                    sdata[0] = (short)((RxTemp[0] << 8) | RxTemp[1]);
-                    sdata[1] = (short)((RxTemp[2] << 8) | RxTemp[3]);
-                    sdata[2] = (short)((RxTemp[4] << 8) | RxTemp[5]);
-                    sdata[3] = (short)((RxTemp[6] << 8) | RxTemp[7]);
                     ddata[0] = sdata[0] / 100.0;
                     ddata[1] = sdata[1] / 100.0;
                     ddata[2] = sdata[2] / 100.0;
@@ -243,8 +255,18 @@ namespace GroundStation
                         if (cbxData[i].Checked)
                             Chart_Update(ddata[i - 4], i);
                     break;
+                case FuncByte.ctrlOut:
+                    RCdata[0] = Limit(idata[0], 0, 1000);
+                    RCdata[1] = Limit(idata[1], 0, 1000);
+                    RCdata[2] = Limit(idata[2], 0, 1000);
+                    RCdata[3] = Limit(idata[3], 0, 1000);
+                    break;
                 default: break;
             }
+        }
+        private int Limit(int num, int min, int max)
+        {
+            return num <= min ? (min) : (num >= max ? max : num);
         }
     }
 }
