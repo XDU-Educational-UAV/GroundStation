@@ -25,7 +25,7 @@ namespace GroundStation
     public partial class Form1 : Form
     {
         string[] LastPorts = { };
-        const string version = "Ground Station V0.14";
+        const string version = "Ground Station V1.00";
         long TxCount = 0, RxCount = 0;
         Protocol ptcl1 = new Protocol();
         Protocol ptcl2 = new Protocol();
