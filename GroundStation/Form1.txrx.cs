@@ -93,7 +93,7 @@ namespace GroundStation
             {
                 try
                 {
-                    state = ptcl2.Byte_Receive((byte)serialPort1.ReadByte());
+                    state = ptcl2.Byte_Receive((byte)serialPort2.ReadByte());
                     remain = serialPort2.BytesToRead;
                     lblVersion.Text = version;
                 }

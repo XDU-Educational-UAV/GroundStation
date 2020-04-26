@@ -15,7 +15,7 @@ namespace GroundStation
 {
     partial class Form1
     {
-        private byte ErrCnt = 0, ErrRcvCnt = 0;
+        private byte ErrCnt = 20, ErrRcvCnt = 0;
         GlobalStatus stat;
         private int[] RCdata = { 500, 500, 0, 500 };
         /*建立控制链路按钮,按下后开始发送控制信号*/
