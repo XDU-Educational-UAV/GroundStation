@@ -7,13 +7,17 @@ using System.IO.Ports;
 事件:
 Form1
 Form1_Load
-btnOpen_Click
+btnOpen1_Click
+btnOpen2_Click
 tmrPortChk_Tick
+tabControl1_SelectedIndexChanged
 btnClearBuf_Click
 btnReCnt_Click
-Form1_FormClosing
 函数:
-SerialPort_Close
+SerialPort1_Open
+SerialPort2_Open
+SerialPort1_Close
+SerialPort2_Close
 ********************************************/
 
 namespace GroundStation
@@ -21,9 +25,11 @@ namespace GroundStation
     public partial class Form1 : Form
     {
         string[] LastPorts = { };
-        const string version = "Ground Station V0.13";
+        const string version = "Ground Station V1.00";
         long TxCount = 0, RxCount = 0;
-        Protocol ptcl = new Protocol();
+        Protocol ptcl1 = new Protocol();
+        Protocol ptcl2 = new Protocol();
+        bool sp1Open, sp2Open;
         public Form1()
         {
             InitializeComponent();
@@ -32,54 +38,52 @@ namespace GroundStation
         {
             lblVersion.Text = version;
             ChartInit();
-            tabControl1.SelectedIndex = Properties.Settings.Default.TabIndexInt;
-            comboBox2.Text = Properties.Settings.Default.cbx2Str;
-            tbxTx1.Text = Properties.Settings.Default.tbxTx1Str;
-            tbxTx2.Text = Properties.Settings.Default.tbxTx2Str;
-            tbxTx3.Text = Properties.Settings.Default.tbxTx3Str;
-            tbxRolCName1.Text = Properties.Settings.Default.tbxRolCName1Str;
-            tbxRolCName2.Text = Properties.Settings.Default.tbxRolCName2Str;
-            tbxRolCName3.Text = Properties.Settings.Default.tbxRolCName3Str;
-            tbxRolCName4.Text = Properties.Settings.Default.tbxRolCName4Str;
-            tbxRolCName1.Text = Properties.Settings.Default.tbxRolSName1Str;
-            tbxRolCName2.Text = Properties.Settings.Default.tbxRolSName2Str;
-            tbxRolCName3.Text = Properties.Settings.Default.tbxRolSName3Str;
-            tbxRolCName4.Text = Properties.Settings.Default.tbxRolSName4Str;
-            tbxPitCName1.Text = Properties.Settings.Default.tbxPitCName1Str;
-            tbxPitCName2.Text = Properties.Settings.Default.tbxPitCName2Str;
-            tbxPitCName3.Text = Properties.Settings.Default.tbxPitCName3Str;
-            tbxPitCName4.Text = Properties.Settings.Default.tbxPitCName4Str;
-            tbxPitCName1.Text = Properties.Settings.Default.tbxPitSName1Str;
-            tbxPitCName2.Text = Properties.Settings.Default.tbxPitSName2Str;
-            tbxPitCName3.Text = Properties.Settings.Default.tbxPitSName3Str;
-            tbxPitCName4.Text = Properties.Settings.Default.tbxPitSName4Str;
+            Form1_Init();
         }
-        /*开闭串口按钮*/
-        private void btnOpen_Click(object sender, EventArgs e)
+        /*开闭主串口按钮*/
+        private void btnOpen1_Click(object sender, EventArgs e)
         {
             if (serialPort1.IsOpen)
             {
                 serialPort1.Close();
-                SerialPort_Close();
+                SerialPort1_Close();
                 return;
             }
             try
             {
-                if (cbxPort.Text == "")
-                    return;
-                serialPort1.PortName = cbxPort.Text;
-                serialPort1.BaudRate = Convert.ToInt32(comboBox2.Text);
+                if (cbxPort1.Text == "") return;
+                if (cbxBaudRate1.Text == "") return;
+                serialPort1.PortName = cbxPort1.Text;
+                serialPort1.BaudRate = Convert.ToInt32(cbxBaudRate1.Text);
                 serialPort1.Open();
-                btnOpen.Image = Properties.Resources.ledon;
-                btnOpen.Text = "断开连接";
-                cbxPort.Enabled = false;
-                comboBox2.Enabled = false;
-                lblVersion.Text = version;
-                tmrPortRcv.Enabled = true;
+                SerialPort1_Open();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                lblVersion.Text = "串口打开失败!";  //已选端口被占用
+                lblVersion.Text = "串口打开失败!  " + ex.Message;
+            }
+        }
+        /*开闭外部输入串口按钮*/
+        private void btnOpen2_Click(object sender, EventArgs e)
+        {
+            if (serialPort2.IsOpen)
+            {
+                serialPort2.Close();
+                SerialPort2_Close();
+                return;
+            }
+            try
+            {
+                if (cbxPort2.Text == "") return;
+                if (cbxBaudRate2.Text == "") return;
+                serialPort2.PortName = cbxPort2.Text;
+                serialPort2.BaudRate = Convert.ToInt32(cbxBaudRate2.Text);
+                serialPort2.Open();
+                SerialPort2_Open();
+            }
+            catch (Exception ex)
+            {
+                lblVersion.Text = "串口打开失败!  " + ex.Message;
             }
         }
         /*定时每秒检测端口状况*/
@@ -88,49 +92,99 @@ namespace GroundStation
             string[] ports = SerialPort.GetPortNames();
             if (ports.Length == 0)  //没有可用端口
             {
-                if (LastPorts.Length == 0)  //原因是一直没有可用端口
-                    return;
-                SerialPort_Close();  //原因是端口意外断开
-                cbxPort.Items.Clear();
+                if (LastPorts.Length == 0) return;  //原因是一直没有可用端口                    
+                SerialPort1_Close();  //原因是端口意外断开
+                SerialPort2_Close();
+                cbxPort1.Items.Clear();
+                cbxPort2.Items.Clear();
                 LastPorts = ports;
             }
             else  //有可用端口
             {
                 if (Enumerable.SequenceEqual(ports, LastPorts))  //可用端口没有变化
                 {
-                    if (serialPort1.IsOpen == false)  //端口短时间内断开重连
-                        SerialPort_Close();
+                    if ((serialPort1.IsOpen == false) && (sp1Open))  //端口短时间内断开重连
+                        SerialPort1_Close();
+                    if ((serialPort2.IsOpen == false) && (sp2Open))
+                        SerialPort2_Close();
+                    if ((serialPort1.IsOpen == true) && (!sp1Open))  //未知原因
+                        SerialPort1_Open();
+                    if ((serialPort2.IsOpen == true) && (!sp2Open))
+                        SerialPort2_Open();
                     return;
                 }
-                if (serialPort1.IsOpen == true) return;  //端口打开时有了新的可用端口
                 if (LastPorts.Length != 0)  //可用端口改变
                 {
-                    SerialPort_Close();
-                    cbxPort.Items.Clear();
+                    cbxPort1.Items.Clear();
+                    cbxPort2.Items.Clear();
                 }
                 foreach (string port in ports)  //扫描并添加可用端口
-                    cbxPort.Items.Add(port);
+                {
+                    cbxPort1.Items.Add(port);
+                    cbxPort2.Items.Add(port);
+                }
                 LastPorts = ports;
-                cbxPort.Text = ports[0];  //默认选择第一个可用端口
+                cbxPort1.Text = cbxPort2.Text = ports[0];  //默认选择第一个可用端口
             }
         }
         /***********************
-        关闭串口后需要完成的一系列操作
+         打开主串口后需要完成的一系列操作
          **********************/
-        private void SerialPort_Close()
+        private void SerialPort1_Open()
+        {
+            btnOpen1.Image = Properties.Resources.ledon;
+            btnOpen1.Text = "断开连接";
+            cbxPort1.Enabled = false;
+            cbxBaudRate1.Enabled = false;
+            lblVersion.Text = version;
+            tmrPortRcv.Enabled = true;
+            sp1Open = true;
+        }
+        /***********************
+         打开外部输入串口后需要完成的一系列操作
+         **********************/
+        private void SerialPort2_Open()
+        {
+            btnOpen2.Image = Properties.Resources.ledon;
+            btnOpen2.Text = "断开连接";
+            cbxPort2.Enabled = false;
+            cbxBaudRate2.Enabled = false;
+            lblVersion.Text = version;
+            tmrPortRcv.Enabled = true;
+            sp2Open = true;
+        }
+        /***********************
+         关闭主串口后需要完成的一系列操作
+         **********************/
+        private void SerialPort1_Close()
         {
             if (serialPort1.IsOpen)
                 serialPort1.Close();
-            cbxPort.Enabled = true;
-            comboBox2.Enabled = true;
-            btnOpen.Image = Properties.Resources.ledoff;
-            btnOpen.Text = "打开连接";
+            cbxPort1.Enabled = true;
+            cbxBaudRate1.Enabled = true;
+            btnOpen1.Image = Properties.Resources.ledoff;
+            btnOpen1.Text = "打开连接";
             tmrPortRcv.Enabled = false;
+            sp1Open = false;
             //tab1
             btnCtrl.Image = Properties.Resources.ledoff;
             btnCtrl.Text = "建立控制链路";
             stat.CtrlLink = false;
             stat.inCtrl = false;
+        }
+        /***********************
+         关闭外部输入串口后需要完成的一系列操作
+         **********************/
+        private void SerialPort2_Close()
+        {
+            if (serialPort2.IsOpen)
+                serialPort2.Close();
+            cbxPort2.Enabled = true;
+            cbxBaudRate2.Enabled = true;
+            btnOpen2.Image = Properties.Resources.ledoff;
+            btnOpen2.Text = "打开连接";
+            tmrPortRcv.Enabled = false;
+            sp2Open = false;
         }
         /*清除缓存*/
         private void btnClearBuf_Click(object sender, EventArgs e)
@@ -145,33 +199,6 @@ namespace GroundStation
             RxCount = 0;
             labelTxCnt.Text = "Tx:0";
             labelRxCnt.Text = "Rx:0";
-        }
-        /*窗口关闭保存软件设置*/
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            Properties.Settings.Default.tbxTx1Str = tbxTx1.Text;
-            Properties.Settings.Default.tbxTx2Str = tbxTx2.Text;
-            Properties.Settings.Default.tbxTx3Str = tbxTx3.Text;
-            Properties.Settings.Default.cbx2Str = comboBox2.Text;
-            Properties.Settings.Default.TabIndexInt = tabControl1.SelectedIndex;
-            Properties.Settings.Default.tbxIntervalStr = tbxInterval.Text;
-            Properties.Settings.Default.tbxRolCName1Str = tbxRolCName1.Text;
-            Properties.Settings.Default.tbxRolCName2Str = tbxRolCName2.Text;
-            Properties.Settings.Default.tbxRolCName3Str = tbxRolCName3.Text;
-            Properties.Settings.Default.tbxRolCName4Str = tbxRolCName4.Text;
-            Properties.Settings.Default.tbxRolSName1Str = tbxRolCName1.Text;
-            Properties.Settings.Default.tbxRolSName2Str = tbxRolCName2.Text;
-            Properties.Settings.Default.tbxRolSName3Str = tbxRolCName3.Text;
-            Properties.Settings.Default.tbxRolSName4Str = tbxRolCName4.Text;
-            Properties.Settings.Default.tbxPitCName1Str = tbxPitCName1.Text;
-            Properties.Settings.Default.tbxPitCName2Str = tbxPitCName2.Text;
-            Properties.Settings.Default.tbxPitCName3Str = tbxPitCName3.Text;
-            Properties.Settings.Default.tbxPitCName4Str = tbxPitCName4.Text;
-            Properties.Settings.Default.tbxPitSName1Str = tbxPitCName1.Text;
-            Properties.Settings.Default.tbxPitSName2Str = tbxPitCName2.Text;
-            Properties.Settings.Default.tbxPitSName3Str = tbxPitCName3.Text;
-            Properties.Settings.Default.tbxPitSName4Str = tbxPitCName4.Text;
-            Properties.Settings.Default.Save();
         }
     }
 }

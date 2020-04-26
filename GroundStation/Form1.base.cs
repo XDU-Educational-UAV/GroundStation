@@ -36,7 +36,7 @@ namespace GroundStation
                 }
                 catch (Exception)
                 {
-                    SerialPort_Close();
+                    SerialPort1_Close();
                 };
             }
             else  //16进制方式读
@@ -58,7 +58,7 @@ namespace GroundStation
                     }
                     catch (Exception)
                     {
-                        SerialPort_Close();
+                        SerialPort1_Close();
                     };
                 } while (remain > 0);
                 tbxRx.AppendText(str);
@@ -80,7 +80,7 @@ namespace GroundStation
                 }
                 catch (Exception)
                 {
-                    SerialPort_Close();
+                    SerialPort1_Close();
                 }
             }
             else  //16进制方式发送
@@ -98,7 +98,7 @@ namespace GroundStation
                 catch (FormatException) { }  //存在十六进制外的字符串
                 catch (Exception)
                 {
-                    SerialPort_Close();
+                    SerialPort1_Close();
                 }
             }
             labelTxCnt.Text = $"Tx:{TxCount}";

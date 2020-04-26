@@ -87,6 +87,10 @@
       <DependentUpon>Form1.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Form1.init.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Form1.key.cs">
       <DependentUpon>Form1.cs</DependentUpon>
       <SubType>Form</SubType>

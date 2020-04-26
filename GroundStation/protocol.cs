@@ -1,13 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Drawing;
-using System.ComponentModel;
-using System.Data;
-using System.Windows.Forms.DataVisualization.Charting;
 /**************文件说明**********************
 与下位机的数据交换
 Byte_Receive
