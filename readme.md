@@ -1,22 +1,39 @@
-# 地面站
+# 西电航协微型四轴ADRC版本地面站
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/090e9b44b3934c0483ee238f9ae0fdff)](https://app.codacy.com/gh/xdu-aero-association/GroundStation?utm_source=github.com&utm_medium=referral&utm_content=xdu-aero-association/GroundStation&utm_campaign=Badge_Grade_Dashboard)
 
-c#上位机
+![logo](https://github.com/xdu-aero-association/GroundStation/raw/master/logo.jpg)
 
-版本 v1.00
+## Status
+
+![stars](https://img.shields.io/github/stars/xdu-aero-association/GroundStation.svg) ![forks](https://img.shields.io/github/forks/xdu-aero-association/GroundStation.svg) ![tag](https://img.shields.io/github/tag/xdu-aero-association/GroundStation.svg) ![release](https://img.shields.io/github/release/xdu-aero-association/GroundStation.svg) ![issues](https://img.shields.io/github/issues/xdu-aero-association/GroundStation.svg)
+
+## Overview
+
+这是西电航协微型四轴飞行器ADRC版本飞控端的上位机源代码，该版本与PID版本串口通讯协议不同，因此不适用于PID版本的代码。
+
+这是一个[Visual Studio 2019](https://visualstudio.microsoft.com/zh-hans/vs/)工程，打开最新版Visual Studio 2019导入工程文件或双击sln工程文件即可打开该工程源码。
+
+该项目目前出于待完成阶段，非制作人员勿克隆master分支源码
+
+修改代码的时候，请在master分支下面新建一个特性分支，在该特性分支下进行代码的修改然后通过该分支执行pull request操作。确认无误后再合并至主分支。
+
+bug相关和建议请移步至issue栏目
 
 ## 使用说明
+
 有基本收发、飞行控制、参数设置、波形显示4个标签。
 
 可自动识别可用端口号。
 
-[飞行器控制示例](https://github.com/xd15zhn/drone)
+[飞行器控制示例](https://github.com/xdu-aero-association/Drone_Master_ADRC)
 
 ### 基本收发
+
 3个发送窗口独立。第一个支持定时发送。前两个为多行，第三个为单行。
 
 ### 飞行控制
+
 点击"建立控制链路"按钮开始以100ms间隔发送遥控帧,如果收到正确的帧则飞行状态显示"控制中"。
 
 锁定/解锁与飞行模式切换均需要正确的密码。
@@ -26,6 +43,7 @@ c#上位机
 发送切换模式指令时同步发送锁定指令。
 
 ### 参数设置
+
 参数名称为自定义，重启软件所有名称不会丢失。
 
 点击读取参数按钮会将从下位机收到的参数读取至文本框中，点击写入参数会将从下位机收到的参数展示到旁边。
@@ -33,11 +51,13 @@ c#上位机
 一般来说参数传输值是参数真实值的1000倍。
 
 ### 波形显示
+
 波形显示的数据与'参数设置'标签中的状态参数相同。
 
 更改选择显示的数据会清空并重新显示。
 
 ## 协议
+
 协议说明:
 
 SUM等于从该数据帧第一字节开始，也就是帧头开始，至该帧数据的最后一字节所有字节的和的最低位字节。
@@ -91,6 +111,7 @@ SUM等于从该数据帧第一字节开始，也就是帧头开始，至该帧�
 注:stat的BIT7和BIT6为10时设置为速度模式,为01时设置为姿态模式,其它情况无效
 
 ## 飞行控制
+
 1. 用键盘进行飞行控制的方法:
 
 WSAD和IKJL
@@ -100,4 +121,5 @@ WSAD和IKJL
 另外需要处理器将接收机的PWM信号转换成UART数据通过另外一个串口输入至地面站
 
 ## BUG
+
 * 使用蓝牙串口时存在部分延迟卡顿等问题
