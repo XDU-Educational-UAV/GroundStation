@@ -17,7 +17,7 @@ namespace GroundStation
 {
     partial class Form1
     {
-        private byte DatasetNum = 8, DataLen = 100;
+        private byte DataLen = 100;
         private Queue<double>[] DataQueue = new Queue<double>[8];
         CheckBox[] cbxData = new CheckBox[8];
 
@@ -33,8 +33,8 @@ namespace GroundStation
             chart1.ChartAreas[0].AxisX.Interval = 5;
             chart1.ChartAreas[0].AxisX.MajorGrid.LineColor = Color.Silver;
             chart1.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.Silver;
-            Series[] series = new Series[DatasetNum];
-            for (int i = 0; i < DatasetNum; i++)
+            Series[] series = new Series[8];
+            for (int i = 0; i < 8; i++)
             {
                 cbxData[i] = new CheckBox();
                 cbxData[i].Location = new Point(6 + i * 70, 475);
@@ -53,7 +53,7 @@ namespace GroundStation
         }
         private void cbxData_CheckedChanged(object sender, EventArgs e)
         {
-            Chart_Clear();
+                Chart_Clear();
         }
         /***********************
         图表更新
@@ -69,7 +69,7 @@ namespace GroundStation
                 if (stat.ChartFirst)
                 {
                     chart1.ChartAreas[0].AxisY.Maximum = data;
-                    chart1.ChartAreas[0].AxisY.Minimum = data-0.01;
+                    chart1.ChartAreas[0].AxisY.Minimum = data - 0.01;
                     stat.ChartFirst = false;
                 }
                 if (data > chart1.ChartAreas[0].AxisY.Maximum)
@@ -82,9 +82,13 @@ namespace GroundStation
         private void Chart_Display()
         {
             if (!serialPort1.IsOpen) return;
-            if (cbxDisp.Checked)
+            byte channel = 0;
+            for (int i = 0; i < 8; i++)
+                if (cbxData[i].Checked)
+                    channel |= (byte)(1 << i);
+            if (channel != 0)
             {
-                byte DataAdd = ptcl1.Send_Req(0, 0x0A, SerialPort1_Send);
+                byte DataAdd = ptcl1.Send_Req(0xC3, channel, SerialPort1_Send);
                 TxCount += DataAdd;
                 labelTxCnt.Text = $"Tx:{TxCount}";
             }
@@ -95,7 +99,7 @@ namespace GroundStation
         private void Chart_Clear()
         {
             int cnt;
-            for (int i = 0; i < DatasetNum; i++)
+            for (int i = 0; i < 8; i++)
             {
                 cnt = DataQueue[i].Count;
                 for (int j = 0; j < cnt; j++)

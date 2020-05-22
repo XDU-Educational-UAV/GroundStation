@@ -25,7 +25,7 @@ namespace GroundStation
     public partial class Form1 : Form
     {
         string[] LastPorts = { };
-        const string version = "Ground Station V1.00";
+        const string version = "Ground Station V1.01";
         long TxCount = 0, RxCount = 0;
         Protocol ptcl1 = new Protocol();
         Protocol ptcl2 = new Protocol();
@@ -168,8 +168,8 @@ namespace GroundStation
             sp1Open = false;
             //tab1
             btnCtrl.Image = Properties.Resources.ledoff;
-            btnCtrl.Text = "建立控制链路";
-            stat.CtrlLink = false;
+            btnCtrl.Text = "开始发送";
+            stat.RmCtrl = false;
             stat.inCtrl = false;
         }
         /***********************

@@ -73,24 +73,22 @@ namespace GroundStation
         /***********************
         发送解锁帧
         **********************/
-        public byte Send_Cmd(byte password, byte state, Action<byte[], int> SerialWrite)
+        public byte Send_Cmd(byte state, Action<byte[], int> SerialWrite)
         {
-            byte sum = 0x3F;
+            byte sum = 0x3E;
             DataToSend[0] = 0x3C;
             DataToSend[1] = 0x01;
-            DataToSend[2] = 0x02;
+            DataToSend[2] = 0x01;
             DataToSend[3] = state;
-            DataToSend[4] = password;
             sum += state;
-            sum += password;
-            DataToSend[5] = sum;
-            SerialWrite(DataToSend, 6);
-            return 6;
+            DataToSend[4] = sum;
+            SerialWrite(DataToSend, 5);
+            return 5;
         }
         /***********************
         发送int16型数据
         **********************/
-        public byte Send_S16_Data(int[] data, byte len, byte fcn, Action<byte[],  int> SerialWrite)
+        public byte Send_S16_Data(int[] data, byte len, byte fcn, Action<byte[], int> SerialWrite)
         {
             byte i, cnt = 0, checksum = 0;
             DataToSend[cnt++] = 0x3C;
@@ -104,13 +102,13 @@ namespace GroundStation
             for (i = 0; i < cnt; i++)
                 checksum += DataToSend[i];
             DataToSend[cnt++] = checksum;
-            SerialWrite(DataToSend,  cnt);
+            SerialWrite(DataToSend, cnt);
             return cnt;
         }
         /***********************
         发送byte型数据
         **********************/
-        public byte Send_U8_Data(byte[] data, byte len, byte fcn, Action<byte[],  int> SerialWrite)
+        public byte Send_U8_Data(byte[] data, byte len, byte fcn, Action<byte[], int> SerialWrite)
         {
             byte i, cnt = 0, checksum = 0;
             DataToSend[cnt++] = 0x3C;
@@ -121,25 +119,24 @@ namespace GroundStation
             for (i = 0; i < cnt; i++)
                 checksum += DataToSend[i];
             DataToSend[cnt++] = checksum;
-            SerialWrite(DataToSend,  cnt);
+            SerialWrite(DataToSend, cnt);
             return cnt;
         }
         /***********************
         发送req
         **********************/
-        public byte Send_Req(byte req1,byte req2, Action<byte[], int> SerialWrite)
+        public byte Send_Req(byte fcn, byte req, Action<byte[], int> SerialWrite)
         {
-            byte sum = 0xDE;  //3C+A0+02=DE
+            byte sum = 0x3D;  //3C+01
             DataToSend[0] = 0x3C;
-            DataToSend[1] = 0xA0;
-            DataToSend[2] = 0x02;
-            DataToSend[3] = req1;
-            DataToSend[4] = req2;
-            sum += req1;
-            sum += req2;
-            DataToSend[5] = sum;
-            SerialWrite(DataToSend,  6);
-            return 6;
+            DataToSend[1] = fcn;
+            DataToSend[2] = 0x01;
+            DataToSend[3] = req;
+            sum += fcn;
+            sum += req;
+            DataToSend[4] = sum;
+            SerialWrite(DataToSend, 5);
+            return 5;
         }
     }
 }
