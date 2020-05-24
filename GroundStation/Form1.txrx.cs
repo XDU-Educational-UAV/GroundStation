@@ -29,7 +29,7 @@ namespace GroundStation
                 SerialPort1_Close();
             };
         }
-        /*定时100ms发送任务*/
+        /*定时100ms更新与发送任务*/
         private void tmrCtrl_Tick(object sender, EventArgs e)
         {
             switch (tabControl1.SelectedIndex)
@@ -37,9 +37,6 @@ namespace GroundStation
                 case 1:
                     CtrlPanel_Update();
                     CtrlMsg_Send();
-                    break;
-                case 2:
-                    Status_Display();
                     break;
                 case 3:
                     Chart_Display();
@@ -125,11 +122,6 @@ namespace GroundStation
             sdata[3] = (short)((RxTemp[6] << 8) | RxTemp[7]);
             sdata[4] = (short)((RxTemp[8] << 8) | RxTemp[9]);
             sdata[5] = (short)((RxTemp[10] << 8) | RxTemp[11]);
-            int[] idata = new int[4];
-            idata[0] = ((RxTemp[0] << 8) | RxTemp[1]);
-            idata[1] = ((RxTemp[2] << 8) | RxTemp[3]);
-            idata[2] = ((RxTemp[4] << 8) | RxTemp[5]);
-            idata[3] = ((RxTemp[6] << 8) | RxTemp[7]);
             double[] ddata = new double[4];
             switch (pt.FcnWord)
             {
@@ -168,16 +160,16 @@ namespace GroundStation
                     lblGyroz.Text = sdata[5].ToString();
                     break;
                 case FuncByte.rc:
-                    lblRCrol.Text = idata[0].ToString();
-                    lblRCpit.Text = idata[1].ToString();
-                    lblRCthr.Text = idata[2].ToString();
-                    lblRCyaw.Text = idata[3].ToString();
+                    lblRCrol.Text = sdata[0].ToString();
+                    lblRCpit.Text = sdata[1].ToString();
+                    lblRCthr.Text = sdata[2].ToString();
+                    lblRCyaw.Text = sdata[3].ToString();
                     break;
                 case FuncByte.motor:
-                    lblM1.Text = idata[0].ToString();
-                    lblM2.Text = idata[1].ToString();
-                    lblM3.Text = idata[2].ToString();
-                    lblM4.Text = idata[3].ToString();
+                    lblM1.Text = sdata[0].ToString();
+                    lblM2.Text = sdata[1].ToString();
+                    lblM3.Text = sdata[2].ToString();
+                    lblM4.Text = sdata[3].ToString();
                     break;
                 case FuncByte.quaternion:
                     ddata[0] = sdata[0] / 10000.0;
@@ -190,76 +182,46 @@ namespace GroundStation
                     lblQ3.Text = ddata[3].ToString("#0.0000");
                     break;
                 case FuncByte.rolCtrl:
-                    if (stat.TextSave)
-                    {
-                        tbxRolParam1.Text = idata[0].ToString();
-                        tbxRolParam2.Text = idata[1].ToString();
-                        tbxRolParam3.Text = idata[2].ToString();
+                        tbxRolParam1.Text = sdata[0].ToString();
+                        tbxRolParam2.Text = sdata[1].ToString();
+                        tbxRolParam3.Text = sdata[2].ToString();
                         tbxRolParam4.Text = sdata[3].ToString();
-                    }
-                    else
-                    {
-                        ddata[0] = idata[0] / 1000.0;
-                        ddata[1] = idata[1] / 1000.0;
-                        ddata[2] = idata[2] / 1000.0;
-                        ddata[3] = sdata[3] / 100.0;
-                        lblRolParam1.Text = ddata[0].ToString("#0.000");
-                        lblRolParam2.Text = ddata[1].ToString("#0.000");
-                        lblRolParam3.Text = ddata[2].ToString("#0.000");
-                        lblRolParam4.Text = ddata[3].ToString("#0.00");
-                    }
                     break;
                 case FuncByte.pitCtrl:
-                    if (stat.TextSave)
-                    {
-                        tbxPitParam1.Text = idata[0].ToString();
-                        tbxPitParam2.Text = idata[1].ToString();
-                        tbxPitParam3.Text = idata[2].ToString();
-                        tbxPitParam4.Text = idata[3].ToString();
-                    }
-                    else
-                    {
-                        ddata[0] = idata[0] / 1000.0;
-                        ddata[1] = idata[1] / 1000.0;
-                        ddata[3] = idata[3] / 1000.0;
-                        ddata[2] = idata[2] / 1000.0;
-                        lblPitParam1.Text = ddata[0].ToString("#0.000");
-                        lblPitParam2.Text = ddata[1].ToString("#0.000");
-                        lblPitParam3.Text = ddata[2].ToString("#0.000");
-                        lblPitParam4.Text = ddata[3].ToString("#0.000");
-                    }
+                        tbxPitParam1.Text = sdata[0].ToString();
+                        tbxPitParam2.Text = sdata[1].ToString();
+                        tbxPitParam3.Text = sdata[2].ToString();
+                        tbxPitParam4.Text = sdata[3].ToString();
                     break;
-                case FuncByte.rolStat:
+                case FuncByte.yawCtrl:
+                    tbxYawParam1.Text = sdata[0].ToString();
+                    tbxYawParam2.Text = sdata[1].ToString();
+                    tbxYawParam3.Text = sdata[2].ToString();
+                    tbxYawParam4.Text = sdata[3].ToString();
+                    break;
+                case FuncByte.chart1:
                     ddata[0] = sdata[0] / 100.0;
                     ddata[1] = sdata[1] / 100.0;
                     ddata[2] = sdata[2] / 100.0;
                     ddata[3] = sdata[3] / 100.0;
-                    lblRolSt1.Text = ddata[0].ToString("#0.000");
-                    lblRolSt2.Text = ddata[1].ToString("#0.000");
-                    lblRolSt3.Text = ddata[2].ToString("#0.000");
-                    lblRolSt4.Text = ddata[3].ToString("#0.000");
                     for (int i = 0; i < 4; i++)
                         if (cbxData[i].Checked)
                             Chart_Update(ddata[i], i);
                     break;
-                case FuncByte.pitStat:
+                case FuncByte.chart2:
                     ddata[0] = sdata[0] / 100.0;
                     ddata[1] = sdata[1] / 100.0;
                     ddata[2] = sdata[2] / 100.0;
                     ddata[3] = sdata[3] / 100.0;
-                    lblPitSt1.Text = ddata[0].ToString("#0.000");
-                    lblPitSt2.Text = ddata[1].ToString("#0.000");
-                    lblPitSt3.Text = ddata[2].ToString("#0.000");
-                    lblPitSt4.Text = ddata[3].ToString("#0.000");
                     for (int i = 4; i < 8; i++)
                         if (cbxData[i].Checked)
                             Chart_Update(ddata[i - 4], i);
                     break;
                 case FuncByte.ctrlOut:
-                    RCdata[0] = Limit(idata[0], 0, 1000);
-                    RCdata[1] = Limit(idata[1], 0, 1000);
-                    RCdata[2] = Limit(idata[2], 0, 1000);
-                    RCdata[3] = Limit(idata[3], 0, 1000);
+                    RCdata[0] = Limit(sdata[0], 0, 1000);
+                    RCdata[1] = Limit(sdata[1], 0, 1000);
+                    RCdata[2] = Limit(sdata[2], 0, 1000);
+                    RCdata[3] = Limit(sdata[3], 0, 1000);
                     break;
                 default: break;
             }

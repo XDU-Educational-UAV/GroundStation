@@ -18,52 +18,44 @@ namespace GroundStation
         private byte ErrCnt = 20, ErrRcvCnt = 0;
         GlobalStatus stat;
         private int[] RCdata = { 500, 500, 0, 500 };
-        /*建立控制链路按钮,按下后开始发送控制信号*/
+
+        /*发送遥控信号按钮,按下后开始发送控制信号*/
         private void btnCtrl_Click(object sender, EventArgs e)
         {
-            if (stat.CtrlLink)  //正在发送控制信号,按下后停止发送
+            if (stat.RmCtrl)  //正在发送遥控信号,按下后停止发送
             {
-                stat.CtrlLink = false;
+                stat.RmCtrl = false;
                 btnCtrl.Image = Properties.Resources.ledoff;
-                btnCtrl.Text = "建立控制链路";
+                btnCtrl.Text = "开始发送";
             }
             else if (serialPort1.IsOpen)  //如果串口打开就开始发送
             {
-                stat.CtrlLink = true;
+                stat.RmCtrl = true;
                 btnCtrl.Image = Properties.Resources.ledon;
-                btnCtrl.Text = "断开控制链路";
+                btnCtrl.Text = "停止发送";
             }
         }
-        /*需要解锁密码的4个按钮:锁定解锁与模式切换*/
-        private void btnPassword_Click(object sender, EventArgs e)
+
+        /*飞行模式相关按钮:锁定解锁,模式切换*/
+        private void btnFlightMode_Click(object sender, EventArgs e)
         {
-            if (tbxPassword.Text == "") return;
-            byte password = 0;
-            try
+            switch (((Button)sender).Name)
             {
-                password = Convert.ToByte(tbxPassword.Text, 16);
-                switch (((Button)sender).Name)
-                {
-                    case "btnUnLock":
-                        if (!stat.CtrlLink) return;  //解锁前需要建立控制链路
-                        TxCount += ptcl1.Send_Cmd(password, 0x01, SerialPort1_Send);
-                        break;
-                    case "btnLock": TxCount += ptcl1.Send_Cmd(password, 0, SerialPort1_Send); break;
-                    case "btnSpeedMode": TxCount += ptcl1.Send_Cmd(password, 0x80, SerialPort1_Send); break;
-                    case "btnAttiMode": TxCount += ptcl1.Send_Cmd(password, 0x40, SerialPort1_Send); break;
-                    default: break;
-                }
-                labelTxCnt.Text = $"Tx:{TxCount}";
-                lblVersion.Text = version;
+                case "btnUnLock":
+                    if (stat.RmCtrl)
+                        TxCount += ptcl1.Send_Cmd(0x01, SerialPort1_Send);
+                    break;
+                case "btnLock": TxCount += ptcl1.Send_Cmd(0, SerialPort1_Send); break;
+                case "btnSpeedMode": TxCount += ptcl1.Send_Cmd(0x80, SerialPort1_Send); break;
+                case "btnAttiMode": TxCount += ptcl1.Send_Cmd(0x40, SerialPort1_Send); break;
+                case "btnGyroCali": TxCount += ptcl1.Send_Req(0xC2, 0x80, SerialPort1_Send); break;
+                case "btnAccCali": TxCount += ptcl1.Send_Req(0xC2, 0x40, SerialPort1_Send); break;
+                default: break;
             }
-            catch (Exception ex)
-            {
-                lblVersion.Text = ex.Message;
-            }
+            labelTxCnt.Text = $"Tx:{TxCount}";
         }
-        /***********************
-         定时更新界面
-          **********************/
+
+        /*定时更新界面*/
         private void CtrlPanel_Update()
         {
             if (ErrCnt < 20)
@@ -113,12 +105,10 @@ namespace GroundStation
                 lblCtrlPit.Text = (10 * (100 - vScrollPit.Value)).ToString();
                 lblCtrlThr.Text = (10 * (100 - vScrollThr.Value)).ToString();
                 lblCtrlYaw.Text = (10 * (100 - hScrollYaw.Value)).ToString();
-
             }
         }
-        /***********************
-        定时发送任务
-         **********************/
+
+        /*定时发送任务*/
         private void CtrlMsg_Send()
         {
             Key_Change();  //控制按键检测
@@ -139,11 +129,11 @@ namespace GroundStation
                 SendByte |= FuncByte.quaternion;
             if (SendByte != 0)
             {
-                TxCount += ptcl1.Send_Req(SendByte, 0, SerialPort1_Send);
+                TxCount += ptcl1.Send_Req(0xC1, SendByte, SerialPort1_Send);
                 labelTxCnt.Text = $"Tx:{TxCount}";
             }
             //向下位机发送控制指令
-            if (stat.CtrlLink)
+            if (stat.RmCtrl)
             {
                 TxCount += ptcl1.Send_S16_Data(RCdata, 4, 0x08, SerialPort1_Send);
                 labelTxCnt.Text = $"Tx:{TxCount}";

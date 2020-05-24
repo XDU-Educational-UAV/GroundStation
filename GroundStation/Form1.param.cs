@@ -1,119 +1,64 @@
 ﻿using System;
+using System.Windows.Forms;
 /**************文件说明**********************
 控制器参数读写
 事件:
-btnReadRol_Click
-btnReadPit_Click
-btnWriteRol_Click
-btnWritePit_Click
-btnGyroCali_Click
-btnAccCali_Click
-函数:
-Check_Port
-Status_Display
+btnRead_Click
+btnWrite_Click
 ********************************************/
 
 namespace GroundStation
 {
     partial class Form1
     {
-        private bool Check_Port()  //避免同时发送多个数据帧
-        {
-            byte check = 0;
-            if (!serialPort1.IsOpen) check |= 1;
-            if (cbxRolDisp.Checked) check |= 1;
-            if (cbxPitDisp.Checked) check |= 1;
-            if (check != 0)
-            {
-                lblVersion.Text = "未发送!";
-                return false;
-            }
-            lblVersion.Text = version;
-            return true;
-        }
-        /*读取roll控制器参数*/
-        private void btnReadRol_Click(object sender, EventArgs e)
-        {
-            if (!Check_Port()) return;
-            stat.TextSave = true;
-            byte DataAdd = ptcl1.Send_Req(0, 0x01, SerialPort1_Send);
-            TxCount += DataAdd;
-        }
-        /*读取pitch控制器参数*/
-        private void btnReadPit_Click(object sender, EventArgs e)
-        {
-            if (!Check_Port()) return;
-            stat.TextSave = true;
-            byte DataAdd = ptcl1.Send_Req(0, 0x04, SerialPort1_Send);
-            TxCount += DataAdd;
-        }
-        /*写入roll控制器参数*/
-        private void btnWriteRol_Click(object sender, EventArgs e)
-        {
-            if (!Check_Port()) return;
-            int[] idata = new int[4];
-            stat.TextSave = false;
-            try
-            {
-                idata[0] = Convert.ToInt32(tbxRolParam1.Text);
-                idata[1] = Convert.ToInt32(tbxRolParam2.Text);
-                idata[2] = Convert.ToInt32(tbxRolParam3.Text);
-                idata[3] = Convert.ToInt32(tbxRolParam4.Text);
-                byte DataAdd = ptcl1.Send_S16_Data(idata, 4, 0xA1, SerialPort1_Send);
-                TxCount += DataAdd;
-            }
-            catch (Exception) { }
-        }
-        /*写入pitch控制器参数*/
-        private void btnWritePit_Click(object sender, EventArgs e)
-        {
-            if (!Check_Port()) return;
-            int[] idata = new int[4];
-            stat.TextSave = false;
-            try
-            {
-                idata[0] = Convert.ToInt32(tbxPitParam1.Text);
-                idata[1] = Convert.ToInt32(tbxPitParam2.Text);
-                idata[2] = Convert.ToInt32(tbxPitParam3.Text);
-                idata[3] = Convert.ToInt32(tbxPitParam4.Text);
-                byte DataAdd = ptcl1.Send_S16_Data(idata, 4, 0xA3, SerialPort1_Send);
-                TxCount += DataAdd;
-            }
-            catch (Exception) { }
-        }
-        /*陀螺仪校准*/
-        private void btnGyroCali_Click(object sender, EventArgs e)
-        {
-            if (!Check_Port()) return;
-            byte DataAdd = ptcl1.Send_Req(0, 0x80, SerialPort1_Send);
-            TxCount += DataAdd;
-            labelTxCnt.Text = $"Tx:{TxCount}";
-        }
-        /*加速度计校准*/
-        private void btnAccCali_Click(object sender, EventArgs e)
-        {
-            if (!Check_Port()) return;
-            byte DataAdd = ptcl1.Send_Req(0, 0x40, SerialPort1_Send);
-            TxCount += DataAdd;
-            labelTxCnt.Text = $"Tx:{TxCount}";
-        }
-        /***********************
-         状态参数显示
-         **********************/
-        private void Status_Display()
+        /*读取控制器参数*/
+        private void btnRead_Click(object sender, EventArgs e)
         {
             if (!serialPort1.IsOpen) return;
-            byte req = 0;
-            if (cbxRolDisp.Checked)
-                req |= 0x02;
-            if (cbxPitDisp.Checked)
-                req |= 0x08;
-            if (req != 0)
+            switch (((Button)sender).Name)
             {
-                byte DataAdd = ptcl1.Send_Req(0, req, SerialPort1_Send);
-                TxCount += DataAdd;
+                case "btnReadRol": TxCount += ptcl1.Send_Req(0xC2, 0x01, SerialPort1_Send); break;
+                case "btnReadPit": TxCount += ptcl1.Send_Req(0xC2, 0x02, SerialPort1_Send); break;
+                case "btnReadYaw": TxCount += ptcl1.Send_Req(0xC2, 0x04, SerialPort1_Send); break;
+                default: break;
             }
             labelTxCnt.Text = $"Tx:{TxCount}";
+        }
+        /*写入控制器参数*/
+        private void btnWrite_Click(object sender, EventArgs e)
+        {
+            if (!serialPort1.IsOpen) return;
+            int[] idata = new int[4];
+            try
+            {
+                switch (((Button)sender).Name)
+                {
+                    case "btnWriteRol":
+                        idata[0] = Convert.ToInt32(tbxRolParam1.Text);
+                        idata[1] = Convert.ToInt32(tbxRolParam2.Text);
+                        idata[2] = Convert.ToInt32(tbxRolParam3.Text);
+                        idata[3] = Convert.ToInt32(tbxRolParam4.Text);
+                        TxCount += ptcl1.Send_S16_Data(idata, 4, 0xA1, SerialPort1_Send);
+                        break;
+                    case "btnWritePit":
+                        idata[0] = Convert.ToInt32(tbxPitParam1.Text);
+                        idata[1] = Convert.ToInt32(tbxPitParam2.Text);
+                        idata[2] = Convert.ToInt32(tbxPitParam3.Text);
+                        idata[3] = Convert.ToInt32(tbxPitParam4.Text);
+                        TxCount += ptcl1.Send_S16_Data(idata, 4, 0xA2, SerialPort1_Send);
+                        break;
+                    case "btnWriteYaw":
+                        idata[0] = Convert.ToInt32(tbxYawParam1.Text);
+                        idata[1] = Convert.ToInt32(tbxYawParam2.Text);
+                        idata[2] = Convert.ToInt32(tbxYawParam3.Text);
+                        idata[3] = Convert.ToInt32(tbxYawParam4.Text);
+                        TxCount += ptcl1.Send_S16_Data(idata, 4, 0xA3, SerialPort1_Send);
+                        break;
+                    default: break;
+                }
+                labelTxCnt.Text = $"Tx:{TxCount}";
+            }
+            catch (Exception) { }
         }
     }
 }
