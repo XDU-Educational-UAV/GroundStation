@@ -1,9 +1,3 @@
-# 使用说明
-
-c#上位机
-
-版本 v1.01
-
 # 西电航协微型四轴ADRC版本地面站
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/090e9b44b3934c0483ee238f9ae0fdff)](https://app.codacy.com/gh/xdu-aero-association/GroundStation?utm_source=github.com&utm_medium=referral&utm_content=xdu-aero-association/GroundStation&utm_campaign=Badge_Grade_Dashboard)
