@@ -63,7 +63,6 @@
             this.lblCtrlPit = new System.Windows.Forms.Label();
             this.lblCtrlRol = new System.Windows.Forms.Label();
             this.lblCtrlYaw = new System.Windows.Forms.Label();
-            this.btnOpen2 = new System.Windows.Forms.Button();
             this.cbxMotor = new System.Windows.Forms.CheckBox();
             this.label14 = new System.Windows.Forms.Label();
             this.cbxBaudRate2 = new System.Windows.Forms.ComboBox();
@@ -110,8 +109,11 @@
             this.vScrollThr = new System.Windows.Forms.VScrollBar();
             this.hScrollRol = new System.Windows.Forms.HScrollBar();
             this.hScrollYaw = new System.Windows.Forms.HScrollBar();
+            this.btnOpen2 = new System.Windows.Forms.Button();
             this.btnCtrl = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.tbxNotepad = new System.Windows.Forms.TextBox();
+            this.cbxFileWrite = new System.Windows.Forms.CheckBox();
             this.label17 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -134,6 +136,7 @@
             this.tbxRolParam3 = new System.Windows.Forms.TextBox();
             this.tbxRolParam1 = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.cbxDisplay = new System.Windows.Forms.CheckBox();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tmrSendUser = new System.Windows.Forms.Timer(this.components);
             this.lblVersion = new System.Windows.Forms.Label();
@@ -142,21 +145,19 @@
             this.btnClearBuf = new System.Windows.Forms.Button();
             this.btnReCnt = new System.Windows.Forms.Button();
             this.tmrCtrl = new System.Windows.Forms.Timer(this.components);
-            this.btnOpen1 = new System.Windows.Forms.Button();
             this.tmrPortRcv = new System.Windows.Forms.Timer(this.components);
             this.serialPort2 = new System.IO.Ports.SerialPort(this.components);
+            this.imgBitErr = new System.Windows.Forms.PictureBox();
+            this.btnOpen1 = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgBitErr)).BeginInit();
             this.SuspendLayout();
-            // 
-            // serialPort1
-            // 
-            this.serialPort1.ReadBufferSize = 1024;
-            this.serialPort1.WriteBufferSize = 128;
             // 
             // cbxPort1
             // 
@@ -242,7 +243,7 @@
             this.tbxInterval.Size = new System.Drawing.Size(92, 25);
             this.tbxInterval.TabIndex = 7;
             this.tbxInterval.Text = "1000";
-            this.tbxInterval.TextChanged += new System.EventHandler(this.textBox4_TextChanged);
+            this.tbxInterval.TextChanged += new System.EventHandler(this.tbxInterval_TextChanged);
             // 
             // btnSend1
             // 
@@ -252,7 +253,7 @@
             this.btnSend1.TabIndex = 11;
             this.btnSend1.Text = "发送";
             this.btnSend1.UseVisualStyleBackColor = true;
-            this.btnSend1.Click += new System.EventHandler(this.btnSend1_Click);
+            this.btnSend1.Click += new System.EventHandler(this.btnSend_Click);
             // 
             // btnSend3
             // 
@@ -262,7 +263,7 @@
             this.btnSend3.TabIndex = 11;
             this.btnSend3.Text = "发送";
             this.btnSend3.UseVisualStyleBackColor = true;
-            this.btnSend3.Click += new System.EventHandler(this.btnSend3_Click);
+            this.btnSend3.Click += new System.EventHandler(this.btnSend_Click);
             // 
             // tmrPortChk
             // 
@@ -378,7 +379,7 @@
             this.btnSend2.TabIndex = 11;
             this.btnSend2.Text = "发送";
             this.btnSend2.UseVisualStyleBackColor = true;
-            this.btnSend2.Click += new System.EventHandler(this.btnSend2_Click);
+            this.btnSend2.Click += new System.EventHandler(this.btnSend_Click);
             // 
             // tabPage2
             // 
@@ -389,7 +390,6 @@
             this.tabPage2.Controls.Add(this.lblCtrlPit);
             this.tabPage2.Controls.Add(this.lblCtrlRol);
             this.tabPage2.Controls.Add(this.lblCtrlYaw);
-            this.tabPage2.Controls.Add(this.btnOpen2);
             this.tabPage2.Controls.Add(this.cbxMotor);
             this.tabPage2.Controls.Add(this.label14);
             this.tabPage2.Controls.Add(this.cbxBaudRate2);
@@ -436,11 +436,12 @@
             this.tabPage2.Controls.Add(this.vScrollThr);
             this.tabPage2.Controls.Add(this.hScrollRol);
             this.tabPage2.Controls.Add(this.hScrollYaw);
+            this.tabPage2.Controls.Add(this.btnOpen2);
             this.tabPage2.Controls.Add(this.btnCtrl);
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1071, 622);
+            this.tabPage2.Size = new System.Drawing.Size(1230, 622);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "飞行控制";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -510,19 +511,6 @@
             this.lblCtrlYaw.Size = new System.Drawing.Size(31, 15);
             this.lblCtrlYaw.TabIndex = 21;
             this.lblCtrlYaw.Text = "500";
-            // 
-            // btnOpen2
-            // 
-            this.btnOpen2.Image = global::GroundStation.Properties.Resources.ledoff;
-            this.btnOpen2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnOpen2.Location = new System.Drawing.Point(1065, 174);
-            this.btnOpen2.Name = "btnOpen2";
-            this.btnOpen2.Size = new System.Drawing.Size(140, 40);
-            this.btnOpen2.TabIndex = 2;
-            this.btnOpen2.Text = "打开连接";
-            this.btnOpen2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnOpen2.UseVisualStyleBackColor = true;
-            this.btnOpen2.Click += new System.EventHandler(this.btnOpen2_Click);
             // 
             // cbxMotor
             // 
@@ -1006,6 +994,19 @@
             this.hScrollYaw.TabIndex = 2;
             this.hScrollYaw.Value = 50;
             // 
+            // btnOpen2
+            // 
+            this.btnOpen2.Image = global::GroundStation.Properties.Resources.ledoff;
+            this.btnOpen2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnOpen2.Location = new System.Drawing.Point(1065, 174);
+            this.btnOpen2.Name = "btnOpen2";
+            this.btnOpen2.Size = new System.Drawing.Size(140, 40);
+            this.btnOpen2.TabIndex = 2;
+            this.btnOpen2.Text = "打开连接";
+            this.btnOpen2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnOpen2.UseVisualStyleBackColor = true;
+            this.btnOpen2.Click += new System.EventHandler(this.btnOpen2_Click);
+            // 
             // btnCtrl
             // 
             this.btnCtrl.Image = global::GroundStation.Properties.Resources.ledoff;
@@ -1022,6 +1023,8 @@
             // tabPage3
             // 
             this.tabPage3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.tabPage3.Controls.Add(this.tbxNotepad);
+            this.tabPage3.Controls.Add(this.cbxFileWrite);
             this.tabPage3.Controls.Add(this.label17);
             this.tabPage3.Controls.Add(this.label9);
             this.tabPage3.Controls.Add(this.label8);
@@ -1045,10 +1048,30 @@
             this.tabPage3.Controls.Add(this.tbxRolParam1);
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1071, 622);
+            this.tabPage3.Size = new System.Drawing.Size(1230, 622);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "参数设置";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // tbxNotepad
+            // 
+            this.tbxNotepad.Location = new System.Drawing.Point(652, 3);
+            this.tbxNotepad.Multiline = true;
+            this.tbxNotepad.Name = "tbxNotepad";
+            this.tbxNotepad.Size = new System.Drawing.Size(565, 599);
+            this.tbxNotepad.TabIndex = 19;
+            // 
+            // cbxFileWrite
+            // 
+            this.cbxFileWrite.AutoSize = true;
+            this.cbxFileWrite.Font = new System.Drawing.Font("宋体", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cbxFileWrite.Location = new System.Drawing.Point(7, 591);
+            this.cbxFileWrite.Name = "cbxFileWrite";
+            this.cbxFileWrite.Size = new System.Drawing.Size(128, 28);
+            this.cbxFileWrite.TabIndex = 18;
+            this.cbxFileWrite.Text = "写入数据";
+            this.cbxFileWrite.UseVisualStyleBackColor = true;
+            this.cbxFileWrite.CheckedChanged += new System.EventHandler(this.cbxFileWrite_CheckedChanged);
             // 
             // label17
             // 
@@ -1085,7 +1108,7 @@
             this.btnReadYaw.Location = new System.Drawing.Point(179, 364);
             this.btnReadYaw.Name = "btnReadYaw";
             this.btnReadYaw.Size = new System.Drawing.Size(123, 41);
-            this.btnReadYaw.TabIndex = 9;
+            this.btnReadYaw.TabIndex = 16;
             this.btnReadYaw.Text = "读取参数";
             this.btnReadYaw.UseVisualStyleBackColor = true;
             this.btnReadYaw.Click += new System.EventHandler(this.btnRead_Click);
@@ -1095,7 +1118,7 @@
             this.btnReadPit.Location = new System.Drawing.Point(179, 188);
             this.btnReadPit.Name = "btnReadPit";
             this.btnReadPit.Size = new System.Drawing.Size(123, 41);
-            this.btnReadPit.TabIndex = 9;
+            this.btnReadPit.TabIndex = 10;
             this.btnReadPit.Text = "读取参数";
             this.btnReadPit.UseVisualStyleBackColor = true;
             this.btnReadPit.Click += new System.EventHandler(this.btnRead_Click);
@@ -1105,7 +1128,7 @@
             this.btnReadRol.Location = new System.Drawing.Point(179, 25);
             this.btnReadRol.Name = "btnReadRol";
             this.btnReadRol.Size = new System.Drawing.Size(123, 41);
-            this.btnReadRol.TabIndex = 7;
+            this.btnReadRol.TabIndex = 4;
             this.btnReadRol.Text = "读取参数";
             this.btnReadRol.UseVisualStyleBackColor = true;
             this.btnReadRol.Click += new System.EventHandler(this.btnRead_Click);
@@ -1115,7 +1138,7 @@
             this.btnWriteYaw.Location = new System.Drawing.Point(179, 411);
             this.btnWriteYaw.Name = "btnWriteYaw";
             this.btnWriteYaw.Size = new System.Drawing.Size(123, 41);
-            this.btnWriteYaw.TabIndex = 8;
+            this.btnWriteYaw.TabIndex = 17;
             this.btnWriteYaw.Text = "写入参数";
             this.btnWriteYaw.UseVisualStyleBackColor = true;
             this.btnWriteYaw.Click += new System.EventHandler(this.btnWrite_Click);
@@ -1125,7 +1148,7 @@
             this.btnWritePit.Location = new System.Drawing.Point(179, 235);
             this.btnWritePit.Name = "btnWritePit";
             this.btnWritePit.Size = new System.Drawing.Size(123, 41);
-            this.btnWritePit.TabIndex = 8;
+            this.btnWritePit.TabIndex = 11;
             this.btnWritePit.Text = "写入参数";
             this.btnWritePit.UseVisualStyleBackColor = true;
             this.btnWritePit.Click += new System.EventHandler(this.btnWrite_Click);
@@ -1135,14 +1158,14 @@
             this.tbxYawParam2.Location = new System.Drawing.Point(50, 383);
             this.tbxYawParam2.Name = "tbxYawParam2";
             this.tbxYawParam2.Size = new System.Drawing.Size(100, 25);
-            this.tbxYawParam2.TabIndex = 5;
+            this.tbxYawParam2.TabIndex = 13;
             // 
             // btnWriteRol
             // 
             this.btnWriteRol.Location = new System.Drawing.Point(179, 72);
             this.btnWriteRol.Name = "btnWriteRol";
             this.btnWriteRol.Size = new System.Drawing.Size(123, 41);
-            this.btnWriteRol.TabIndex = 6;
+            this.btnWriteRol.TabIndex = 5;
             this.btnWriteRol.Text = "写入参数";
             this.btnWriteRol.UseVisualStyleBackColor = true;
             this.btnWriteRol.Click += new System.EventHandler(this.btnWrite_Click);
@@ -1152,42 +1175,42 @@
             this.tbxYawParam4.Location = new System.Drawing.Point(50, 445);
             this.tbxYawParam4.Name = "tbxYawParam4";
             this.tbxYawParam4.Size = new System.Drawing.Size(100, 25);
-            this.tbxYawParam4.TabIndex = 7;
+            this.tbxYawParam4.TabIndex = 15;
             // 
             // tbxPitParam2
             // 
             this.tbxPitParam2.Location = new System.Drawing.Point(50, 207);
             this.tbxPitParam2.Name = "tbxPitParam2";
             this.tbxPitParam2.Size = new System.Drawing.Size(100, 25);
-            this.tbxPitParam2.TabIndex = 5;
+            this.tbxPitParam2.TabIndex = 7;
             // 
             // tbxYawParam3
             // 
             this.tbxYawParam3.Location = new System.Drawing.Point(50, 414);
             this.tbxYawParam3.Name = "tbxYawParam3";
             this.tbxYawParam3.Size = new System.Drawing.Size(100, 25);
-            this.tbxYawParam3.TabIndex = 6;
+            this.tbxYawParam3.TabIndex = 14;
             // 
             // tbxPitParam4
             // 
             this.tbxPitParam4.Location = new System.Drawing.Point(50, 269);
             this.tbxPitParam4.Name = "tbxPitParam4";
             this.tbxPitParam4.Size = new System.Drawing.Size(100, 25);
-            this.tbxPitParam4.TabIndex = 7;
+            this.tbxPitParam4.TabIndex = 9;
             // 
             // tbxPitParam3
             // 
             this.tbxPitParam3.Location = new System.Drawing.Point(50, 238);
             this.tbxPitParam3.Name = "tbxPitParam3";
             this.tbxPitParam3.Size = new System.Drawing.Size(100, 25);
-            this.tbxPitParam3.TabIndex = 6;
+            this.tbxPitParam3.TabIndex = 8;
             // 
             // tbxYawParam1
             // 
             this.tbxYawParam1.Location = new System.Drawing.Point(50, 352);
             this.tbxYawParam1.Name = "tbxYawParam1";
             this.tbxYawParam1.Size = new System.Drawing.Size(100, 25);
-            this.tbxYawParam1.TabIndex = 4;
+            this.tbxYawParam1.TabIndex = 12;
             // 
             // tbxRolParam2
             // 
@@ -1201,7 +1224,7 @@
             this.tbxPitParam1.Location = new System.Drawing.Point(50, 176);
             this.tbxPitParam1.Name = "tbxPitParam1";
             this.tbxPitParam1.Size = new System.Drawing.Size(100, 25);
-            this.tbxPitParam1.TabIndex = 4;
+            this.tbxPitParam1.TabIndex = 6;
             // 
             // tbxRolParam4
             // 
@@ -1226,6 +1249,7 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.cbxDisplay);
             this.tabPage4.Controls.Add(this.chart1);
             this.tabPage4.Location = new System.Drawing.Point(4, 25);
             this.tabPage4.Name = "tabPage4";
@@ -1234,8 +1258,23 @@
             this.tabPage4.Text = "波形显示";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // cbxDisplay
+            // 
+            this.cbxDisplay.AutoSize = true;
+            this.cbxDisplay.Location = new System.Drawing.Point(1138, 600);
+            this.cbxDisplay.Name = "cbxDisplay";
+            this.cbxDisplay.Size = new System.Drawing.Size(89, 19);
+            this.cbxDisplay.TabIndex = 1;
+            this.cbxDisplay.Text = "开始显示";
+            this.cbxDisplay.UseVisualStyleBackColor = true;
+            // 
             // chart1
             // 
+            chartArea1.AxisX.Interval = 25D;
+            chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gainsboro;
+            chartArea1.AxisX.Maximum = 500D;
+            chartArea1.AxisX.Minimum = 0D;
+            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.Gainsboro;
             chartArea1.Name = "ChartArea1";
             this.chart1.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
@@ -1267,7 +1306,7 @@
             // labelTxCnt
             // 
             this.labelTxCnt.AutoSize = true;
-            this.labelTxCnt.Location = new System.Drawing.Point(598, 669);
+            this.labelTxCnt.Location = new System.Drawing.Point(553, 669);
             this.labelTxCnt.Name = "labelTxCnt";
             this.labelTxCnt.Size = new System.Drawing.Size(39, 15);
             this.labelTxCnt.TabIndex = 14;
@@ -1276,7 +1315,7 @@
             // labelRxCnt
             // 
             this.labelRxCnt.AutoSize = true;
-            this.labelRxCnt.Location = new System.Drawing.Point(598, 694);
+            this.labelRxCnt.Location = new System.Drawing.Point(553, 694);
             this.labelRxCnt.Name = "labelRxCnt";
             this.labelRxCnt.Size = new System.Drawing.Size(39, 15);
             this.labelRxCnt.TabIndex = 14;
@@ -1284,7 +1323,7 @@
             // 
             // btnClearBuf
             // 
-            this.btnClearBuf.Location = new System.Drawing.Point(370, 669);
+            this.btnClearBuf.Location = new System.Drawing.Point(325, 669);
             this.btnClearBuf.Name = "btnClearBuf";
             this.btnClearBuf.Size = new System.Drawing.Size(115, 40);
             this.btnClearBuf.TabIndex = 3;
@@ -1294,7 +1333,7 @@
             // 
             // btnReCnt
             // 
-            this.btnReCnt.Location = new System.Drawing.Point(491, 669);
+            this.btnReCnt.Location = new System.Drawing.Point(446, 669);
             this.btnReCnt.Name = "btnReCnt";
             this.btnReCnt.Size = new System.Drawing.Size(101, 40);
             this.btnReCnt.TabIndex = 4;
@@ -1306,6 +1345,20 @@
             // 
             this.tmrCtrl.Enabled = true;
             this.tmrCtrl.Tick += new System.EventHandler(this.tmrCtrl_Tick);
+            // 
+            // tmrPortRcv
+            // 
+            this.tmrPortRcv.Interval = 10;
+            this.tmrPortRcv.Tick += new System.EventHandler(this.tmrPortRcv_Tick);
+            // 
+            // imgBitErr
+            // 
+            this.imgBitErr.Image = global::GroundStation.Properties.Resources.error;
+            this.imgBitErr.Location = new System.Drawing.Point(662, 670);
+            this.imgBitErr.Name = "imgBitErr";
+            this.imgBitErr.Size = new System.Drawing.Size(40, 40);
+            this.imgBitErr.TabIndex = 15;
+            this.imgBitErr.TabStop = false;
             // 
             // btnOpen1
             // 
@@ -1320,16 +1373,23 @@
             this.btnOpen1.UseVisualStyleBackColor = true;
             this.btnOpen1.Click += new System.EventHandler(this.btnOpen1_Click);
             // 
-            // tmrPortRcv
+            // label7
             // 
-            this.tmrPortRcv.Interval = 10;
-            this.tmrPortRcv.Tick += new System.EventHandler(this.tmrPortRcv_Tick);
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label7.Location = new System.Drawing.Point(712, 682);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(37, 15);
+            this.label7.TabIndex = 16;
+            this.label7.Text = "误码";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1262, 721);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.imgBitErr);
             this.Controls.Add(this.btnReCnt);
             this.Controls.Add(this.btnClearBuf);
             this.Controls.Add(this.labelRxCnt);
@@ -1359,7 +1419,9 @@
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgBitErr)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1479,6 +1541,11 @@
         private System.Windows.Forms.TextBox tbxYawParam1;
         private System.Windows.Forms.Button btnAccCali;
         private System.Windows.Forms.Button btnGyroCali;
+        private System.Windows.Forms.CheckBox cbxDisplay;
+        private System.Windows.Forms.CheckBox cbxFileWrite;
+        private System.Windows.Forms.TextBox tbxNotepad;
+        private System.Windows.Forms.PictureBox imgBitErr;
+        private System.Windows.Forms.Label label7;
     }
 }
 

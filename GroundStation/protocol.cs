@@ -13,62 +13,74 @@ namespace GroundStation
     class Protocol
     {
         public byte[] DataReceived = new byte[12];  //来自下位机的有效数据
-        public byte FcnWord = 0, LenWord = 0;
-        private byte[] DataToSend = new byte[12];
-        private byte RxState = 0, sum = 0, p = 0;
-        /***********************
-        对从串口收到的数据进行预处理并将有效数据保存至RxTemp
-        **********************/
+        public byte FcnByte = 0;
+        private byte LenByte = 0;
+        private readonly byte[] DataToSend = new byte[12];
+        private byte RxState = 0, CheckSum = 0, cnt = 0;
+        /*对从串口收到的数据进行预处理并将有效数据保存至RxTemp*/
+        /*返回值:0,收到完整的数据帧;1,数据帧未接收完成;2,接收数据帧出错*/
         public byte Byte_Receive(byte RxData)
         {
             switch (RxState)
             {
-                case 0:
+                case 0:  //帧头校验
                     if (RxData == '>')
                     {
-                        sum = RxData;
+                        CheckSum = RxData;
                         RxState = 1;
                     }
+                    else if (RxData == '@')
+                    {
+                        FcnByte = CheckSum = RxData;
+                        RxState = 0x11;
+                    }
+                    else
+                        return 2;  //数据帧出错
                     break;
-                case 1:
-                    sum += RxData;
-                    FcnWord = RxData;
+                case 1:  //功能字校验与保存
+                    CheckSum += RxData;
+                    FcnByte = RxData;
                     RxState = 2;
                     break;
-                case 2:
+                case 2:  //数据长度校验与保存
                     if (RxData <= 12)
                     {
-                        sum += RxData;
-                        LenWord = RxData;
+                        CheckSum += RxData;
+                        LenByte = RxData;
                         RxState = 3;
                     }
                     else
                     {
-                        sum = 0;
+                        CheckSum = 0;
                         RxState = 0;
+                        return 2;  //数据帧出错
                     }
                     break;
                 case 3:  //临时保存待用数据
-                    sum += RxData;
-                    DataReceived[p++] = RxData;
-                    if (p >= LenWord)
-                        RxState = 4;
-                    else if (p >= 12)
-                        RxState = 5;
+                    CheckSum += RxData;
+                    DataReceived[cnt++] = RxData;
+                    if (cnt >= LenByte)
+                        RxState = 0x0A;
                     break;
-                case 4:  //匹配校验和
+                case 0x11:  //临时保存待用数据
+                    CheckSum += RxData;
+                    DataReceived[cnt++] = RxData;
+                    if (cnt >= 4)
+                        RxState = 0x0A;
+                    break;
+                case 0x0A:
                     RxState = 0;
-                    p = 0;
-                    if (sum == RxData)  //收到了正确的数据帧
-                        return 0;
+                    cnt = 0;
+                    if (CheckSum == RxData)
+                        return 0;  //收到了正确的数据帧
                     else
-                        return 2;
+                        return 2;  //数据帧出错
                 default:
-                    p = 0;
+                    cnt = 0;
                     RxState = 0;
-                    break;
+                    return 2;  //数据帧出错
             }
-            return 1;
+            return 1;  //数据帧尚未接收完成
         }
         /***********************
         发送解锁帧
@@ -90,7 +102,7 @@ namespace GroundStation
         **********************/
         public byte Send_S16_Data(int[] data, byte len, byte fcn, Action<byte[], int> SerialWrite)
         {
-            byte i, cnt = 0, checksum = 0;
+            byte i, cnt = 0, sum = 0;
             DataToSend[cnt++] = 0x3C;
             DataToSend[cnt++] = fcn;
             DataToSend[cnt++] = (byte)(len * 2);
@@ -100,8 +112,8 @@ namespace GroundStation
                 DataToSend[cnt++] = (byte)(data[i] % 256);
             }
             for (i = 0; i < cnt; i++)
-                checksum += DataToSend[i];
-            DataToSend[cnt++] = checksum;
+                sum += DataToSend[i];
+            DataToSend[cnt++] = sum;
             SerialWrite(DataToSend, cnt);
             return cnt;
         }
@@ -110,15 +122,15 @@ namespace GroundStation
         **********************/
         public byte Send_U8_Data(byte[] data, byte len, byte fcn, Action<byte[], int> SerialWrite)
         {
-            byte i, cnt = 0, checksum = 0;
+            byte i, cnt = 0, sum = 0;
             DataToSend[cnt++] = 0x3C;
             DataToSend[cnt++] = fcn;
             DataToSend[cnt++] = len;
             for (i = 0; i < len; i++)
                 DataToSend[cnt++] = data[i];
             for (i = 0; i < cnt; i++)
-                checksum += DataToSend[i];
-            DataToSend[cnt++] = checksum;
+                sum += DataToSend[i];
+            DataToSend[cnt++] = sum;
             SerialWrite(DataToSend, cnt);
             return cnt;
         }

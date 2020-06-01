@@ -2,6 +2,14 @@
 using System.Windows.Forms;
 /**************文件说明**********************
 基本收发
+事件:
+btnSend_Click
+textBox4_TextChanged
+tmrSendUser_Tick
+cbxAutoSend_CheckedChanged
+函数:
+Base_Text_Receive
+Tab0_Text_Send
 ********************************************/
 
 namespace GroundStation
@@ -9,20 +17,16 @@ namespace GroundStation
     partial class Form1
     {
         /*发送按钮*/
-        private void btnSend1_Click(object sender, EventArgs e)
+        private void btnSend_Click(object sender, EventArgs e)
         {
-            if (serialPort1.IsOpen)
-                Tab0_Text_Send(tbxTx1, cbxHexSend1);
-        }
-        private void btnSend2_Click(object sender, EventArgs e)
-        {
-            if (serialPort1.IsOpen)
-                Tab0_Text_Send(tbxTx2, cbxHexSend2);
-        }
-        private void btnSend3_Click(object sender, EventArgs e)
-        {
-            if (serialPort1.IsOpen)
-                Tab0_Text_Send(tbxTx3, cbxHexSend3);
+            if (!serialPort1.IsOpen) return;
+            switch (((Button)sender).Name)
+            {
+                case "btnSend1": Tab0_Text_Send(tbxTx1, cbxHexSend1); break;
+                case "btnSend2": Tab0_Text_Send(tbxTx2, cbxHexSend2); break;
+                case "btnSend3": Tab0_Text_Send(tbxTx3, cbxHexSend3); break;
+                default: break;
+            }
         }
         private void Base_Text_Receive()
         {
@@ -104,14 +108,17 @@ namespace GroundStation
             labelTxCnt.Text = $"Tx:{TxCount}";
         }
         /*定时发送复选框*/
-        private void textBox4_TextChanged(object sender, EventArgs e)
+        private void tbxInterval_TextChanged(object sender, EventArgs e)
         {
             cbxAutoSend.Checked = false;
         }
         /*定时发送*/
         private void tmrSendUser_Tick(object sender, EventArgs e)
         {
-            Tab0_Text_Send(tbxTx1, cbxHexSend1);
+            if (tabControl1.SelectedIndex == 0)
+                Tab0_Text_Send(tbxTx1, cbxHexSend1);
+            else
+                cbxAutoSend.Checked = false;
         }
         /*发送间隔设置文本框*/
         private void cbxAutoSend_CheckedChanged(object sender, EventArgs e)
@@ -119,7 +126,11 @@ namespace GroundStation
             if (cbxAutoSend.Checked)
             {
                 tmrSendUser.Enabled = true;
-                tmrSendUser.Interval = Convert.ToInt32(tbxInterval.Text);
+                try
+                {
+                    tmrSendUser.Interval = Convert.ToInt32(tbxInterval.Text);
+                }
+                catch (Exception) { }
             }
             else
                 tmrSendUser.Enabled = false;

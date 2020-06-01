@@ -11,6 +11,7 @@ namespace GroundStation
 {
     partial class Form1
     {
+        private FileWrite dataFile;
         /*读取控制器参数*/
         private void btnRead_Click(object sender, EventArgs e)
         {
@@ -59,6 +60,20 @@ namespace GroundStation
                 labelTxCnt.Text = $"Tx:{TxCount}";
             }
             catch (Exception) { }
+        }
+        private void cbxFileWrite_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbxFileWrite.Checked)
+            {
+                dataFile = new FileWrite();
+                TxCount += ptcl1.Send_Req(0xC4, 0x03, SerialPort1_Send);
+            }
+            else
+            {
+                TxCount += ptcl1.Send_Req(0xC4, 0, SerialPort1_Send);
+                dataFile.Write_File();
+            }
+            labelTxCnt.Text = $"Tx:{TxCount}";
         }
     }
 }

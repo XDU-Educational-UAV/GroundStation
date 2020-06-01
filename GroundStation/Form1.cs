@@ -10,7 +10,6 @@ Form1_Load
 btnOpen1_Click
 btnOpen2_Click
 tmrPortChk_Tick
-tabControl1_SelectedIndexChanged
 btnClearBuf_Click
 btnReCnt_Click
 函数:
@@ -24,12 +23,12 @@ namespace GroundStation
 {
     public partial class Form1 : Form
     {
-        string[] LastPorts = { };
-        const string version = "Ground Station V1.01";
-        long TxCount = 0, RxCount = 0;
-        Protocol ptcl1 = new Protocol();
-        Protocol ptcl2 = new Protocol();
-        bool sp1Open, sp2Open;
+        private string[] LastPorts = { };
+        private const string version = "Ground Station V1.04";
+        private long TxCount = 0, RxCount = 0;
+        private readonly Protocol ptcl1 = new Protocol();
+        private readonly Protocol ptcl2 = new Protocol();
+        private bool sp1Open, sp2Open;
         public Form1()
         {
             InitializeComponent();
@@ -39,6 +38,10 @@ namespace GroundStation
             lblVersion.Text = version;
             ChartInit();
             Form1_Init();
+            rc[0] = new Filter();
+            rc[1] = new Filter();
+            rc[2] = new Filter();
+            rc[3] = new Filter();
         }
         /*开闭主串口按钮*/
         private void btnOpen1_Click(object sender, EventArgs e)
@@ -60,7 +63,7 @@ namespace GroundStation
             }
             catch (Exception ex)
             {
-                lblVersion.Text = "串口打开失败!  " + ex.Message;
+                lblVersion.Text = "串口打开失败!" + ex.Message;
             }
         }
         /*开闭外部输入串口按钮*/
@@ -83,7 +86,7 @@ namespace GroundStation
             }
             catch (Exception ex)
             {
-                lblVersion.Text = "串口打开失败!  " + ex.Message;
+                lblVersion.Text = "串口打开失败!" + ex.Message;
             }
         }
         /*定时每秒检测端口状况*/

@@ -15,34 +15,27 @@ namespace GroundStation
 {
     partial class Form1
     {
-        /***********************
-         为串口发送加上异常处理
-         **********************/
+        private readonly Filter[] rc = new Filter[4];
+        /*为串口发送加上异常处理*/
         private void SerialPort1_Send(byte[] buffer, int count)
         {
             try
             {
                 serialPort1.Write(buffer, 0, count);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 SerialPort1_Close();
-            };
+                lblVersion.Text = "串口发送失败!" + ex.Message;
+            }
         }
         /*定时100ms更新与发送任务*/
         private void tmrCtrl_Tick(object sender, EventArgs e)
         {
-            switch (tabControl1.SelectedIndex)
-            {
-                case 1:
-                    CtrlPanel_Update();
-                    CtrlMsg_Send();
-                    break;
-                case 3:
-                    Chart_Display();
-                    break;
-                default: break;
-            }
+            Key_Change();  //控制按键检测
+            CtrlPanel_Update();
+            CtrlMsg_Send();
+            Chart_Update();
         }
         /*定时10ms处理串口接收缓冲RxStr*/
         private void tmrPortRcv_Tick(object sender, EventArgs e)
@@ -75,11 +68,15 @@ namespace GroundStation
                 }
                 DataAdd1++;
                 if (state == 0)
+                {
                     Data_Receive_Precess(ptcl1);
+                    imgBitErr.Image = Properties.Resources.correct;
+                }
                 else if (state == 2)
                 {
                     lblCtrl.Text = "失控";
                     lblCtrl.ForeColor = Color.Red;
+                    imgBitErr.Image = Properties.Resources.error;
                 }
             }
             RxCount += DataAdd1;
@@ -100,17 +97,20 @@ namespace GroundStation
                 }
                 DataAdd2++;
                 if (state == 0)
+                {
                     Data_Receive_Precess(ptcl2);
+                    imgBitErr.Image = Properties.Resources.correct;
+                }
+                else if (state == 2)
+                    imgBitErr.Image = Properties.Resources.error;
             }
             RxCount += DataAdd2;
             labelRxCnt.Text = $"Rx:{RxCount}";
         }
-        /***********************
-         根据功能字进一步处理
-         **********************/
+        /*根据功能字进一步处理*/
         private void Data_Receive_Precess(Protocol pt)
         {
-            if (pt.FcnWord == FuncByte.ctrlOut)
+            if (pt.FcnByte == FuncByte.ctrlOut)
                 ErrRcvCnt = 0;
             else
                 ErrCnt = 0;
@@ -123,7 +123,7 @@ namespace GroundStation
             sdata[4] = (short)((RxTemp[8] << 8) | RxTemp[9]);
             sdata[5] = (short)((RxTemp[10] << 8) | RxTemp[11]);
             double[] ddata = new double[4];
-            switch (pt.FcnWord)
+            switch (pt.FcnByte)
             {
                 case FuncByte.stat:
                     if ((RxTemp[0] & 0x01) == 0x01)
@@ -182,16 +182,16 @@ namespace GroundStation
                     lblQ3.Text = ddata[3].ToString("#0.0000");
                     break;
                 case FuncByte.rolCtrl:
-                        tbxRolParam1.Text = sdata[0].ToString();
-                        tbxRolParam2.Text = sdata[1].ToString();
-                        tbxRolParam3.Text = sdata[2].ToString();
-                        tbxRolParam4.Text = sdata[3].ToString();
+                    tbxRolParam1.Text = sdata[0].ToString();
+                    tbxRolParam2.Text = sdata[1].ToString();
+                    tbxRolParam3.Text = sdata[2].ToString();
+                    tbxRolParam4.Text = sdata[3].ToString();
                     break;
                 case FuncByte.pitCtrl:
-                        tbxPitParam1.Text = sdata[0].ToString();
-                        tbxPitParam2.Text = sdata[1].ToString();
-                        tbxPitParam3.Text = sdata[2].ToString();
-                        tbxPitParam4.Text = sdata[3].ToString();
+                    tbxPitParam1.Text = sdata[0].ToString();
+                    tbxPitParam2.Text = sdata[1].ToString();
+                    tbxPitParam3.Text = sdata[2].ToString();
+                    tbxPitParam4.Text = sdata[3].ToString();
                     break;
                 case FuncByte.yawCtrl:
                     tbxYawParam1.Text = sdata[0].ToString();
@@ -205,8 +205,8 @@ namespace GroundStation
                     ddata[2] = sdata[2] / 100.0;
                     ddata[3] = sdata[3] / 100.0;
                     for (int i = 0; i < 4; i++)
-                        if (cbxData[i].Checked)
-                            Chart_Update(ddata[i], i);
+                        if (cbxChart[i].Checked)
+                            Chart_AddPoints(ddata[i], i);
                     break;
                 case FuncByte.chart2:
                     ddata[0] = sdata[0] / 100.0;
@@ -214,19 +214,25 @@ namespace GroundStation
                     ddata[2] = sdata[2] / 100.0;
                     ddata[3] = sdata[3] / 100.0;
                     for (int i = 4; i < 8; i++)
-                        if (cbxData[i].Checked)
-                            Chart_Update(ddata[i - 4], i);
+                        if (cbxChart[i].Checked)
+                            Chart_AddPoints(ddata[i - 4], i);
                     break;
                 case FuncByte.ctrlOut:
-                    RCdata[0] = Limit(sdata[0], 0, 1000);
-                    RCdata[1] = Limit(sdata[1], 0, 1000);
-                    RCdata[2] = Limit(sdata[2], 0, 1000);
-                    RCdata[3] = Limit(sdata[3], 0, 1000);
+                    RCdata[0] = Limit((int)rc[0].OneOrder_Filter(sdata[0]), 0, 1000);
+                    RCdata[1] = Limit((int)rc[1].OneOrder_Filter(sdata[1]), 0, 1000);
+                    RCdata[2] = Limit((int)rc[2].OneOrder_Filter(sdata[2]), 0, 1000);
+                    RCdata[3] = Limit((int)rc[3].OneOrder_Filter(sdata[3]), 0, 1000);
+                    break;
+                case FuncByte.highspeed:
+                    ddata[0] = sdata[0] * 0.0076293945;
+                    ddata[1] = sdata[1] * 0.0076293945;
+                    if (dataFile != null)
+                        dataFile.Write_Double_Pair_Data(ddata[0], ddata[1]);
                     break;
                 default: break;
             }
         }
-        private int Limit(int num, int min, int max)
+        private static int Limit(int num, int min, int max)
         {
             return num <= min ? (min) : (num >= max ? max : num);
         }

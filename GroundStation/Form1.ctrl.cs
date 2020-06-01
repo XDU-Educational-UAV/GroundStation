@@ -5,7 +5,7 @@ using System.Windows.Forms;
 飞行控制,包括接收并处理下位机消息,向下位机发送指令
 事件:
 btnCtrl_Click
-btnPassword_Click
+btnFlightMode_Click
 函数:
 CtrlPanel_Update
 CtrlMsg_Send
@@ -15,9 +15,9 @@ namespace GroundStation
 {
     partial class Form1
     {
-        private byte ErrCnt = 20, ErrRcvCnt = 0;
-        GlobalStatus stat;
-        private int[] RCdata = { 500, 500, 0, 500 };
+        private byte ErrCnt = 20, ErrRcvCnt = 10;
+        private GlobalStatus stat;
+        private readonly int[] RCdata = { 500, 500, 0, 500 };
 
         /*发送遥控信号按钮,按下后开始发送控制信号*/
         private void btnCtrl_Click(object sender, EventArgs e)
@@ -39,6 +39,7 @@ namespace GroundStation
         /*飞行模式相关按钮:锁定解锁,模式切换*/
         private void btnFlightMode_Click(object sender, EventArgs e)
         {
+            if (!serialPort1.IsOpen) return;
             switch (((Button)sender).Name)
             {
                 case "btnUnLock":
@@ -98,7 +99,7 @@ namespace GroundStation
             else
             {
                 RCdata[0] = 10 * (100 - hScrollRol.Value);
-                RCdata[1] = 10 * vScrollPit.Value;
+                RCdata[1] = 10 * (100 - vScrollPit.Value);
                 RCdata[2] = 10 * (100 - vScrollThr.Value);
                 RCdata[3] = 10 * (100 - hScrollYaw.Value);
                 lblCtrlRol.Text = (10 * (100 - hScrollRol.Value)).ToString();
@@ -111,7 +112,6 @@ namespace GroundStation
         /*定时发送任务*/
         private void CtrlMsg_Send()
         {
-            Key_Change();  //控制按键检测
             if (!serialPort1.IsOpen) return;
             //显示下位机状态信息
             byte SendByte = 0;
