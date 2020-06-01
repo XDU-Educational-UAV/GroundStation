@@ -2,8 +2,6 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/090e9b44b3934c0483ee238f9ae0fdff)](https://app.codacy.com/gh/xdu-aero-association/GroundStation?utm_source=github.com&utm_medium=referral&utm_content=xdu-aero-association/GroundStation&utm_campaign=Badge_Grade_Dashboard)
 
-![logo](./image/logo.jpg)
-
 ## Status
 
 ![stars](https://img.shields.io/github/stars/xdu-aero-association/GroundStation.svg) ![forks](https://img.shields.io/github/forks/xdu-aero-association/GroundStation.svg) ![tag](https://img.shields.io/github/tag/xdu-aero-association/GroundStation.svg) ![release](https://img.shields.io/github/release/xdu-aero-association/GroundStation.svg) ![issues](https://img.shields.io/github/issues/xdu-aero-association/GroundStation.svg)
@@ -154,4 +152,6 @@ SUM等于从该数据帧第一字节开始，也就是帧头开始，至该帧�
 
 # 其它注意事项
 
-* 使用蓝牙串口时存在部分延迟卡顿等问题，因此强烈建议在断开串口或关闭地面站前先断开下位机电源。
+* 使用蓝牙串口时存在部分延迟卡顿等问题，因此强烈建议在使用结束后，
+先断开串口或直接关闭地面站，然后再断开下位机电源。
+使用USB转TTL模块则不用考虑此问题。
