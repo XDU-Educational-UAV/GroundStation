@@ -2,10 +2,9 @@
 {
     struct GlobalStatus
     {
-        public bool RmCtrl;  //是否向下位机发送控制命令
-        public bool inCtrl;  //下位机控制中
+        public bool RmCtrl;      //是否向下位机发送控制命令
+        public bool inCtrl;      //下位机控制中
         public bool CtrlRcving;  //正在接收外部控制信号
-        public bool ChartFirst;  //接收的是第一个数,初始化Y轴最大值和最小值
     }
     struct FuncByte
     {
@@ -21,5 +20,6 @@
         public const byte ctrlOut = 0xAA;
         public const byte chart1 = 0xB1;
         public const byte chart2 = 0xB2;
+        public const byte highspeed = 0x40;
     }
 }

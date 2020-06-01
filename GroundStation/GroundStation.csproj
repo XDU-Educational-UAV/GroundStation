@@ -9,10 +9,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GroundStation</RootNamespace>
     <AssemblyName>GroundStation</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -50,6 +51,7 @@
   <PropertyGroup>
     <ApplicationIcon>GroundStation.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
@@ -69,6 +71,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="allStructs.cs" />
+    <Compile Include="FileWrite.cs" />
+    <Compile Include="Filter.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -136,6 +140,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="GroundStation.ico" />
+    <None Include="Resources\error.png" />
+    <None Include="Resources\correct.png" />
     <None Include="Resources\ledon.png" />
     <None Include="Resources\ledoff.png" />
   </ItemGroup>

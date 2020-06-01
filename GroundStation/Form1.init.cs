@@ -23,6 +23,7 @@ namespace GroundStation
             cbxBaudRate1.Text = Properties.Settings.Default.cbxBaudRateStr;
             cbxBaudRate2.Text = Properties.Settings.Default.cbxBaudRate2Str;
             tbxInterval.Text = Properties.Settings.Default.tbxIntervalStr;
+            tbxNotepad.Text = Properties.Settings.Default.tbxNotepadstr;
         }
         /*窗口关闭保存软件设置*/
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -34,7 +35,8 @@ namespace GroundStation
             Properties.Settings.Default.cbxBaudRateStr = cbxBaudRate1.Text;
             Properties.Settings.Default.cbxBaudRate2Str = cbxBaudRate2.Text;
             Properties.Settings.Default.tbxIntervalStr = tbxInterval.Text;
-            Properties.Settings.Default.Save();          
+            Properties.Settings.Default.tbxNotepadstr = tbxNotepad.Text;
+            Properties.Settings.Default.Save();
         }
     }
 }

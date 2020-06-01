@@ -1,6 +1,11 @@
 using System.Windows.Forms;
 /**************文件说明**********************
 飞行控制界面的相关键盘控制
+事件:
+Form1_KeyUp
+Form1_KeyDown
+函数:
+Key_Change
 ********************************************/
 
 namespace GroundStation
@@ -32,7 +37,6 @@ namespace GroundStation
         }
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
-            if (tabControl1.SelectedIndex != 1) return;
             Keys CtrlKey = e.KeyCode;
             if (CtrlKey == Keys.J)
                 KeyState &= 0xFE;
@@ -53,7 +57,6 @@ namespace GroundStation
         }
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (tabControl1.SelectedIndex != 1) return;
             Keys CtrlKey = e.KeyCode;
             if (CtrlKey == Keys.J)
                 KeyState |= 0x01;
